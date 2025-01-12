@@ -1,0 +1,629 @@
+[
+    {
+        "id": "2f89935f.a01a3c",
+        "type": "tab",
+        "label": "Sensors Data",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "bbf2298d.b96dd8",
+        "type": "inject",
+        "z": "2f89935f.a01a3c",
+        "name": "30 sec tick",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "30",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 300,
+        "wires": [
+            [
+                "1d0ff4edd0dc86e6",
+                "d0d41ff25bbb83fa",
+                "411a2a4a063f94f7",
+                "5f102ebad0b62fa4",
+                "472a499ec07da1ef",
+                "69477b518bc77a30",
+                "14f91f60d37615c8",
+                "f0c40b4404f82dda",
+                "d29b31e79c2b87b2",
+                "90205c3b57e4fe23"
+            ]
+        ]
+    },
+    {
+        "id": "430e04cf.da4c0c",
+        "type": "mqtt out",
+        "z": "2f89935f.a01a3c",
+        "name": "PiZeroW1/TempSensors",
+        "topic": "PiZeroW1/TempSensors",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "4c8b26e1.23e1f8",
+        "x": 1190,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "108711d9.b7dffe",
+        "type": "comment",
+        "z": "2f89935f.a01a3c",
+        "name": "Read 1 Wire DS18B20 sensors data connected  via DS2482-100 (0x19)",
+        "info": "",
+        "x": 310,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "de8e6d88.d31ff",
+        "type": "comment",
+        "z": "2f89935f.a01a3c",
+        "name": "Current sensors path",
+        "info": "Path: 28.FF06F2701703 - rom: 28FF06F27017032D\nPath: 28.FF883C711703 - rom: 28FF883C711703C3\nPath: 28.FFF537711703 - rom: 28FFF537711703D6\n",
+        "x": 700,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "4aa05f85e308805c",
+        "type": "comment",
+        "z": "2f89935f.a01a3c",
+        "name": "Display temperature values on LCD display (5 seconds refresh)",
+        "info": "",
+        "x": 310,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "17ec07deb43a378e",
+        "type": "join-wait",
+        "z": "2f89935f.a01a3c",
+        "name": "",
+        "paths": "[\"tPuff1\", \"tPuff2\", \"tPuff3\", \"tPuff4\", \"tCTTur\", \"tCentrala\", \"tRCTur\", \"tRCRetur\", \"tBoilerRoom\", \"tHorn\"]",
+        "pathsToExpire": "",
+        "useRegex": false,
+        "warnUnmatched": true,
+        "pathTopic": "tag",
+        "pathTopicType": "msg",
+        "correlationTopic": "",
+        "correlationTopicType": "msg",
+        "timeout": "25",
+        "timeoutUnits": "1000",
+        "exactOrder": "false",
+        "firstMsg": "false",
+        "mapPayload": "true",
+        "disableComplete": false,
+        "persistOnRestart": false,
+        "x": 1060,
+        "y": 220,
+        "wires": [
+            [
+                "18f47acd8738ced7"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "0d1c9819e37ae381",
+        "type": "function",
+        "z": "2f89935f.a01a3c",
+        "name": "Normalize Result",
+        "func": "let iMsg =\n    {\"payload\":{\n        \"tPuff1\":0, \"tPuff2\":0, \"tPuff3\":0, \"tPuff4\":0, \"tCentrala\":0, \"tCTTur\":0, \"tCTRetur\":0, \"tRCTur\":0, \"tRCRetur\":0, \"tBoilerRoom\":0, \"tHorn\":0\n    }}\n\niMsg.payload.tPuff1 = msg.tag.tPuff1;\niMsg.payload.tPuff2 = msg.tag.tPuff2;\niMsg.payload.tPuff3 = msg.tag.tPuff3;\niMsg.payload.tPuff4 = msg.tag.tPuff4;\niMsg.payload.tCTTur = msg.tag.tCTTur;\n\niMsg.payload.tCentrala = msg.tag.tCentrala;\niMsg.payload.tRCTur = msg.tag.tRCTur;\niMsg.payload.tRCRetur = msg.tag.tRCRetur;\niMsg.payload.tBoilerRoom = msg.tag.tBoilerRoom;\niMsg.payload.tHorn = msg.tag.tHorn;\n\nreturn iMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 380,
+        "wires": [
+            [
+                "1a08fe9eebcf0bf0",
+                "430e04cf.da4c0c"
+            ]
+        ]
+    },
+    {
+        "id": "18f47acd8738ced7",
+        "type": "link out",
+        "z": "2f89935f.a01a3c",
+        "name": "Link Out: Heating Sensors",
+        "mode": "link",
+        "links": [
+            "66cc66d3847b85a7"
+        ],
+        "x": 1175,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "66cc66d3847b85a7",
+        "type": "link in",
+        "z": "2f89935f.a01a3c",
+        "name": "Link In: Send data to Master",
+        "links": [
+            "18f47acd8738ced7"
+        ],
+        "x": 695,
+        "y": 400,
+        "wires": [
+            [
+                "0d1c9819e37ae381",
+                "7397ac571b39c81d"
+            ]
+        ]
+    },
+    {
+        "id": "1a08fe9eebcf0bf0",
+        "type": "debug",
+        "z": "2f89935f.a01a3c",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1130,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "02b94dd343b5c52b",
+        "type": "function",
+        "z": "2f89935f.a01a3c",
+        "name": "Add Sensors Tag",
+        "func": "switch (msg.topic)\n{\n    case \"28.FFE795701703/temperature\": \n        msg.tag = \"tPuff1\";\n        break;\n        \n    case \"28.FF06F2701703/temperature\":\n        msg.tag = \"tPuff2\";\n        break;\n\n    case \"28.D60A94971003/temperature\":\n        msg.tag = \"tPuff3\";\n        break;\n                \n    case \"28.FF883C711703/temperature\":\n        msg.tag = \"tPuff4\";\n        break;\n                \n    case \"28.BA3FA9080000/temperature\":\n        msg.tag = \"tCTTur\";\n        break;\n    \n    case \"28.A0F795F0013C/temperature\":\n        msg.tag = \"tRCTur\";\n        break;\n    \n    case \"28.7F8395F0013C/temperature\":\n        msg.tag = \"tRCRetur\";\n        break;\n    \n    case \"28.323895F0013C/temperature\":\n        msg.tag = \"tCentrala\";\n        break;\n        \n    case \"28.4F5595F0013C/temperature\":\n        msg.tag = \"tBoilerRoom\";\n        break;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 300,
+        "wires": [
+            [
+                "17ec07deb43a378e"
+            ]
+        ]
+    },
+    {
+        "id": "6029cc7b6b89e841",
+        "type": "function",
+        "z": "2f89935f.a01a3c",
+        "name": "Format message to LCD",
+        "func": "var strLines = [9];\nlet msgClear = {payload: [{clear:true},{clear:true},{clear:true},{clear:true}]};\n\nfunction FormatTemp(tValue) {\n  if (typeof tValue == 'undefined') {\n    return \"     \";\n  } else\n    return (Math.round(tValue*10) / 10).toFixed(1) + String.fromCharCode(223) +\"C\";\n}\n\n\nlIdxCount = parseInt(flow.get(\"lIdxCount\"));\nif (isNaN(lIdxCount)) lIdxCount=0;\nif (!isFinite(lIdxCount)) lIdxCount=0;\n\n\n\nstrLines[0]  = \" Incalzire Centrala \";\nstrLines[1]  = \"====================\";\nstrLines[2]  = \"  T.Centrala: \" + FormatTemp(msg.payload.tCentrala);\nstrLines[3]  = \"  Temp Horn: \" + FormatTemp(msg.payload.tHorn);\n\n\nstrLines[4]  = \"Puffer   T4:  \" + FormatTemp(msg.payload.tPuff4);\nstrLines[5]  = \"======   T3:  \" + FormatTemp(msg.payload.tPuff3);\nstrLines[6]  = \"         T2:  \" + FormatTemp(msg.payload.tPuff2);\nstrLines[7]  = \"         T1:  \" + FormatTemp(msg.payload.tPuff1);\n\nstrLines[8]  = \"Circuit Centrala    \";\nstrLines[9]  = \"================    \";\nstrLines[10] = \"       Tur:   \" + FormatTemp(msg.payload.tCTTur);\nstrLines[11] = \"       Retur: \" + FormatTemp(msg.payload.tCTRetur);\n\n\nstrLines[12]  = \"Circuit Radiatoare \";\nstrLines[13]  = \"================== \";\nstrLines[14] = \"       Tur:   \" + FormatTemp(msg.payload.tRCTur);\nstrLines[15] = \"       Retur: \" + FormatTemp(msg.payload.tRCRetur);\n\nmsg = {\n    payload: [\n        {text: strLines[lIdxCount]},\n        {text: strLines[lIdxCount + 1]},\n        {text: strLines[lIdxCount + 2]},\n        {text: strLines[lIdxCount + 3]}\n    ]\n}\n\n//if (lIdxCount == 0) { node.send(msgClear) }\nif (lIdxCount == 12) { lIdxCount = 0 } else { lIdxCount = lIdxCount + 4 }\nflow.set(\"lIdxCount\", lIdxCount);\n\nnode.status({fill: \"green\", shape: \"dot\", text: lIdxCount});\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 620,
+        "wires": [
+            [
+                "bd1983dc82e3fdb8",
+                "2ede6c6e5fda0219"
+            ]
+        ]
+    },
+    {
+        "id": "bd1983dc82e3fdb8",
+        "type": "LCD-I2C",
+        "z": "2f89935f.a01a3c",
+        "name": "LCD 2004",
+        "variant": "PCF8574",
+        "size": "20x4",
+        "x": 980,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "4b0fb44ea397b285",
+        "type": "inject",
+        "z": "2f89935f.a01a3c",
+        "name": "Every 10 seconds",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 620,
+        "wires": [
+            [
+                "7c721455bd78a8d1"
+            ]
+        ]
+    },
+    {
+        "id": "7397ac571b39c81d",
+        "type": "change",
+        "z": "2f89935f.a01a3c",
+        "name": "Store temp values",
+        "rules": [
+            {
+                "t": "set",
+                "p": "TempData",
+                "pt": "flow",
+                "to": "tag",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 890,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7c721455bd78a8d1",
+        "type": "change",
+        "z": "2f89935f.a01a3c",
+        "name": "Retrieve data from flow context",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "TempData",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 620,
+        "wires": [
+            [
+                "6029cc7b6b89e841",
+                "72505f5b32cfa1c8"
+            ]
+        ]
+    },
+    {
+        "id": "2ede6c6e5fda0219",
+        "type": "debug",
+        "z": "2f89935f.a01a3c",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "1d0ff4edd0dc86e6",
+        "type": "function",
+        "z": "2f89935f.a01a3c",
+        "name": "Read K-Type Thermocouple",
+        "func": "const CS = 8;\nconst SCK = 11;\nconst SO = 9;\nconst UNIT = 1;\nconst max6675 = new max6675Raspi();\nmax6675.setPin(CS, SCK, SO, UNIT);\n\nconst { temp, unit } = max6675.readTemp();\nlet tValue = temp.map(item => item)[0];\n\nmsg.topic = \"tHorn\";\nmsg.tag = \"tHorn\";\nmsg.payload = parseFloat(tValue);\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "max6675Raspi",
+                "module": "max6675-raspi"
+            }
+        ],
+        "x": 760,
+        "y": 140,
+        "wires": [
+            [
+                "17ec07deb43a378e"
+            ]
+        ]
+    },
+    {
+        "id": "72505f5b32cfa1c8",
+        "type": "debug",
+        "z": "2f89935f.a01a3c",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "d0d41ff25bbb83fa",
+        "type": "owfs",
+        "z": "2f89935f.a01a3c",
+        "name": "",
+        "uncached": false,
+        "mode": "read",
+        "host": "localhost",
+        "port": 4304,
+        "paths": [
+            "28.A0F795F0013C/temperature"
+        ],
+        "x": 380,
+        "y": 140,
+        "wires": [
+            [
+                "02b94dd343b5c52b"
+            ]
+        ]
+    },
+    {
+        "id": "411a2a4a063f94f7",
+        "type": "owfs",
+        "z": "2f89935f.a01a3c",
+        "name": "",
+        "uncached": false,
+        "mode": "read",
+        "host": "localhost",
+        "port": 4304,
+        "paths": [
+            "28.7F8395F0013C/temperature"
+        ],
+        "x": 540,
+        "y": 180,
+        "wires": [
+            [
+                "02b94dd343b5c52b"
+            ]
+        ]
+    },
+    {
+        "id": "5f102ebad0b62fa4",
+        "type": "owfs",
+        "z": "2f89935f.a01a3c",
+        "name": "",
+        "uncached": false,
+        "mode": "read",
+        "host": "localhost",
+        "port": 4304,
+        "paths": [
+            "28.323895F0013C/temperature"
+        ],
+        "x": 380,
+        "y": 220,
+        "wires": [
+            [
+                "02b94dd343b5c52b"
+            ]
+        ]
+    },
+    {
+        "id": "472a499ec07da1ef",
+        "type": "owfs",
+        "z": "2f89935f.a01a3c",
+        "name": "",
+        "uncached": false,
+        "mode": "read",
+        "host": "localhost",
+        "port": 4304,
+        "paths": [
+            "28.FF883C711703/temperature"
+        ],
+        "x": 540,
+        "y": 260,
+        "wires": [
+            [
+                "02b94dd343b5c52b"
+            ]
+        ]
+    },
+    {
+        "id": "69477b518bc77a30",
+        "type": "owfs",
+        "z": "2f89935f.a01a3c",
+        "name": "",
+        "uncached": false,
+        "mode": "read",
+        "host": "localhost",
+        "port": 4304,
+        "paths": [
+            "28.BA3FA9080000/temperature"
+        ],
+        "x": 380,
+        "y": 300,
+        "wires": [
+            [
+                "02b94dd343b5c52b"
+            ]
+        ]
+    },
+    {
+        "id": "14f91f60d37615c8",
+        "type": "owfs",
+        "z": "2f89935f.a01a3c",
+        "name": "",
+        "uncached": false,
+        "mode": "read",
+        "host": "localhost",
+        "port": 4304,
+        "paths": [
+            "28.FF06F2701703/temperature"
+        ],
+        "x": 540,
+        "y": 340,
+        "wires": [
+            [
+                "02b94dd343b5c52b"
+            ]
+        ]
+    },
+    {
+        "id": "f0c40b4404f82dda",
+        "type": "owfs",
+        "z": "2f89935f.a01a3c",
+        "name": "",
+        "uncached": false,
+        "mode": "read",
+        "host": "localhost",
+        "port": 4304,
+        "paths": [
+            "28.D60A94971003/temperature"
+        ],
+        "x": 380,
+        "y": 380,
+        "wires": [
+            [
+                "02b94dd343b5c52b"
+            ]
+        ]
+    },
+    {
+        "id": "d29b31e79c2b87b2",
+        "type": "owfs",
+        "z": "2f89935f.a01a3c",
+        "name": "",
+        "uncached": false,
+        "mode": "read",
+        "host": "localhost",
+        "port": 4304,
+        "paths": [
+            "28.FFE795701703/temperature"
+        ],
+        "x": 540,
+        "y": 420,
+        "wires": [
+            [
+                "02b94dd343b5c52b"
+            ]
+        ]
+    },
+    {
+        "id": "90205c3b57e4fe23",
+        "type": "owfs",
+        "z": "2f89935f.a01a3c",
+        "name": "",
+        "uncached": false,
+        "mode": "read",
+        "host": "localhost",
+        "port": 4304,
+        "paths": [
+            "28.4F5595F0013C/temperature"
+        ],
+        "x": 380,
+        "y": 460,
+        "wires": [
+            [
+                "02b94dd343b5c52b"
+            ]
+        ]
+    },
+    {
+        "id": "5aacdfd73ff23340",
+        "type": "function",
+        "z": "2f89935f.a01a3c",
+        "name": "function 1",
+        "func": "'use strict'\n\n\nvar owfs = global.get('owfs');\nvar Client = owfs.Client();\n\nvar client = new Client('localhost', 4304)\n\nclient.read('28.323895F0013C/temperature', function (err, result) {\n  if (err) {\n    node.send.log(err)\n  } else {\n    node.send(result)\n  }\n})\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "242ebaba2f65b33c",
+        "type": "inject",
+        "z": "2f89935f.a01a3c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 400,
+        "y": 960,
+        "wires": [
+            [
+                "5aacdfd73ff23340"
+            ]
+        ]
+    },
+    {
+        "id": "4c8b26e1.23e1f8",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.2.25",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    }
+]

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+	body {
+		font-family: 'Segoe UI', Arial, sans-serif;
+		font-size: 16px;
+		color: #3b4351;
+	}
+	.navbar {
+		font-family: Arial, Helvetica, sans-serif;
+		width: 100%;
+		background-color: #555;
+		overflow: auto;
+		text-align:center;
+		list-style:none;
+	}
+	.navbar li{
+		display:inline;
+	}
+	.navbar a {
+		text-align: center;
+		padding: 12px;
+		color: white;
+		text-decoration: none;
+		font-size: 20px;
+		display:inline-block;
+	}
+	.navbar a:hover {
+		background-color: #000;
+	}
+	.navbar a.active {
+		background-color: #04AA6D;
+	}
+	.btn,
+	.file-input::file-selector-button {
+		border: 0.05rem solid #4f4f4f;
+		color: black;
+		padding: 6px 24px;
+		font-size: 1rem;
+		cursor: pointer;
+		border-radius: 0.2rem;
+		background-color: #efefef;
+		height: 1.92rem;
+	}
+	.btn:hover,
+	.file-input::file-selector-button:hover {
+		background-color: #e5e5e5;
+	}
+	.file-input::file-selector-button {
+		margin-right: 1rem;
+	}
+	.form-input {
+		background: #fff;
+		background-image: none;
+		border: 0.05rem solid #bcc3ce;
+		border-radius: 0.2rem;
+		font-size: 16px;
+		display: block;
+		width: 28.6rem;
+		line-height: 1.2rem;
+		max-width: 100%;
+		outline: none;
+		position: relative;
+	}
+	progress {
+		width: 36em;
+	}
+	.vinfo {
+		font-size:12px;
+		margin: 6px 10px;
+		display:inline-block;
+	}
+	.landing {
+		width: 100%;
+		text-align: center;
+		overflow: auto;
+		text-align:center;
+		list-style:none;
+		/* border: 1px dashed #222; */
+	}
+	.container {
+		width: 36rem;
+		text-align: left;
+		display:inline-block;
+		/* border: 1px dashed #55f; */
+	}
+	.left {
+		overflow: hidden;
+		min-height: 20px;
+		margin-top: 0.3rem;
+		margin-bottom: 0.3rem;
+		/* border: 1px dashed #f0f; */
+	}
+	.right {
+		float: right;
+		width: 6.4rem;
+		min-height: 20px;
+		margin-left: 10px;
+		margin-bottom: 0.3rem;
+		/* border: 1px dashed #00f; */
+	}
+	@media screen and (max-width: 400px) {
+		.navbar a {
+			float: none;
+			display: block;
+		}
+	}
+	
+	/* === Custom Selector Section === */
+	.custom-select {
+		position: relative;
+		font-family: 'Segoe UI', Arial, sans-serif;
+		font-size: 1rem;
+	}
+	.custom-select select {
+		display: none;
+	}
+	.select-selected {
+		border-radius: 0.2rem;
+		background-color: #efefef;
+	}
+	.select-selected:after {
+		position: absolute;
+		content: "";
+		top: 14px;
+		right: 10px;
+		width: 0;
+		height: 0;
+		border: 6px solid transparent;
+		border-color: #000 transparent transparent transparent;
+	}
+	.select-selected.select-arrow-active:after {
+		border-color: transparent transparent #000 transparent;
+		top: 7px;
+	}
+	.select-items div,
+	.select-selected {
+		color: #000;
+		padding: 6px 16px;
+		border: 0.05rem solid #4f4f4f;
+		cursor: pointer;
+		user-select: none;
+	}
+	.select-items div {
+		border-top: none;
+		background-color: #f8f8f8;
+	}
+	.select-items {
+		position: absolute;
+		background-color: #efefef;
+		top: 100%;
+		left: 0;
+		right: 0;
+		z-index: 99;
+	}
+	.select-hide {
+		display: none;
+	}
+	.select-items div:hover,
+	.same-as-selected {
+		background-color: #e5e5e5;
+	}
+</style>
+</head>
+<body>
+<div class="navbar">
+  <a href="status"><i class="fa fa-fw fa-info"></i> Status/Information</a> 
+  <a href="data"><i class="fa fa-fw fa-bar-chart"></i> Live Data</a> 
+  <a href="config"><i class="fa fa-fw fa-edit"></i> Device Configuration</a> 
+  <a class="active" href="log"><i class="fa fa-fw fa-list"></i> Log</a> 
+  <a href="update"><i class="fa fa-fw fa-retweet"></i> Update</a>
+</div>
+<div class='landing'><div class='container' style='width:816px; padding:0px 16px'>
+	<h2>Device data log</h2>
+		
+	<div class='' style='margin-bottom: 1rem;'>
+		<label style='margin-right: 20px; margin-left: 28px'>Choose the data information you want to view: </label>
+		<div class="custom-select" style="width:220px;display:inline-block;">
+  		<select id='cbSelectData' onchange="GetDataInfo()">
+    		<option value="#">Select data info:</option>
+			<option value="/device/infolog" selected="selected">Device data log</option>
+			<option value="/device/infoex">Device information</option>
+			<option value="/device/configfile">Configuration file</option>
+			<option value="/device/last10minutes">Last 10 minutes data</option>
+    		<option value="/device/last2hours">Last 2 hours data</option>
+    		<option value="/device/last6hours">last 6 hours data</option>
+    		<option value="/device/last24hours">Last 24 hours data</option>
+		</select>
+		</div>
+	</div>
+	
+	<div class='left' style='margin-bottom: 1rem;'>
+		<textarea id = "txtInfo" style="resize: none; width:800px; height:450px;" readonly></textarea>
+	</div>
+   	<div class='left' style='display: block; background: #fdfdfd; margin-top: 2rem; border-top: 1px solid #ddd;'><div style='text-align:center;'>
+		<label id='lbDI1' class='vinfo'></label>
+		<label id='lbDI2' class='vinfo'></label>
+		<label id='lbDI3' class='vinfo'></label>
+	</div></div>
+</div></div>
+<script>
+	var lbDI1 = document.getElementById('lbDI1');
+	var lbDI2 = document.getElementById('lbDI2');
+	var lbDI3 = document.getElementById('lbDI3');
+	var txtInfo = document.getElementById('txtInfo');
+	var data = {
+			id: null,
+			hardware: null,
+	    	hostname: null,
+			appver: null
+		};
+
+	function getDeviceInfo() {
+		fetch('/device/info')
+			.then(res => res.json())
+			.then((data) => {
+				lbDI1.innerHTML = data.hardware;
+				lbDI2.innerHTML = data.hostname;
+				lbDI3.innerHTML = data.appver;
+		}).catch();	
+	}
+	
+	function GetDataInfo() {
+		var devDataPath = document.getElementById("cbSelectData").value;
+		fetch(devDataPath)
+			.then(res => res.text())
+			.then((txt) => {
+				txtInfo.value = txt;
+			}).catch();
+	}
+
+	function UpdateSelectControls() {
+		var x, i, j, l, ll, selElmnt, a, b, c;
+		/*look for any elements with the class "custom-select":*/
+		x = document.getElementsByClassName("custom-select");
+		l = x.length;
+		for (i = 0; i < l; i++) {
+			selElmnt = x[i].getElementsByTagName("select")[0];
+			ll = selElmnt.length;
+			/*for each element, create a new DIV that will act as the selected item:*/
+			a = document.createElement("DIV");
+			a.setAttribute("class", "select-selected");
+			a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+			x[i].appendChild(a);
+			/*for each element, create a new DIV that will contain the option list:*/
+			b = document.createElement("DIV");
+			b.setAttribute("class", "select-items select-hide");
+			for (j = 1; j < ll; j++) {
+				/*for each option in the original select element,
+				create a new DIV that will act as an option item:*/
+				c = document.createElement("DIV");
+				c.innerHTML = selElmnt.options[j].innerHTML;
+				c.addEventListener("click", function (e) {
+					/*when an item is clicked, update the original select box,
+					and the selected item:*/
+					var y, i, k, s, h, sl, yl;
+					s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+					sl = s.length;
+					h = this.parentNode.previousSibling;
+					for (i = 0; i < sl; i++) {
+						if (s.options[i].innerHTML == this.innerHTML) {
+							s.selectedIndex = i;
+							h.innerHTML = this.innerHTML;
+							y = this.parentNode.getElementsByClassName("same-as-selected");
+							yl = y.length;
+							for (k = 0; k < yl; k++) {
+								y[k].removeAttribute("class");
+							}
+							this.setAttribute("class", "same-as-selected");
+							GetDataInfo();
+							break;
+						}
+					}
+					h.click();
+				});
+				b.appendChild(c);
+			}
+			x[i].appendChild(b);
+			a.addEventListener("click", function (e) {
+				/*when the select box is clicked, close any other select boxes,
+				and open/close the current select box:*/
+				e.stopPropagation();
+				closeAllSelect(this);
+				this.nextSibling.classList.toggle("select-hide");
+				this.classList.toggle("select-arrow-active");
+			});
+		}
+	}
+
+	function closeAllSelect(elmnt) {
+		/*a function that will close all select boxes in the document,
+		except the current select box:*/
+		var x, y, i, xl, yl, arrNo = [];
+		x = document.getElementsByClassName("select-items");
+		y = document.getElementsByClassName("select-selected");
+		xl = x.length;
+		yl = y.length;
+		for (i = 0; i < yl; i++) {
+			if (elmnt == y[i]) {
+				arrNo.push(i)
+			} else {
+				y[i].classList.remove("select-arrow-active");
+			}
+		}
+		for (i = 0; i < xl; i++) {
+			if (arrNo.indexOf(i)) {
+				x[i].classList.add("select-hide");
+			}
+		}
+	}
+	
+	document.addEventListener("click", closeAllSelect);
+	// Create the chart
+	
+	getDeviceInfo();
+	GetDataInfo();
+	UpdateSelectControls();
+</script>
+</body>
+</html>

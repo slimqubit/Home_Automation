@@ -1,0 +1,55 @@
+{
+	"hostname":"esp32-d001",
+	"ssid":"your_SSID",
+	"ssidpwd":"your_SSID_password",
+	"ip_addr":"",
+	"ip_mask":"",
+	"ip_getw":"",
+	"ip_dns1":"",
+	"ip_dns2":"",
+	"mqtt_srv":"",
+	"mqtt_port":1883,
+	"http_port":80,
+	"sgroup1": {
+		"enabled": true,
+		"icalib": 21.26,
+		"lbct1": "NC1L1",
+		"lbct2": "NC1L2",
+		"lbct3": "NC1L3"
+	},
+	"sgroup2": {
+		"enabled": true,
+		"icalib": 21.26,
+		"lbct1": "NC2L1",
+		"lbct2": "NC2L2",
+		"lbct3": "NC2L3"
+	},
+	"sgroup3": {
+		"enabled": true,
+		"icalib": 21.26,
+		"lbct1": "NC3L1",
+		"lbct2": "NC3L2",
+		"lbct3": "NC3L3"
+	},
+	"sgroup4": {
+		"enabled": true,
+		"icalib": 21.5,
+		"lbct1": "NC4L1",
+		"lbct2": "NC4L2",
+		"lbct3": "NC4L3"
+	},
+	"sgroup5": {
+		"enabled": true,
+		"icalib": 21.5,
+		"lbct1": "NC5L1",
+		"lbct2": "NC5L2",
+		"lbct3": "NC5L3"
+	},
+	"sgroup6": {
+		"enabled": true,
+		"icalib": 21.5,
+		"lbct1": "NC6L1",
+		"lbct2": "NC6L2",
+		"lbct3": "NC6L3"
+	}	
+}

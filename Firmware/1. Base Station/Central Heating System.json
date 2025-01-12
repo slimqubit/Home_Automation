@@ -1,0 +1,811 @@
+[
+    {
+        "id": "bf6180f0.a77c6",
+        "type": "tab",
+        "label": "CHE - Central Heating System",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "b7c4f94f.213918",
+        "type": "ui_text",
+        "z": "bf6180f0.a77c6",
+        "group": "0a3e100712f77794",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "T.Centrala",
+        "label": "{{msg.tag}}",
+        "format": "{{msg.payload | number:2}} °C",
+        "layout": "row-spread",
+        "className": "",
+        "x": 570,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "694cfc9e.3be7c4",
+        "type": "ui_text",
+        "z": "bf6180f0.a77c6",
+        "group": "0a3e100712f77794",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "T.Puffer.Max",
+        "label": "{{msg.tag}}",
+        "format": "{{msg.payload | number:2}} °C",
+        "layout": "row-spread",
+        "className": "",
+        "x": 770,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "4255c6d9.2766d8",
+        "type": "inject",
+        "z": "bf6180f0.a77c6",
+        "name": "30 sec tick",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "30",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "",
+        "topic": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 120,
+        "wires": [
+            [
+                "9167e18e.83f8",
+                "dd7b5aeec5319c88"
+            ]
+        ]
+    },
+    {
+        "id": "ca6b199e.5bf298",
+        "type": "function",
+        "z": "bf6180f0.a77c6",
+        "name": "Format Data",
+        "func": "if (msg.payload.hasOwnProperty(\"tBoiler\"))\n{\n    node.send([{tag:\"Temp Subsol\", payload:msg.payload.tSubsol}]);\n    node.send([null, {tag:\"Temp Boiler\", payload:msg.payload.tBoiler}]);\n}\n\nif (msg.payload.hasOwnProperty(\"tCentrala\"))\n{\n    node.send([{tag:\"Temperatură Centrală\", payload:msg.payload.tCentrala}]);\n    node.send([null, {tag:\"Temperatură Puffer (sus)\", payload:msg.payload.tPuff4}]);\n    node.send([null, null, {tag:\"Temperatură Puffer (Jos)\", payload:msg.payload.tPuff1}]);\n    node.send([null, null, null, {tag:\"Temperatură  radiatoare Tur\", payload:msg.payload.tRCTur}]);\n    node.send([null, null, null, null, {tag:\"Temperatură  radiatoare Retur\", payload:msg.payload.tRCRetur}]);\n}\n\nreturn;\n",
+        "outputs": 5,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 480,
+        "wires": [
+            [
+                "b7c4f94f.213918"
+            ],
+            [
+                "694cfc9e.3be7c4"
+            ],
+            [
+                "170743cda27298c9"
+            ],
+            [
+                "3d453e23c7b63e30"
+            ],
+            [
+                "a3c81573605a67c9"
+            ]
+        ],
+        "outputLabels": [
+            "Temp1",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    {
+        "id": "90279230.a1eb2",
+        "type": "mqtt in",
+        "z": "bf6180f0.a77c6",
+        "name": "PiZeroW1/TempSensors",
+        "topic": "PiZeroW1/TempSensors",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "6bf576b.0604988",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 170,
+        "y": 280,
+        "wires": [
+            [
+                "67a7187c.6fd688"
+            ]
+        ]
+    },
+    {
+        "id": "67a7187c.6fd688",
+        "type": "json",
+        "z": "bf6180f0.a77c6",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 370,
+        "y": 280,
+        "wires": [
+            [
+                "0d1c9819e37ae381",
+                "5576c3bcfce6f4eb"
+            ]
+        ]
+    },
+    {
+        "id": "635a96dc.4e8c98",
+        "type": "comment",
+        "z": "bf6180f0.a77c6",
+        "name": "Read Temperature Sensors from main board",
+        "info": "All 1 Wire temperature sensors are aggregated here",
+        "x": 230,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "9167e18e.83f8",
+        "type": "owfs",
+        "z": "bf6180f0.a77c6",
+        "name": "",
+        "uncached": true,
+        "mode": "read",
+        "host": "localhost",
+        "port": 4304,
+        "paths": [
+            "28.FF44AB231703/temperature"
+        ],
+        "x": 340,
+        "y": 100,
+        "wires": [
+            [
+                "d18a0817bd119966"
+            ]
+        ]
+    },
+    {
+        "id": "3fb6bccee518bedf",
+        "type": "join-wait",
+        "z": "bf6180f0.a77c6",
+        "name": "",
+        "paths": "[\"tempSubsol\", \"tempBoiler\"]",
+        "pathsToExpire": "",
+        "useRegex": false,
+        "warnUnmatched": true,
+        "pathTopic": "tag",
+        "pathTopicType": "msg",
+        "correlationTopic": "",
+        "correlationTopicType": "msg",
+        "timeout": 15000,
+        "timeoutUnits": 1,
+        "exactOrder": "false",
+        "firstMsg": "true",
+        "mapPayload": "true",
+        "disableComplete": false,
+        "persistOnRestart": false,
+        "x": 740,
+        "y": 120,
+        "wires": [
+            [
+                "28c7d0eae989ea6d"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "28c7d0eae989ea6d",
+        "type": "function",
+        "z": "bf6180f0.a77c6",
+        "name": "Normalize Result",
+        "func": "function EnsureGlobalVar(name, value) {\n    if (typeof (value === 'number') && !isNaN(value))\n        global.set(name, value);\n    return;\n}\n\nvar iMsg =\n    {\"payload\":{\n        \"tSubsol\":0, \"tBoiler\":0, \"tProba\":0\n    }}\n\niMsg.payload.tSubsol = msg.tag.tempSubsol;\niMsg.payload.tBoiler = msg.tag.tempBoiler;\n\nEnsureGlobalVar(\"tSens_Boiler\", iMsg.payload.tBoiler);\n\nreturn iMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 120,
+        "wires": [
+            [
+                "88ab38b868fabaa5",
+                "787762411546ee15"
+            ]
+        ]
+    },
+    {
+        "id": "787762411546ee15",
+        "type": "influxdb out",
+        "z": "bf6180f0.a77c6",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "measurement": "Temperature",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1230,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "170743cda27298c9",
+        "type": "ui_text",
+        "z": "bf6180f0.a77c6",
+        "group": "0a3e100712f77794",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "T.Puffer.Min",
+        "label": "{{msg.tag}}",
+        "format": "{{msg.payload | number:2}} °C",
+        "layout": "row-spread",
+        "className": "",
+        "x": 770,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "3d453e23c7b63e30",
+        "type": "ui_text",
+        "z": "bf6180f0.a77c6",
+        "group": "0a3e100712f77794",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "TurRad",
+        "label": "{{msg.tag}}",
+        "format": "{{msg.payload | number:2}} °C",
+        "layout": "row-spread",
+        "className": "",
+        "x": 960,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "0d1c9819e37ae381",
+        "type": "function",
+        "z": "bf6180f0.a77c6",
+        "name": "Normalize Result",
+        "func": "function EnsureGlobalVar(name, value) {\n    if (typeof (value === 'number') && !isNaN(value))\n        global.set(name, value);\n    return;\n}\n\nvar iMsg =\n    {\"payload\":{\n        \"tPuff1\":0, \"tPuff2\":0, \"tPuff3\":0, \"tPuff4\":0, \"tCentrala\":0, \"tCTTur\":0, \"tCTRetur\":0, \"tRCTur\":0, \"tRCRetur\":0, \"tBoilerRoom\":0\n    }}\n\niMsg.payload.tPuff1 = msg.payload.tPuff1;\niMsg.payload.tPuff2 = msg.payload.tPuff2;\niMsg.payload.tPuff3 = msg.payload.tPuff3;\niMsg.payload.tPuff4 = msg.payload.tPuff4;\niMsg.payload.tCTTur = msg.payload.tCTTur;\n\niMsg.payload.tCentrala   = msg.payload.tCentrala;\niMsg.payload.tRCTur      = msg.payload.tRCTur;\niMsg.payload.tRCRetur    = msg.payload.tRCRetur;\niMsg.payload.tBoilerRoom = msg.payload.tBoilerRoom;\niMsg.payload.tHorn       = msg.payload.tHorn;\n\nEnsureGlobalVar(\"tSens_Puff1\", msg.payload.tPuff1);\nEnsureGlobalVar(\"tSens_Puff2\", msg.payload.tPuff2);\nEnsureGlobalVar(\"tSens_Puff3\", msg.payload.tPuff3);\nEnsureGlobalVar(\"tSens_Puff4\", msg.payload.tPuff4);\n\nEnsureGlobalVar(\"tSens_Centrala\", msg.payload.tCentrala);\n\nreturn iMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 280,
+        "wires": [
+            [
+                "ced754421b5736d1",
+                "c464b3387290f542",
+                "381ab05bd5d981c2"
+            ]
+        ]
+    },
+    {
+        "id": "381ab05bd5d981c2",
+        "type": "influxdb out",
+        "z": "bf6180f0.a77c6",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "measurement": "Temperature",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 870,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "d18a0817bd119966",
+        "type": "function",
+        "z": "bf6180f0.a77c6",
+        "name": "Add Sensors Tag",
+        "func": "switch (msg.topic)\n{\n    case \"28.FF44AB231703/temperature\": \n        msg.tag = \"tempSubsol\";\n        break;\n        \n    case \"28.FFAEAF231703/temperature\":\n        msg.tag = \"tempBoiler\";\n        break;\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 120,
+        "wires": [
+            [
+                "3fb6bccee518bedf"
+            ]
+        ]
+    },
+    {
+        "id": "88ab38b868fabaa5",
+        "type": "link out",
+        "z": "bf6180f0.a77c6",
+        "name": "Link Out: Temp Sensors 1",
+        "mode": "link",
+        "links": [
+            "4bae3158bbf0be09"
+        ],
+        "x": 1125,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "ced754421b5736d1",
+        "type": "link out",
+        "z": "bf6180f0.a77c6",
+        "name": "Link Out: Temp Sensors 2",
+        "mode": "link",
+        "links": [
+            "66bc93fdb504c0da",
+            "1e0a378f1995a1cd"
+        ],
+        "x": 755,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "66bc93fdb504c0da",
+        "type": "link in",
+        "z": "bf6180f0.a77c6",
+        "name": "Link In: Temp Sensors",
+        "links": [
+            "ced754421b5736d1"
+        ],
+        "x": 195,
+        "y": 480,
+        "wires": [
+            [
+                "ca6b199e.5bf298",
+                "a00f3dd0d9fc8c5f"
+            ]
+        ]
+    },
+    {
+        "id": "a00f3dd0d9fc8c5f",
+        "type": "debug",
+        "z": "bf6180f0.a77c6",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 330,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "f2e6ba56dc951aa7",
+        "type": "comment",
+        "z": "bf6180f0.a77c6",
+        "name": "Read Temperature Sensors from PiZeroW1",
+        "info": "",
+        "x": 220,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "3be0aa727218274b",
+        "type": "inject",
+        "z": "bf6180f0.a77c6",
+        "name": "Started",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 720,
+        "wires": [
+            [
+                "67a207e983c2c03c"
+            ]
+        ]
+    },
+    {
+        "id": "67a207e983c2c03c",
+        "type": "function",
+        "z": "bf6180f0.a77c6",
+        "name": "Initialize",
+        "func": "\n/// CHSMaxSysTemp\nmsg.payload = 95;\nnode.send([msg]); \n\n//msg.payload = \"auto\";\n//node.send([msg]); \n\n//msg.payload = 200;\n//node.send([null, msg]); \n\n\n\n\nreturn;",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 720,
+        "wires": [
+            [
+                "ba72b6df5eb83e54"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "93e6403c06f626c5",
+        "type": "comment",
+        "z": "bf6180f0.a77c6",
+        "name": "User interface initialization flow - Central Heating System (CHS)",
+        "info": "",
+        "x": 310,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "ba72b6df5eb83e54",
+        "type": "ui_numeric",
+        "z": "bf6180f0.a77c6",
+        "name": "Max System Temp",
+        "label": "Prag Temperatură Maxim",
+        "tooltip": "",
+        "group": "0a3e100712f77794",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "CHSMaxSysTemp",
+        "topicType": "str",
+        "format": "{{value}} °C",
+        "min": "70",
+        "max": "100",
+        "step": "5",
+        "className": "",
+        "x": 630,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "85754d8992c23413",
+        "type": "comment",
+        "z": "bf6180f0.a77c6",
+        "name": "Also save values to global variables for later use",
+        "info": "",
+        "x": 1040,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "c464b3387290f542",
+        "type": "debug",
+        "z": "bf6180f0.a77c6",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "a3c81573605a67c9",
+        "type": "ui_text",
+        "z": "bf6180f0.a77c6",
+        "group": "0a3e100712f77794",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "ReturRad",
+        "label": "{{msg.tag}}",
+        "format": "{{msg.payload | number:2}} °C",
+        "layout": "row-spread",
+        "className": "",
+        "x": 960,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "bce1e7a18e5aee70",
+        "type": "comment",
+        "z": "bf6180f0.a77c6",
+        "name": "Display temperature values on GUI",
+        "info": "",
+        "x": 200,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "5576c3bcfce6f4eb",
+        "type": "debug",
+        "z": "bf6180f0.a77c6",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "dd7b5aeec5319c88",
+        "type": "owfs",
+        "z": "bf6180f0.a77c6",
+        "name": "",
+        "uncached": true,
+        "mode": "read",
+        "host": "localhost",
+        "port": 4304,
+        "paths": [
+            "28.FFAEAF231703/temperature"
+        ],
+        "x": 340,
+        "y": 160,
+        "wires": [
+            [
+                "d18a0817bd119966"
+            ]
+        ]
+    },
+    {
+        "id": "24a84a694730b4a2",
+        "type": "inject",
+        "z": "bf6180f0.a77c6",
+        "name": "5 min tick",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 900,
+        "wires": [
+            [
+                "9f1271ba27b894a0"
+            ]
+        ]
+    },
+    {
+        "id": "9f1271ba27b894a0",
+        "type": "influxdb in",
+        "z": "bf6180f0.a77c6",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "query": "SELECT\n    sum(tHorn) as sum,\n    count(tHorn) as count\n    FROM (\n        SELECT tHorn FROM \"Temperature\" \n        WHERE time >= now() - 20m and time <= now()\n    );",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "organisation",
+        "x": 390,
+        "y": 900,
+        "wires": [
+            [
+                "9d5de0426d73ed7a"
+            ]
+        ]
+    },
+    {
+        "id": "9d5de0426d73ed7a",
+        "type": "function",
+        "z": "bf6180f0.a77c6",
+        "name": "",
+        "func": "var iMsg = {\"tag\": \"Temperatură Horn\", \"payload\":0}\n\nvar jMsg =\n    {\"payload\":{ \"tHornEx\":0 }}\n\n\nfunction EnsureGlobalVar(name, value) {\n    if (typeof (value === 'number') && !isNaN(value))\n        global.set(name, value);\n    return;\n}\n\niMsg.payload = Math.round(msg.payload[0].sum / msg.payload[0].count);\nEnsureGlobalVar(\"tSens_Horn\", iMsg.payload);\njMsg.payload.tHornEx = iMsg.payload;\n\nnode.send([iMsg, jMsg]); \n\nreturn;",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 900,
+        "wires": [
+            [
+                "16a8188cfc7246c1"
+            ],
+            [
+                "7ebe533bd5028b63"
+            ]
+        ]
+    },
+    {
+        "id": "e9871f9a0706f032",
+        "type": "comment",
+        "z": "bf6180f0.a77c6",
+        "name": "Get average of tHorn value and save it to the flow scope context variable ",
+        "info": "",
+        "x": 340,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "16a8188cfc7246c1",
+        "type": "ui_text",
+        "z": "bf6180f0.a77c6",
+        "group": "0a3e100712f77794",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "Temp Horn",
+        "label": "{{msg.tag}}",
+        "format": "{{msg.payload | number:2}} °C",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 770,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "7ebe533bd5028b63",
+        "type": "influxdb out",
+        "z": "bf6180f0.a77c6",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "measurement": "Temperature",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 830,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "a99b95ea1804fb1e",
+        "type": "ui_spacer",
+        "z": "bf6180f0.a77c6",
+        "name": "spacer",
+        "group": "77ac1d04.0ca6e4",
+        "order": 5,
+        "width": "1",
+        "height": 1,
+        "className": ""
+    },
+    {
+        "id": "60674646187b0b95",
+        "type": "ui_spacer",
+        "z": "bf6180f0.a77c6",
+        "name": "spacer",
+        "group": "1c9e32e2.fef1dd",
+        "order": 5,
+        "width": 1,
+        "height": 1,
+        "className": ""
+    },
+    {
+        "id": "0a3e100712f77794",
+        "type": "ui_group",
+        "name": "Încălzire Centrală",
+        "tab": "4ce27a69eecfcbf2",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "6bf576b.0604988",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.2.25",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "373fa459.54e07c",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "HomeControl",
+        "name": "HomeControl",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "",
+        "rejectUnauthorized": false
+    },
+    {
+        "id": "77ac1d04.0ca6e4",
+        "type": "ui_group",
+        "name": "Dev01 Performance",
+        "tab": "5e32ed8a.140104",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1c9e32e2.fef1dd",
+        "type": "ui_group",
+        "name": "Dev02 Performance",
+        "tab": "5e32ed8a.140104",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4ce27a69eecfcbf2",
+        "type": "ui_tab",
+        "name": "Încălzire",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "5e32ed8a.140104",
+        "type": "ui_tab",
+        "name": "RPi Devices",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]

@@ -1,0 +1,718 @@
+[
+    {
+        "id": "53727ccd522e1e45",
+        "type": "tab",
+        "label": "Power Monitror",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "065c8dafd4d5526f",
+        "type": "mqtt in",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "topic": "esp32-d01-DBD320",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "6bf576b.0604988",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 300,
+        "wires": [
+            [
+                "7184ab33d3137b17"
+            ]
+        ]
+    },
+    {
+        "id": "7184ab33d3137b17",
+        "type": "json",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 390,
+        "y": 300,
+        "wires": [
+            [
+                "e5deb9014489370c"
+            ]
+        ]
+    },
+    {
+        "id": "90992c0e5f59ef4e",
+        "type": "comment",
+        "z": "53727ccd522e1e45",
+        "name": "Receive power data via MQTT and drop it to power_device_1 table",
+        "info": "",
+        "x": 360,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "4339fa1f3ab3d253",
+        "type": "inject",
+        "z": "53727ccd522e1e45",
+        "name": "On Request",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 100,
+        "wires": [
+            [
+                "e35579f36d3c3e4e"
+            ]
+        ]
+    },
+    {
+        "id": "e35579f36d3c3e4e",
+        "type": "sqlite",
+        "z": "53727ccd522e1e45",
+        "mydb": "e5571c1e.f9dd8",
+        "sqlquery": "fixed",
+        "sql": "-- It looks like only one statement is executed\n--\n-- DROP TABLE IF EXISTS 'power_device_1';\n\nCREATE TABLE 'power_device_2' (\n    'id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n    'device' TEXT DEFAULT \"PS1\", \n    'Time' TEXT,\n    'G1L1' REAL, 'G1L2' REAL, 'G1L3' REAL,\n    'G2L1' REAL, 'G2L2' REAL, 'G2L3' REAL,\n    'G3L1' REAL, 'G3L2' REAL, 'G3L3' REAL );\n",
+        "name": "HomeControl.db",
+        "x": 400,
+        "y": 100,
+        "wires": [
+            [
+                "0c1435873f44f80b"
+            ]
+        ]
+    },
+    {
+        "id": "b9d9b496be8da8f2",
+        "type": "comment",
+        "z": "53727ccd522e1e45",
+        "name": "Deploy Power Sensor Tables  (existing will be droppped)",
+        "info": "There will be one table for each device",
+        "x": 320,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "0c1435873f44f80b",
+        "type": "debug",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 610,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "d0449da39b710879",
+        "type": "mqtt in",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "topic": "esp32-d02-D66A14",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "6bf576b.0604988",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 380,
+        "wires": [
+            [
+                "57974eb0863c12e7"
+            ]
+        ]
+    },
+    {
+        "id": "57974eb0863c12e7",
+        "type": "json",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 390,
+        "y": 380,
+        "wires": [
+            [
+                "7dd946f1893703e0"
+            ]
+        ]
+    },
+    {
+        "id": "c2811f87fb6e4b77",
+        "type": "debug",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1140,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "ce7b05095682a12c",
+        "type": "debug",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "e5deb9014489370c",
+        "type": "change",
+        "z": "53727ccd522e1e45",
+        "name": "Set device 1",
+        "rules": [
+            {
+                "t": "set",
+                "p": "devices",
+                "pt": "msg",
+                "to": "dev1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 560,
+        "y": 300,
+        "wires": [
+            [
+                "501dcdc1b83935a1",
+                "8410373b9c2a9964"
+            ]
+        ]
+    },
+    {
+        "id": "7dd946f1893703e0",
+        "type": "change",
+        "z": "53727ccd522e1e45",
+        "name": "Set device 2",
+        "rules": [
+            {
+                "t": "set",
+                "p": "devices",
+                "pt": "msg",
+                "to": "dev2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 560,
+        "y": 380,
+        "wires": [
+            [
+                "501dcdc1b83935a1",
+                "aee77072828f0791"
+            ]
+        ]
+    },
+    {
+        "id": "501dcdc1b83935a1",
+        "type": "join-wait",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "paths": "[\"dev1\", \"dev2\"]",
+        "pathsToExpire": "",
+        "useRegex": false,
+        "warnUnmatched": false,
+        "pathTopic": "devices",
+        "pathTopicType": "msg",
+        "correlationTopic": "",
+        "correlationTopicType": "msg",
+        "timeout": "15",
+        "timeoutUnits": "1000",
+        "exactOrder": "false",
+        "firstMsg": "true",
+        "mapPayload": "true",
+        "disableComplete": false,
+        "persistOnRestart": false,
+        "x": 750,
+        "y": 340,
+        "wires": [
+            [
+                "3fe6085cefbbf753"
+            ],
+            [
+                "ce7b05095682a12c"
+            ]
+        ]
+    },
+    {
+        "id": "3fe6085cefbbf753",
+        "type": "function",
+        "z": "53727ccd522e1e45",
+        "name": "Normalize result",
+        "func": "function EnsureGlobalVar(name, value) {\n    if (typeof (value === 'number') && !isNaN(value))\n        global.set(name, value);\n    return;\n}\n\nvar iMsg =\n    {\"payload\":{\n        \"timestamp\":null,\n        \"IMainL1\":0, \"IMainL2\":0, \"IMainL3\":0, \"IPvL1\":0, \"IPvL2\":0, \"IPvL3\":0,\n        \"IGrp1L1\":0,\"IGrp1L2\":0,\"IGrp1L3\":0,\"IGrp2L1\":0,\"IGrp2L2\":0,\"IGrp2L3\":0,\n        \"IGrp3L1\":0,\"IGrp3L2\":0,\"IGrp3L3\":0,\"IGrp4L1\":0,\"IGrp4L2\":0,\"IGrp4L3\":0,\n        \"IEvChL1\":0,\"IEvChL2\":0,\"IEvChL3\":0,\"IPEHL1\":0,\"IPEHL2\":0,\"IPEHL3\":0,\n        \"PwrMainL1\":0, \"PwrMainL2\":0, \"PwrMainL3\":0, \"PwrPvL1\":0, \"PwrPvL2\":0, \"PwrPvL3\":0,\n        \"PwrMainTotal\":0, \"PwrPvTotal\":0, \"TotalPwrImport\":0, \"TotalPwrExport\":0\n    }}\nvar Vref = 235;\nvar PdL1 = 0;\nvar PdL2 = 0;\nvar PdL3 = 0;\nvar PImp = 0;\nvar PExp = 0;\n\niMsg.payload.timestamp = msg.devices.dev1.timestamp;\n\n/*Device 1 - Group 1: sensor on house sockets consumption */\niMsg.payload.IGrp1L1 = msg.devices.dev1.G2L1;\niMsg.payload.IGrp1L2 = msg.devices.dev1.G2L2;\niMsg.payload.IGrp1L3 = msg.devices.dev1.G2L3;\n\n/*Device 1 - Group 2: sensor on House (first and second floor) consumption */\niMsg.payload.IGrp2L1 = msg.devices.dev1.G3L1;\niMsg.payload.IGrp2L2 = msg.devices.dev1.G3L2;\niMsg.payload.IGrp2L3 = msg.devices.dev1.G3L3;\n\n/*Device 1 - Group 3: sensor on kitchen stove consumption */\niMsg.payload.IGrp3L1 = msg.devices.dev1.G4L1;\niMsg.payload.IGrp3L2 = msg.devices.dev1.G4L2;\niMsg.payload.IGrp3L3 = msg.devices.dev1.G4L3;\n\n/*Device 2 - Group 1: sensor on EV Charger consumtion */\niMsg.payload.IEvChL1 = msg.devices.dev2.G1L1;\niMsg.payload.IEvChL2 = msg.devices.dev2.G1L2;\niMsg.payload.IEvChL3 = msg.devices.dev2.G1L3;\n\n/*Device 2 - Group 2: sensor on Puffer Electrical heating consumtion */\niMsg.payload.IPEHL1 = msg.devices.dev2.G2L1;\niMsg.payload.IPEHL2 = msg.devices.dev2.G2L2;\niMsg.payload.IPEHL3 = msg.devices.dev2.G2L3;\n\n/*Device 2 - Group 3: sensor on Solar IPv prosuction */\nif (msg.devices.dev2.G3L1>0.2) iMsg.payload.IPvL1 = msg.devices.dev2.G3L1;\n    else iMsg.payload.IPvL1 = 0;\nif (msg.devices.dev2.G3L2>0.2) iMsg.payload.IPvL2 = msg.devices.dev2.G3L2;\n    else iMsg.payload.IPvL2 = 0;\nif (msg.devices.dev2.G3L3>0.2) iMsg.payload.IPvL3 = msg.devices.dev2.G3L3;\n    else iMsg.payload.IPvL3 = 0;\n\n/*Device 2 - Group 4: sensor on basement lighting and sockets */\niMsg.payload.IGrp4L1 = msg.devices.dev2.G4L1;\niMsg.payload.IGrp4L2 = msg.devices.dev2.G4L2;\niMsg.payload.IGrp4L3 = msg.devices.dev2.G4L3;\n\n// aggregate main current \niMsg.payload.IMainL1 = msg.devices.dev1.G1L1 + iMsg.payload.IEvChL1 + iMsg.payload.IPEHL1 + iMsg.payload.IGrp4L1;\niMsg.payload.IMainL2 = msg.devices.dev1.G1L2 + iMsg.payload.IEvChL2 + iMsg.payload.IPEHL2 + iMsg.payload.IGrp4L2;\niMsg.payload.IMainL3 = msg.devices.dev1.G1L3 + iMsg.payload.IEvChL3 + iMsg.payload.IPEHL3 + iMsg.payload.IGrp4L3;\n\niMsg.payload.PwrMainL1 = Math.round(iMsg.payload.IMainL1 * Vref);\niMsg.payload.PwrMainL2 = Math.round(iMsg.payload.IMainL2 * Vref);\niMsg.payload.PwrMainL3 = Math.round(iMsg.payload.IMainL3 * Vref);\n\niMsg.payload.PwrPvL1 = Math.round(iMsg.payload.IPvL1 * Vref);\niMsg.payload.PwrPvL2 = Math.round(iMsg.payload.IPvL2 * Vref);\niMsg.payload.PwrPvL3 = Math.round(iMsg.payload.IPvL3 * Vref);\n\niMsg.payload.PwrMainTotal = iMsg.payload.PwrMainL1 + iMsg.payload.PwrMainL2 + iMsg.payload.PwrMainL3;\niMsg.payload.PwrPvTotal = iMsg.payload.PwrPvL1 + iMsg.payload.PwrPvL2 + iMsg.payload.PwrPvL3;\n\nPdL1 = iMsg.payload.PwrPvL1 - iMsg.payload.PwrMainL1;\nPdL2 = iMsg.payload.PwrPvL2 - iMsg.payload.PwrMainL2;\nPdL3 = iMsg.payload.PwrPvL3 - iMsg.payload.PwrMainL3;\n\nif (PdL1 >= 0) PExp = PExp + PdL1; else PImp = PImp - PdL1;\nif (PdL2 >= 0) PExp = PExp + PdL2; else PImp = PImp - PdL2;\nif (PdL3 >= 0) PExp = PExp + PdL3; else PImp = PImp - PdL3;\n\niMsg.payload.TotalPwrImport = PImp;\niMsg.payload.TotalPwrExport = PExp;\n\nEnsureGlobalVar(\"cSens_PwrPvL1\", iMsg.payload.PwrPvL1);\nEnsureGlobalVar(\"cSens_PwrPvL2\", iMsg.payload.PwrPvL2);\nEnsureGlobalVar(\"cSens_PwrPvL3\", iMsg.payload.PwrPvL3);\nEnsureGlobalVar(\"cSens_PwrMainL1\", iMsg.payload.PwrMainL1);\nEnsureGlobalVar(\"cSens_PwrMainL2\", iMsg.payload.PwrMainL2);\nEnsureGlobalVar(\"cSens_PwrMainL3\", iMsg.payload.PwrMainL3);\n\nreturn iMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 320,
+        "wires": [
+            [
+                "c2811f87fb6e4b77",
+                "d62d24bcd75c815a"
+            ]
+        ]
+    },
+    {
+        "id": "d62d24bcd75c815a",
+        "type": "influxdb out",
+        "z": "53727ccd522e1e45",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "measurement": "Energy",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1210,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "ccdf8f7c1ea07ddd",
+        "type": "comment",
+        "z": "53727ccd522e1e45",
+        "name": "Deploy Power Sensor Tables  (existing will be droppped)",
+        "info": "There will be one table for each device",
+        "x": 1040,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "ccf6e680e76a8b8c",
+        "type": "influxdb in",
+        "z": "53727ccd522e1e45",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "query": "SELECT sum(\"mean\")/3600/1000 FROM (SELECT mean(\"TotalPwrExport\") FROM \"Energy\" \nWHERE time >= now() - 6h and time <= now() \nGROUP BY time(1m) fill(null));\n\nSELECT sum(\"mean\")/3600/1000 FROM (SELECT mean(\"TotalPwrImport\") FROM \"Energy\" \nWHERE time >= now() - 6h and time <= now() \nGROUP BY time(1m) fill(null));",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "organisation",
+        "x": 450,
+        "y": 600,
+        "wires": [
+            [
+                "bf6a03764fb6d8ab"
+            ]
+        ]
+    },
+    {
+        "id": "ff875bd6085f2318",
+        "type": "inject",
+        "z": "53727ccd522e1e45",
+        "name": "On Request",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 600,
+        "wires": [
+            [
+                "ccf6e680e76a8b8c"
+            ]
+        ]
+    },
+    {
+        "id": "bf6a03764fb6d8ab",
+        "type": "debug",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "0e713af42b4a5405",
+        "type": "inject",
+        "z": "53727ccd522e1e45",
+        "name": "On Request",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 660,
+        "wires": [
+            [
+                "fb0ca99cb2d3829c"
+            ]
+        ]
+    },
+    {
+        "id": "fb0ca99cb2d3829c",
+        "type": "influxdb in",
+        "z": "53727ccd522e1e45",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "query": "SELECT\n    min(Diff1) as IDiffL1,\n    min(Diff2) as IDiffL2,\n    min(Diff3) as IDiffL3\n    FROM (\n        SELECT\n            IPvL1-IMainL1 as Diff1,\n            IPvL2-IMainL2 as Diff2,\n            IPvL3-IMainL3 as Diff3\n        FROM \"Energy\" WHERE time >= now() - 2m and time <= now()\n    );",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "organisation",
+        "x": 450,
+        "y": 660,
+        "wires": [
+            [
+                "224cdf17578c318c",
+                "e849a11dcac523ac"
+            ]
+        ]
+    },
+    {
+        "id": "e849a11dcac523ac",
+        "type": "debug",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "1c60f21afc9c1209",
+        "type": "comment",
+        "z": "53727ccd522e1e45",
+        "name": "Just some simple database queries",
+        "info": "SELECT mean(\"PwrMainL3\") FROM \"Energy\" WHERE time >= now() - 6h and time <= now() GROUP BY time(1m) fill(null);",
+        "x": 280,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "224cdf17578c318c",
+        "type": "function",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "func": "var iMsg =\n    {\"payload\":{\n        \"PwrL1\":0, \"PwrL2\":0, \"PwrL3\":0\n    }}\nvar Vref = 235;\n\niMsg.payload.PwrL1 = Math.round(msg.payload[0].IDiffL1 * Vref);\niMsg.payload.PwrL2 = Math.round(msg.payload[0].IDiffL2 * Vref);\niMsg.payload.PwrL3 = Math.round(msg.payload[0].IDiffL3 * Vref);\n\nreturn iMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 660,
+        "wires": [
+            [
+                "e849a11dcac523ac"
+            ]
+        ]
+    },
+    {
+        "id": "f1e277bd7c2fca2d",
+        "type": "mqtt in",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "topic": "esp32-d12-D669D4",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "6bf576b.0604988",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 460,
+        "wires": [
+            [
+                "07e5b2ae1103b535"
+            ]
+        ]
+    },
+    {
+        "id": "07e5b2ae1103b535",
+        "type": "debug",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 470,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "8410373b9c2a9964",
+        "type": "debug",
+        "z": "53727ccd522e1e45",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "aee77072828f0791",
+        "type": "debug",
+        "z": "53727ccd522e1e45",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "252ccaf3c85959eb",
+        "type": "influxdb in",
+        "z": "53727ccd522e1e45",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "query": "SELECT sum(\"mean\")/3600/1000 FROM (SELECT mean(\"TotalPwrExport\") FROM \"Energy\" \nWHERE time >= now() - 6h and time <= now() \nGROUP BY time(1m) fill(null));\n\nSELECT sum(\"mean\")/3600/1000 FROM (SELECT mean(\"TotalPwrImport\") FROM \"Energy\" \nWHERE time >= now() - 6h and time <= now() \nGROUP BY time(1m) fill(null));",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "organisation",
+        "x": 450,
+        "y": 720,
+        "wires": [
+            [
+                "7881c3cc25a45267"
+            ]
+        ]
+    },
+    {
+        "id": "c841290cd57a0ba4",
+        "type": "inject",
+        "z": "53727ccd522e1e45",
+        "name": "On Request",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 720,
+        "wires": [
+            [
+                "252ccaf3c85959eb"
+            ]
+        ]
+    },
+    {
+        "id": "7881c3cc25a45267",
+        "type": "debug",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "8f63378217fe3540",
+        "type": "influxdb in",
+        "z": "53727ccd522e1e45",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "query": "SELECT \n    max(\"IMainL1\") as \"L1 [A]\", \n    max(\"IMainL2\") as \"L2 [A]\", \n    max(\"IMainL3\") as \"L3 [A]\", \n    max(\"PwrMainL1\")/1000 as \"L1 [kW]\", \n    max(\"PwrMainL2\")/1000 as \"L2 [kW]\", \n    max(\"PwrMainL3\")/1000 as \"L3 [kW]\" \nFROM \"Energy\"",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "organisation",
+        "x": 450,
+        "y": 780,
+        "wires": [
+            [
+                "a3e8e8fa86aa5820"
+            ]
+        ]
+    },
+    {
+        "id": "a9a4fa36d8760728",
+        "type": "inject",
+        "z": "53727ccd522e1e45",
+        "name": "On Request",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 780,
+        "wires": [
+            [
+                "8f63378217fe3540"
+            ]
+        ]
+    },
+    {
+        "id": "a3e8e8fa86aa5820",
+        "type": "debug",
+        "z": "53727ccd522e1e45",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "6bf576b.0604988",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.2.25",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "e5571c1e.f9dd8",
+        "type": "sqlitedb",
+        "db": "HomeControl.db",
+        "mode": "RWC"
+    },
+    {
+        "id": "373fa459.54e07c",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "HomeControl",
+        "name": "HomeControl",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "",
+        "rejectUnauthorized": false
+    }
+]

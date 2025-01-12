@@ -1,0 +1,428 @@
+[
+    {
+        "id": "24ce1c08.e69594",
+        "type": "tab",
+        "label": "PiZeroW1 Status",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "fc7f44a6.2e34c8",
+        "type": "Memory",
+        "z": "24ce1c08.e69594",
+        "name": "",
+        "x": 420,
+        "y": 220,
+        "wires": [
+            [
+                "e356d2b3.faf54"
+            ]
+        ]
+    },
+    {
+        "id": "46c6ed55.36d5e4",
+        "type": "cpu",
+        "z": "24ce1c08.e69594",
+        "name": "",
+        "x": 430,
+        "y": 160,
+        "wires": [
+            [
+                "5dea2df1.f11994"
+            ]
+        ]
+    },
+    {
+        "id": "e356d2b3.faf54",
+        "type": "function",
+        "z": "24ce1c08.e69594",
+        "name": "Format Data",
+        "func": "var m = msg.payload.memusage;\n\n//msg.payload = {type: 'stats', topic: 'mem', value: m};\n//msg.topic = \"PiZeroW1/Status\";\n//return msg;\n\nglobal.set(\"pzw1Mem\", m);\nreturn;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 650,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6c3bf06b.485af",
+        "type": "inject",
+        "z": "24ce1c08.e69594",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "20",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 180,
+        "wires": [
+            [
+                "46c6ed55.36d5e4",
+                "fc7f44a6.2e34c8"
+            ]
+        ]
+    },
+    {
+        "id": "1ba013b3.33ab1c",
+        "type": "wifiscan",
+        "z": "24ce1c08.e69594",
+        "name": "",
+        "x": 430,
+        "y": 360,
+        "wires": [
+            [
+                "4fe93071.95e79"
+            ]
+        ]
+    },
+    {
+        "id": "4fe93071.95e79",
+        "type": "function",
+        "z": "24ce1c08.e69594",
+        "name": "Format Data",
+        "func": "var obj = msg.payload;\nvar nlev = 0;\nvar slev = \"None\";\nvar ssid = \"Unknown\";\n\nif (obj.length > 0)\n{\n    ssid = obj[0].ssid;\n    nlev = obj[0].signal_level;\n    \n    if (nlev < -70) { slev = \"Weak\" } \n    else if (nlev < -60) { slev = \"Fair\" } \n    else if (nlev <= -50) { slev = \"Good\" } \n    else { slev = \"Excellent\" }\n}\n\n//msg.payload = {type: 'wifi', ssid: ssid, level: slev};\n//msg.topic = \"PiZeroW1/Status\";\n//return msg;\n\nglobal.set(\"pzw1WFiSsid\", ssid);\nglobal.set(\"pzw1WFiLevel\", slev);\nreturn;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 650,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ed0f9f72.a01d6",
+        "type": "exec",
+        "z": "24ce1c08.e69594",
+        "command": "vcgencmd measure_temp",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "GeT CPU Temp",
+        "x": 440,
+        "y": 300,
+        "wires": [
+            [
+                "484261d6.00fcd"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "484261d6.00fcd",
+        "type": "function",
+        "z": "24ce1c08.e69594",
+        "name": "Format Data",
+        "func": "var str = msg.payload;\n//msg.payload = {type: 'cpu_temp', value: str.substring(5,9) + \" °C\"};\n//msg.topic = \"PiZeroW1/Status\";\n//return msg;\n\nglobal.set(\"pzw1CpuTemp\", str.substring(5,9) + \" °C\");\nreturn;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 650,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5dea2df1.f11994",
+        "type": "function",
+        "z": "24ce1c08.e69594",
+        "name": "Format Data",
+        "func": "val = msg.payload;\n\n//msg.payload = {type: 'stats', topic: msg.topic, value: val};\n//msg.topic = \"PiZeroW1/Status\";\n//return msg;\n\nglobal.set(\"pzw1Cpu\", val);\nreturn;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6c43a4f4.6b807c",
+        "type": "comment",
+        "z": "24ce1c08.e69594",
+        "name": "Capture system statistics and put values to global variables",
+        "info": "",
+        "x": 272,
+        "y": 82,
+        "wires": []
+    },
+    {
+        "id": "cb4f75f6.0278f8",
+        "type": "mqtt out",
+        "z": "24ce1c08.e69594",
+        "name": "PiZeroW1/Status",
+        "topic": "PiZeroW1/Status",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "4c8b26e1.23e1f8",
+        "x": 718,
+        "y": 447,
+        "wires": []
+    },
+    {
+        "id": "e6078682.3000d8",
+        "type": "inject",
+        "z": "24ce1c08.e69594",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "20",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payloadType": "date",
+        "x": 171,
+        "y": 446,
+        "wires": [
+            [
+                "f16e8fb8.5b661"
+            ]
+        ]
+    },
+    {
+        "id": "f16e8fb8.5b661",
+        "type": "function",
+        "z": "24ce1c08.e69594",
+        "name": "Get Temp Values from Global var",
+        "func": "var myData = {};\nmyData.pzw1Cpu = global.get('pzw1Cpu');\nmyData.pzw1Mem = global.get('pzw1Mem');\nmyData.pzw1WFiSsid = global.get('pzw1WFiSsid');\nmyData.pzw1WFiLevel = global.get('pzw1WFiLevel');\nmyData.pzw1CpuTemp = global.get('pzw1CpuTemp');\nmsg.payload = myData;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 425,
+        "y": 446,
+        "wires": [
+            [
+                "cb4f75f6.0278f8",
+                "f00e4ca3e1c62276"
+            ]
+        ]
+    },
+    {
+        "id": "d4d45187.a5d21",
+        "type": "inject",
+        "z": "24ce1c08.e69594",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "7200",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "",
+        "topic": "",
+        "payloadType": "date",
+        "x": 171,
+        "y": 328,
+        "wires": [
+            [
+                "1ba013b3.33ab1c",
+                "ed0f9f72.a01d6"
+            ]
+        ]
+    },
+    {
+        "id": "09c94ebbf11d36fb",
+        "type": "exec",
+        "z": "24ce1c08.e69594",
+        "command": "sudo reboot now",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "Exec Reboot",
+        "x": 371,
+        "y": 548,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "b0d97b3507664110",
+        "type": "mqtt in",
+        "z": "24ce1c08.e69594",
+        "name": "PiZeroW1/Reboot",
+        "topic": "PiZeroW1/Reboot",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "4c8b26e1.23e1f8",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 167,
+        "y": 549,
+        "wires": [
+            [
+                "09c94ebbf11d36fb"
+            ]
+        ]
+    },
+    {
+        "id": "f00e4ca3e1c62276",
+        "type": "debug",
+        "z": "24ce1c08.e69594",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "e1048b384b066bf4",
+        "type": "timeout",
+        "z": "24ce1c08.e69594",
+        "name": "Connection timeout",
+        "outtopic": "",
+        "outsafe": "Is Online",
+        "outwarning": "Internet connection Warning ",
+        "outunsafe": "Internet connection Down",
+        "warning": "120",
+        "timer": "300",
+        "repeat": false,
+        "again": false,
+        "x": 491,
+        "y": 708,
+        "wires": [
+            [
+                "10712c76a59e040d"
+            ]
+        ]
+    },
+    {
+        "id": "ab1d93496640b2cd",
+        "type": "is online",
+        "z": "24ce1c08.e69594",
+        "name": "Is Online",
+        "url": "www.google.com",
+        "action": "1",
+        "x": 301,
+        "y": 708,
+        "wires": [
+            [
+                "e1048b384b066bf4"
+            ]
+        ]
+    },
+    {
+        "id": "9cefb23cc8211d91",
+        "type": "inject",
+        "z": "24ce1c08.e69594",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 151,
+        "y": 708,
+        "wires": [
+            [
+                "ab1d93496640b2cd"
+            ]
+        ]
+    },
+    {
+        "id": "10712c76a59e040d",
+        "type": "debug",
+        "z": "24ce1c08.e69594",
+        "name": "Internet Connection Status",
+        "active": true,
+        "tosidebar": false,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 741,
+        "y": 708,
+        "wires": []
+    },
+    {
+        "id": "b9927544850d23bf",
+        "type": "comment",
+        "z": "24ce1c08.e69594",
+        "name": "Internet connection Health",
+        "info": "",
+        "x": 191,
+        "y": 668,
+        "wires": []
+    },
+    {
+        "id": "4c8b26e1.23e1f8",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.2.25",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    }
+]

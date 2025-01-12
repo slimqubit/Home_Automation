@@ -1,0 +1,468 @@
+[
+    {
+        "id": "4c6509c5fd3e268a",
+        "type": "tab",
+        "label": "Embed Grafana graphs",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "ac6a62b5.39975",
+        "type": "ui_button",
+        "z": "4c6509c5fd3e268a",
+        "name": "",
+        "group": "bbc3532f.41ca7",
+        "order": 6,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "24 H",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "24",
+        "payloadType": "num",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 410,
+        "y": 240,
+        "wires": [
+            [
+                "72bd5da5e3595c73"
+            ]
+        ]
+    },
+    {
+        "id": "2352d27e.94005e",
+        "type": "ui_button",
+        "z": "4c6509c5fd3e268a",
+        "name": "",
+        "group": "bbc3532f.41ca7",
+        "order": 5,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "12 H",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "12",
+        "payloadType": "num",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 410,
+        "y": 200,
+        "wires": [
+            [
+                "72bd5da5e3595c73"
+            ]
+        ]
+    },
+    {
+        "id": "5bf0d866.9868c",
+        "type": "ui_button",
+        "z": "4c6509c5fd3e268a",
+        "name": "",
+        "group": "bbc3532f.41ca7",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "1 H",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "1",
+        "payloadType": "num",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 410,
+        "y": 120,
+        "wires": [
+            [
+                "72bd5da5e3595c73"
+            ]
+        ]
+    },
+    {
+        "id": "45bedb8.0b380a4",
+        "type": "ui_button",
+        "z": "4c6509c5fd3e268a",
+        "name": "",
+        "group": "bbc3532f.41ca7",
+        "order": 8,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "Yesterday",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "yesterday",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 420,
+        "y": 320,
+        "wires": [
+            [
+                "72bd5da5e3595c73"
+            ]
+        ]
+    },
+    {
+        "id": "7adc3ee7.b03f6",
+        "type": "ui_template",
+        "z": "4c6509c5fd3e268a",
+        "group": "bbc3532f.41ca7",
+        "name": "Page Got Loaded",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "format": "<script>\n(function() {\n    (function(scope) {\n        scope.send({payload: 6, topic: window.location.host}); // this gets sent when the view is opened in the browser\n    })(scope);\n})();\n</script>",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 170,
+        "y": 200,
+        "wires": [
+            [
+                "76a689da1e151343",
+                "5bf0d866.9868c",
+                "2352d27e.94005e",
+                "ac6a62b5.39975",
+                "556d9df.cb16f64",
+                "45bedb8.0b380a4"
+            ]
+        ]
+    },
+    {
+        "id": "14f5cd67.1fbd6b",
+        "type": "ui_template",
+        "z": "4c6509c5fd3e268a",
+        "group": "bbc3532f.41ca7",
+        "name": "Production vs. Consumption",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "\n<html>\n<iframe id=\"FramePid2\" width=\"620px\" height=\"300px\" style = \"overflow:hidden; margin:auto; border:0px solid green;\"></iframe>\n\n<script>\n//NOTE, more then one chart on a page, rename in the second and following \n//templates the \"myframe\" variable so that every template has a unique name.\n(function(scope) {\n    // watch msg object from Node-RED\n    scope.$watch('msg', function(msg) {\n        // new message received\n        var x = document.getElementById('FramePid2');\n        x.setAttribute('src', msg.payload); \n        });\n})(scope);\n</script>\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 1040,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "aeaaadf4.7dcb",
+        "type": "function",
+        "z": "4c6509c5fd3e268a",
+        "name": "BuildTemplate",
+        "func": "//NOTE, more then one chart on a page, rename in the second and following \n//templates the \"myframe\" variable so that every template has a unique name.\n\npanelid=2\n\nvar str = msg.topic;\nstr = str.replace(\"8000\", \"3000\");\nstr = str.replace(\"1880\", \"3000\");\n\nmsg.payload= \"http://\"+str+\"/d-solo/bg63uDRRz/main-energy?orgId=1\"+\n\"&refresh=30s\"+\n\"&theme=dark\"+\n\"&from=\"+ msg.fromdate +\n\"&to=\"+ msg.enddate +\n\"&panelId=\"+panelid\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 160,
+        "wires": [
+            [
+                "14f5cd67.1fbd6b"
+            ]
+        ]
+    },
+    {
+        "id": "556d9df.cb16f64",
+        "type": "ui_button",
+        "z": "4c6509c5fd3e268a",
+        "name": "",
+        "group": "bbc3532f.41ca7",
+        "order": 7,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "Today",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "today",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 410,
+        "y": 280,
+        "wires": [
+            [
+                "72bd5da5e3595c73"
+            ]
+        ]
+    },
+    {
+        "id": "76a689da1e151343",
+        "type": "ui_button",
+        "z": "4c6509c5fd3e268a",
+        "name": "",
+        "group": "bbc3532f.41ca7",
+        "order": 4,
+        "width": "2",
+        "height": "1",
+        "passthru": true,
+        "label": "6 H",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "6",
+        "payloadType": "num",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 410,
+        "y": 160,
+        "wires": [
+            [
+                "72bd5da5e3595c73"
+            ]
+        ]
+    },
+    {
+        "id": "b3a94f6de7294b1b",
+        "type": "comment",
+        "z": "4c6509c5fd3e268a",
+        "name": "On page loaded set the time ragne to last 6 hours",
+        "info": "",
+        "x": 240,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "b2c3729bba308803",
+        "type": "function",
+        "z": "4c6509c5fd3e268a",
+        "name": "BuildTemplate",
+        "func": "//NOTE, more then one chart on a page, rename in the second and following \n//templates the \"myframe\" variable so that every template has a unique name.\n\npanelid=10\n\nvar str = msg.topic;\nstr = str.replace(\"8000\", \"3000\");\nstr = str.replace(\"1880\", \"3000\");\n\nmsg.payload= \"http://\"+str+\"/d-solo/bg63uDRRz/main-energy?orgId=1\"+\n\"&refresh=30s\"+\n\"&theme=dark\"+\n\"&from=\"+ msg.fromdate +\n\"&to=\"+ msg.enddate +\n\"&panelId=\"+panelid\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 200,
+        "wires": [
+            [
+                "fd62dcdc4b781539"
+            ]
+        ]
+    },
+    {
+        "id": "fd62dcdc4b781539",
+        "type": "ui_template",
+        "z": "4c6509c5fd3e268a",
+        "group": "bbc3532f.41ca7",
+        "name": "Main Consumers",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "\n<html>\n<iframe id=\"FramePid10\" width=\"620px\" height=\"300px\" style = \"overflow:hidden; margin:auto; border:0px solid green;\"></iframe>\n\n<script>\n//NOTE, more then one chart on a page, rename in the second and following \n//templates the \"myframe\" variable so that every template has a unique name.\n(function(scope) {\n    // watch msg object from Node-RED\n    scope.$watch('msg', function(msg) {\n        // new message received\n        var x = document.getElementById('FramePid10');\n        x.setAttribute('src', msg.payload); \n        });\n})(scope);\n</script>\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 1010,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "380df11394d5c421",
+        "type": "function",
+        "z": "4c6509c5fd3e268a",
+        "name": "BuildTemplate",
+        "func": "//NOTE, more then one chart on a page, rename in the second and following \n//templates the \"myframe\" variable so that every template has a unique name.\n\npanelid=12\n\nvar str = msg.topic;\nstr = str.replace(\"8000\", \"3000\");\nstr = str.replace(\"1880\", \"3000\");\n\nmsg.payload= \"http://\"+str+\"/d-solo/bg63uDRRz/main-energy?orgId=1\"+\n\"&refresh=30s\"+\n\"&theme=dark\"+\n\"&from=\"+ msg.fromdate +\n\"&to=\"+ msg.enddate +\n\"&panelId=\"+panelid\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 240,
+        "wires": [
+            [
+                "d44cbf49d139fd94"
+            ]
+        ]
+    },
+    {
+        "id": "d44cbf49d139fd94",
+        "type": "ui_template",
+        "z": "4c6509c5fd3e268a",
+        "group": "bbc3532f.41ca7",
+        "name": "Import vs Export",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "\n<html>\n<iframe id=\"FramePid12\" width=\"620px\" height=\"300px\" style = \"overflow:hidden; margin:auto; border:0px solid green;\"></iframe>\n\n<script>\n//NOTE, more then one chart on a page, rename in the second and following \n//templates the \"myframe\" variable so that every template has a unique name.\n(function(scope) {\n    // watch msg object from Node-RED\n    scope.$watch('msg', function(msg) {\n        // new message received\n        var x = document.getElementById('FramePid12');\n        x.setAttribute('src', msg.payload); \n        });\n})(scope);\n</script>\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 1000,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ad7eee1615af220a",
+        "type": "comment",
+        "z": "4c6509c5fd3e268a",
+        "name": "Graphs to be shown on embedded frame",
+        "info": "",
+        "x": 880,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "72bd5da5e3595c73",
+        "type": "function",
+        "z": "4c6509c5fd3e268a",
+        "name": "Merge",
+        "func": "var p_1h = 1000 * 60 * 60;\nvar p_6h  =  6 * p_1h;\nvar p_12h = 12 * p_1h;\nvar p_24h = 24 * p_1h;\n\nvar d = new Date();\nvar current = d.getTime();\nvar today0h = d.setHours(0,0,0,0);\nmsg.enddate = current;\n\n\nswitch (msg.payload)\n{\n    case 1:\n        msg.fromdate = current - p_1h;\n        break;\n\n    case 6:\n        msg.fromdate = current - p_6h;\n        break;\n\n    case 12:\n        msg.fromdate = current - p_12h;\n        break;\n\n    case 24:\n        msg.fromdate = current - p_24h;\n        break;\n\n    case \"today\":\n        msg.fromdate = today0h;\n        break;\n\n    case \"yesterday\":\n        msg.fromdate = today0h - p_24h;\n        msg.enddate = today0h;\n        break;\n\n    \n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 200,
+        "wires": [
+            [
+                "aeaaadf4.7dcb",
+                "b2c3729bba308803",
+                "380df11394d5c421",
+                "5ef0f5a81e8a5bef"
+            ]
+        ]
+    },
+    {
+        "id": "5ef0f5a81e8a5bef",
+        "type": "debug",
+        "z": "4c6509c5fd3e268a",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "04110d6d592017f4",
+        "type": "openweathermap",
+        "z": "4c6509c5fd3e268a",
+        "name": "",
+        "wtype": "current",
+        "lon": "",
+        "lat": "",
+        "city": "Rasnov",
+        "country": "Brasov",
+        "language": "ro",
+        "x": 360,
+        "y": 400,
+        "wires": [
+            [
+                "e82a9d80748fa052"
+            ]
+        ]
+    },
+    {
+        "id": "c2d7d8c902096ff2",
+        "type": "inject",
+        "z": "4c6509c5fd3e268a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 400,
+        "wires": [
+            [
+                "04110d6d592017f4"
+            ]
+        ]
+    },
+    {
+        "id": "e82a9d80748fa052",
+        "type": "debug",
+        "z": "4c6509c5fd3e268a",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "bbc3532f.41ca7",
+        "type": "ui_group",
+        "name": "Energy Data",
+        "tab": "1ff97cd4.681d5b",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1ff97cd4.681d5b",
+        "type": "ui_tab",
+        "name": "Energy Charts",
+        "icon": "assessment",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    }
+]

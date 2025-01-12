@@ -1,0 +1,343 @@
+[
+    {
+        "id": "b8112e25f984f6d0",
+        "type": "tab",
+        "label": "Relays Section",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "f24307bd2823bf48",
+        "type": "mcp23008",
+        "z": "b8112e25f984f6d0",
+        "name": "MCP23008 (0x22)",
+        "topic": "HeatControl/Set1",
+        "address": "0x22",
+        "bus": "1",
+        "reverse": true,
+        "x": 870,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4e4b7f1ab1fda27a",
+        "type": "status",
+        "z": "b8112e25f984f6d0",
+        "name": "",
+        "scope": null,
+        "x": 520,
+        "y": 80,
+        "wires": [
+            [
+                "6fbaa2c7453793a8",
+                "961a69e136fcebee"
+            ]
+        ]
+    },
+    {
+        "id": "bbf35ca799fef831",
+        "type": "inject",
+        "z": "b8112e25f984f6d0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 680,
+        "y": 140,
+        "wires": [
+            [
+                "db1b061555678afd"
+            ]
+        ]
+    },
+    {
+        "id": "310d0bd55e539d9a",
+        "type": "debug",
+        "z": "b8112e25f984f6d0",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "6fbaa2c7453793a8",
+        "type": "change",
+        "z": "b8112e25f984f6d0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "Relay0State",
+                "pt": "global",
+                "to": "status.text",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "db1b061555678afd",
+        "type": "change",
+        "z": "b8112e25f984f6d0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Relay0State",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 870,
+        "y": 140,
+        "wires": [
+            [
+                "310d0bd55e539d9a"
+            ]
+        ]
+    },
+    {
+        "id": "961a69e136fcebee",
+        "type": "debug",
+        "z": "b8112e25f984f6d0",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "2580a751ca31fe84",
+        "type": "mqtt in",
+        "z": "b8112e25f984f6d0",
+        "name": "PiZeroW2/Relays/Set1",
+        "topic": "PiZeroW2/Relays/Set1",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "4c8b26e1.23e1f8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 280,
+        "y": 300,
+        "wires": [
+            [
+                "bd0db801cd4faa10",
+                "5e82e0559bad3961"
+            ]
+        ]
+    },
+    {
+        "id": "a8fc9173cb04021e",
+        "type": "function",
+        "z": "b8112e25f984f6d0",
+        "name": "",
+        "func": "\nreturn msg.payload;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 300,
+        "wires": [
+            [
+                "f24307bd2823bf48",
+                "c56e9d190d795fed"
+            ]
+        ]
+    },
+    {
+        "id": "bd0db801cd4faa10",
+        "type": "json",
+        "z": "b8112e25f984f6d0",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 490,
+        "y": 300,
+        "wires": [
+            [
+                "a8fc9173cb04021e"
+            ]
+        ]
+    },
+    {
+        "id": "6ada442a391bddd0",
+        "type": "mcp23008",
+        "z": "b8112e25f984f6d0",
+        "name": "MCP23008 (0x23)",
+        "topic": "HeatControl/Set2",
+        "address": "0x23",
+        "bus": "1",
+        "reverse": true,
+        "x": 870,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "02256a2f1fc8cc2a",
+        "type": "mqtt in",
+        "z": "b8112e25f984f6d0",
+        "name": "PiZeroW2/Relays/Set2",
+        "topic": "PiZeroW2/Relays/Set2",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "4c8b26e1.23e1f8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 280,
+        "y": 360,
+        "wires": [
+            [
+                "517af380b5e3251a",
+                "5e82e0559bad3961"
+            ]
+        ]
+    },
+    {
+        "id": "502e426701b0aac2",
+        "type": "function",
+        "z": "b8112e25f984f6d0",
+        "name": "",
+        "func": "\nreturn msg.payload;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 360,
+        "wires": [
+            [
+                "6ada442a391bddd0",
+                "c56e9d190d795fed"
+            ]
+        ]
+    },
+    {
+        "id": "517af380b5e3251a",
+        "type": "json",
+        "z": "b8112e25f984f6d0",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 490,
+        "y": 360,
+        "wires": [
+            [
+                "502e426701b0aac2"
+            ]
+        ]
+    },
+    {
+        "id": "5e82e0559bad3961",
+        "type": "debug",
+        "z": "b8112e25f984f6d0",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "c56e9d190d795fed",
+        "type": "debug",
+        "z": "b8112e25f984f6d0",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "4c8b26e1.23e1f8",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.2.25",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    }
+]

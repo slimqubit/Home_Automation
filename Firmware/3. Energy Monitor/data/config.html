@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+	body {
+		font-family: 'Segoe UI', Arial, sans-serif;
+		font-size: 16px;
+		color: #3b4351;
+	}
+	.navbar {
+		font-family: Arial, Helvetica, sans-serif;
+		width: 100%;
+		background-color: #555;
+		overflow: auto;
+		text-align:center;
+		list-style:none;
+	}
+	.navbar li{
+		display:inline;
+	}
+	.navbar a {
+		text-align: center;
+		padding: 12px;
+		color: white;
+		text-decoration: none;
+		font-size: 20px;
+		display:inline-block;
+	}
+	.navbar a:hover {
+		background-color: #000;
+	}
+	.navbar a.active {
+		background-color: #04AA6D;
+	}
+	.btn,
+	.file-input::file-selector-button {
+		border: 0.05rem solid #4f4f4f;
+		color: black;
+		padding: 6px 24px;
+		font-size: 1rem;
+		cursor: pointer;
+		border-radius: 0.2rem;
+		background-color: #efefef;
+		height: 1.92rem;
+	}
+	.btn:hover,
+	.file-input::file-selector-button:hover {
+		background-color: #e5e5e5;
+	}
+	input[type="text"], input[type="password"]{
+		width: calc(100% - 10px);
+		padding: 6px 4px;
+		font-size: 15px;
+		border: 0.05rem solid #bcc3ce;
+		border-radius: 0.2rem;
+		resize: vertical;
+	}
+	input[type="text"]:focus, input[type="password"]:focus{
+		outline: none;
+		box-shadow: 0px 0px 5px #61C5FA;
+		border:1px solid #5AB0DB;
+	}
+	input[type="text"]:hover, input[type="password"]:hover{
+		border: 1px solid #999;
+		border-radius: 0.2rem;
+	}
+	input[type="text"]:focus:hover, input[type="password"]:focus:hover{
+		outline: none;
+		box-shadow: 0px 0px 5px #61C5FA;
+		border:1px solid #5AB0DB;
+		border-radius:0;
+	} 
+	label {
+		padding: 6px 4px;
+		display: inline-block;
+	}
+	.file-input::file-selector-button {
+		margin-right: 1rem;
+	}
+	.form-input {
+		background: #fff;
+		background-image: none;
+		border: 0.05rem solid #bcc3ce;
+		border-radius: 0.2rem;
+		font-size: 16px;
+		display: block;
+		width: 28.6rem;
+		line-height: 1.2rem;
+		max-width: 100%;
+		outline: none;
+		position: relative;
+	}
+	progress {
+		width: 36em;
+	}
+	.vinfo {
+		font-size:12px;
+		margin: 6px 10px;
+		display:inline-block;
+	}
+	.landing {
+		width: 100%;
+		text-align: center;
+		overflow: auto;
+		text-align:center;
+		list-style:none;
+		/* border: 1px dashed #222; */
+	}
+	.container {
+		width: 36rem;
+		text-align: left;
+		display:inline-block;
+		/* border: 1px dashed #55f; */
+	}
+	.left {
+		overflow: hidden;
+		min-height: 20px;
+		margin-top: 0.3rem;
+		margin-bottom: 0.3rem;
+		/* border: 1px dashed #f0f; */
+	}
+	.right {
+		float: right;
+		width: 6.4rem;
+		min-height: 20px;
+		margin-left: 10px;
+		margin-bottom: 0.3rem;
+		/* border: 1px dashed #00f; */
+	}
+	@media screen and (max-width: 400px) {
+		.navbar a {
+			float: none;
+			display: block;
+		}
+	}
+</style>
+</head>
+<body>
+<div class="navbar">
+  <a href="status"><i class="fa fa-fw fa-info"></i> Status/Information</a> 
+  <a href="data"><i class="fa fa-fw fa-bar-chart"></i> Live Data</a> 
+  <a class="active" href="config"><i class="fa fa-fw fa-edit"></i> Device Configuration</a> 
+  <a href="log"><i class="fa fa-fw fa-list"></i> Log</a> 
+  <a href="update"><i class="fa fa-fw fa-retweet"></i> Update</a>
+</div>
+<div class='landing'><div class='container' style='width:816px; padding:0px 16px'>
+	<form method='POST' enctype='multipart/form-data' id='frmUpload'>
+	<h2>Device configuration</h2>
+		
+	  <div class='right' style="width:120px"><input type="password" id="ssidpwd" name="ssidpwd" placeholder="WiFi password.."></div>
+      <div class='right' style="width:120px; margin-left: 24px"><label for="ssidpwd">WiFi password</label></div>
+      <div class='right' style="width:310px"><input type="text" id="ssid" name="ssid" placeholder="Your WiFi network name.."></div>
+      <div class='left'><label for="ssid">WiFi Network Name (SSID)</label></div> 
+      <div class='left' style="min-height:8px"></div>
+
+      <div class='right' style="width:200px"><input type="text" id="hostname" name="hostname" placeholder="Your device hostname.."></div>
+      <div class='right' style="width:180px; margin-left: 24px"><label for="hostname">Device hostname</label></div>
+      <div class='right' style="width:200px"><input type="text" id="ip_addr" name="ip_addr" placeholder="Your Ip address.."></div>
+      <div class='left'><label for="ip_addr">IP Address</label></div>
+
+      <div class='right' style="width:200px"></div>
+      <div class='right' style="width:180px; margin-left: 24px"></div>
+      <div class='right' style="width:200px"><input type="text" id="ip_mask" name="ip_mask" placeholder="Your subnet mask.."></div>
+      <div class='left'><label for="ip_mask">Subnet Mask</label></div>
+
+      <div class='right' style="width:200px"><input type="text" id="mqtt_srv" name="mqtt_srv" placeholder=""></div>
+      <div class='right' style="width:140px; margin-left: 64px"><label for="mqtt_srv">MQTT Server</label></div>
+      <div class='right' style="width:200px"><input type="text" id="ip_getw" name="ip_getw" placeholder="Your default gateway.."></div>
+      <div class='left'><label for="ip_getw">Default Gateway</label></div>
+      
+      <div class='right' style="width:80px; margin-right: 120px"><input type="text" id="mqtt_port" name="mqtt_port" placeholder=""></div>
+      <div class='right' style="width:140px; margin-left: 64px"><label for="mqtt_port">MQTT Port</label></div>
+      <div class='right' style="width:200px"><input type="text" id="ip_dns1" name="ip_dns1" placeholder="Your preferred DNS server.."></div>
+      <div class='left'><label for="ip_dns1">Preferred DNS server</label></div>
+      
+      <div class='right' style="width:80px; margin-right: 120px"><input type="text" id="http_port" name="http_port" placeholder=""></div>
+      <div class='right' style="width:140px; margin-left: 64px"><label for="http_port">HTTP Port</label></div>
+      <div class='right' style="width:200px"><input type="text" id="ip_dns2" name="ip_dns2" placeholder="Your alternate DNS server.."></div>
+      <div class='left'><label for="ip_dns2">Alternate DNS server</label></div>
+      <div class='left' style="min-height:8px"></div>
+
+      <div class='right' style="width:110px"><input type="text" id="lbct1.3" name="lbct1.3" placeholder="Phase L3 label.."></div>
+	  <div class='right' style="width:110px"><input type="text" id="lbct1.2" name="lbct1.2" placeholder="Phase L2 label.."></div>
+      <div class='right' style="width:110px"><input type="text" id="lbct1.1" name="lbct1.1" placeholder="Phase L1 label.."></div>
+      <div class='right' style="width:46px; margin-left: 24px"><label for="lbct1">Labels</label></div>
+	  <div class='right' style="width:60px; margin-left: 4px;"><input type="text" id="ical1" name="ical1" placeholder="I.calib..."></div>
+      <div class='right' style="width:84px; margin-left: 24px"><label for="ical1">Calibration</label></div>
+      <div class='left'><input type="checkbox" id="cksg1" onclick="myFunction()" style="width:15px;height:15px;vertical-align:text-bottom;"><label for="cksg1">Current Sensors Group 1</label></div> 
+
+      <div class='right' style="width:110px"><input type="text" id="lbct2.3" name="lbct2.3" placeholder="Phase L3 label.."></div>
+	  <div class='right' style="width:110px"><input type="text" id="lbct2.2" name="lbct2.2" placeholder="Phase L2 label.."></div>
+      <div class='right' style="width:110px"><input type="text" id="lbct2.1" name="lbct2.1" placeholder="Phase L1 label.."></div>
+      <div class='right' style="width:46px; margin-left: 24px"><label for="lbct2">Labels</label></div>
+	  <div class='right' style="width:60px; margin-left: 4px;"><input type="text" id="ical2" name="ical2" placeholder="I.calib..."></div>
+      <div class='right' style="width:84px; margin-left: 24px"><label for="ical2">Calibration</label></div>
+      <div class='left'><input type="checkbox" id="cksg2" onclick="myFunction()" style="width:15px;height:15px;vertical-align:text-bottom;"><label for="cksg2">Current Sensors Group 2</label></div> 
+
+      <div class='right' style="width:110px"><input type="text" id="lbct3.3" name="lbct3.3" placeholder="Phase L3 label.."></div>
+	  <div class='right' style="width:110px"><input type="text" id="lbct3.2" name="lbct3.2" placeholder="Phase L2 label.."></div>
+      <div class='right' style="width:110px"><input type="text" id="lbct3.1" name="lbct3.1" placeholder="Phase L1 label.."></div>
+      <div class='right' style="width:46px; margin-left: 24px"><label for="lbct3">Labels</label></div>
+	  <div class='right' style="width:60px; margin-left: 4px;"><input type="text" id="ical3" name="ical3" placeholder="I.calib..."></div>
+      <div class='right' style="width:84px; margin-left: 24px"><label for="ical3">Calibration</label></div>
+      <div class='left'><input type="checkbox" id="cksg3" onclick="myFunction()" style="width:15px;height:15px;vertical-align:text-bottom;"><label for="cksg3">Current Sensors Group 3</label></div> 
+
+      <div class='right' style="width:110px"><input type="text" id="lbct4.3" name="lbct4.3" placeholder="Phase L3 label.."></div>
+	  <div class='right' style="width:110px"><input type="text" id="lbct4.2" name="lbct4.2" placeholder="Phase L2 label.."></div>
+      <div class='right' style="width:110px"><input type="text" id="lbct4.1" name="lbct4.1" placeholder="Phase L1 label.."></div>
+      <div class='right' style="width:46px; margin-left: 24px"><label for="lbct4">Labels</label></div>
+	  <div class='right' style="width:60px; margin-left: 4px;"><input type="text" id="ical4" name="ical4" placeholder="I.calib..."></div>
+      <div class='right' style="width:84px; margin-left: 24px"><label for="ical4">Calibration</label></div>
+      <div class='left'><input type="checkbox" id="cksg4" onclick="myFunction()" style="width:15px;height:15px;vertical-align:text-bottom;"><label for="cksg4">Current Sensors Group 4</label></div> 
+
+      <div class='right' style="width:110px"><input type="text" id="lbct5.3" name="lbct5.3" placeholder="Phase L3 label.."></div>
+	  <div class='right' style="width:110px"><input type="text" id="lbct5.2" name="lbct5.2" placeholder="Phase L2 label.."></div>
+      <div class='right' style="width:110px"><input type="text" id="lbct5.1" name="lbct5.1" placeholder="Phase L1 label.."></div>
+      <div class='right' style="width:46px; margin-left: 24px"><label for="lbct5">Labels</label></div>
+	  <div class='right' style="width:60px; margin-left: 4px;"><input type="text" id="ical5" name="ical5" placeholder="I.calib..."></div>
+      <div class='right' style="width:84px; margin-left: 24px"><label for="ical5">Calibration</label></div>
+      <div class='left'><input type="checkbox" id="cksg5" onclick="myFunction()" style="width:15px;height:15px;vertical-align:text-bottom;"><label for="cksg5">Current Sensors Group 5</label></div> 
+
+      <div class='right' style="width:110px"><input type="text" id="lbct6.3" name="lbct6.3" placeholder="Phase L3 label.."></div>
+	  <div class='right' style="width:110px"><input type="text" id="lbct6.2" name="lbct6.2" placeholder="Phase L2 label.."></div>
+      <div class='right' style="width:110px"><input type="text" id="lbct6.1" name="lbct6.1" placeholder="Phase L1 label.."></div>
+      <div class='right' style="width:46px; margin-left: 24px"><label for="lbct6">Labels</label></div>
+	  <div class='right' style="width:60px; margin-left: 4px;"><input type="text" id="ical6" name="ical6" placeholder="I.calib..."></div>
+      <div class='right' style="width:84px; margin-left: 24px"><label for="ical6">Calibration</label></div>
+      <div class='left'><input type="checkbox" id="cksg6" onclick="myFunction()" style="width:15px;height:15px;vertical-align:text-bottom;"><label for="cksg6">Current Sensors Group 6</label></div> 
+
+      <div class='left' style="min-height:12px"></div>
+	  <div class='right' style="width:200px"><input type='submit' id='btnSave' value='Apply configuration' class='btn' style='float: right;'></div>
+  
+		<div class='left' style='text-align: center;'>
+         <svg id='UDCSuccess' width='32px' height='32px' style='vertical-align: middle; display: none;' viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+            <g stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'>
+               <rect id='bound' x='0' y='0' width='24' height='24'></rect>
+               <circle id='Oval-5' fill='#42BA96' opacity='0.3' cx='12' cy='12' r='10'></circle>
+               <path d='M16.7689447,7.81768175 C17.1457787,7.41393107 17.7785676,7.39211077 18.1823183,7.76894473 C18.5860689,8.1457787 18.6078892,8.77856757 18.2310553,9.18231825 L11.2310553,16.6823183 C10.8654446,17.0740439 10.2560456,17.107974 9.84920863,16.7592566 L6.34920863,13.7592566 C5.92988278,13.3998345 5.88132125,12.7685345 6.2407434,12.3492086 C6.60016555,11.9298828 7.23146553,11.8813212 7.65079137,12.2407434 L10.4229928,14.616916 L16.7689447,7.81768175 Z' id='Path-92' fill='#42BA96'></path>
+            </g>
+         </svg>
+         <svg id='UDCError' width='32px' height='32px' style='vertical-align: middle; display: none;' viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+            <g stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'>
+               <rect id='bound' x='0' y='0' width='24' height='24'></rect>
+               <circle id='Oval-5' fill='#DF4759' opacity='0.3' cx='12' cy='12' r='10'></circle>
+               <rect id='Rectangle-9' fill='#DF4759' x='11' y='7' width='2' height='8' rx='1'></rect>
+               <rect id='Rectangle-9-Copy' fill='#DF4759' x='11' y='16' width='2' height='2' rx='1'></rect>
+            </g>
+         </svg>
+         <span id='lbUDCInfo' style='vertical-align: middle; display: none;'> {{UDCInfo}} </span>
+      </div>
+
+
+	  
+	</form>  
+   	<div class='left' style='display: block; background: #fdfdfd; margin-top: 2rem; border-top: 1px solid #ddd;'><div style='text-align:center;'>
+		<label id='lbDI1' class='vinfo'></label>
+		<label id='lbDI2' class='vinfo'></label>
+		<label id='lbDI3' class='vinfo'></label>
+	</div></div>
+</div></div>
+<script>
+	getDeviceConfig();
+	getDeviceInfo();
+	
+	var lbDI1 = document.getElementById('lbDI1');
+	var lbDI2 = document.getElementById('lbDI2');
+	var lbDI3 = document.getElementById('lbDI3');
+		
+	const element = document.querySelector('form');
+    element.addEventListener('submit', event => {
+        event.preventDefault();
+        setDeviceConfig(event);
+    });
+	
+	function getDeviceInfo() {
+		var obj = {};
+		fetch('/device/info')
+			.then(res => res.json())
+			.then((obj) => {
+				lbDI1.innerHTML = obj.hardware;
+				lbDI2.innerHTML = obj.hostname;
+				lbDI3.innerHTML = obj.appver;
+		}).catch();	
+	}
+
+	function getDeviceConfig() {
+		var obj = {};
+		fetch('/device/configfile')
+			.then(res => res.json())
+			.then((obj) => {
+				const { elements } = document.querySelector('form')
+				for (const [ key, value ] of Object.entries(obj) ) {
+					const field = elements.namedItem(key)
+					field && (field.value = value)
+				}
+				document.getElementById('cksg1').checked  = obj.sgroup1.enabled;
+				document.getElementById('cksg2').checked  = obj.sgroup2.enabled;
+				document.getElementById('cksg3').checked  = obj.sgroup3.enabled;
+				document.getElementById('cksg4').checked  = obj.sgroup4.enabled;
+				document.getElementById('cksg5').checked  = obj.sgroup5.enabled;
+				document.getElementById('cksg6').checked  = obj.sgroup6.enabled;
+
+				document.getElementById('ical1').value = obj.sgroup1.icalib;
+				document.getElementById('ical2').value = obj.sgroup2.icalib;
+				document.getElementById('ical3').value = obj.sgroup3.icalib;
+				document.getElementById('ical4').value = obj.sgroup4.icalib;
+				document.getElementById('ical5').value = obj.sgroup5.icalib;
+				document.getElementById('ical6').value = obj.sgroup6.icalib;
+
+				document.getElementById('lbct1.1').value = obj.sgroup1.lbct1;
+				document.getElementById('lbct1.2').value = obj.sgroup1.lbct2;
+				document.getElementById('lbct1.3').value = obj.sgroup1.lbct3;
+				document.getElementById('lbct2.1').value = obj.sgroup2.lbct1;
+				document.getElementById('lbct2.2').value = obj.sgroup2.lbct2;
+				document.getElementById('lbct2.3').value = obj.sgroup2.lbct3;
+				document.getElementById('lbct3.1').value = obj.sgroup3.lbct1;
+				document.getElementById('lbct3.2').value = obj.sgroup3.lbct2;
+				document.getElementById('lbct3.3').value = obj.sgroup3.lbct3;
+				document.getElementById('lbct4.1').value = obj.sgroup4.lbct1;
+				document.getElementById('lbct4.2').value = obj.sgroup4.lbct2;
+				document.getElementById('lbct4.3').value = obj.sgroup4.lbct3;
+				document.getElementById('lbct5.1').value = obj.sgroup5.lbct1;
+				document.getElementById('lbct5.2').value = obj.sgroup5.lbct2;
+				document.getElementById('lbct5.3').value = obj.sgroup5.lbct3;
+				document.getElementById('lbct6.1').value = obj.sgroup6.lbct1;
+				document.getElementById('lbct6.2').value = obj.sgroup6.lbct2;
+				document.getElementById('lbct6.3').value = obj.sgroup6.lbct3;
+		}).catch();	
+	}
+	
+	function setDeviceConfig() {
+		var obj = {};
+		
+		obj['hostname']  = document.getElementById('hostname').value;
+		obj['ssid']      = document.getElementById('ssid').value;
+		obj['ssidpwd']   = document.getElementById('ssidpwd').value;
+		obj['ip_addr']   = document.getElementById('ip_addr').value;
+		obj['ip_mask']   = document.getElementById('ip_mask').value;
+		obj['ip_getw']   = document.getElementById('ip_getw').value;
+		obj['ip_dns1']   = document.getElementById('ip_dns1').value;
+		obj['ip_dns2']   = document.getElementById('ip_dns2').value;
+		obj['mqtt_srv']  = document.getElementById('mqtt_srv').value;
+		obj["mqtt_port"] = parseInt(document.getElementById('mqtt_port').value);
+		obj["http_port"] = parseInt(document.getElementById('http_port').value);
+
+        obj['sgroup1'] = {};
+        obj['sgroup2'] = {};
+        obj['sgroup3'] = {};
+        obj['sgroup4'] = {};
+        obj['sgroup5'] = {};
+        obj['sgroup6'] = {};
+		obj['sgroup1']['enabled'] = document.getElementById('cksg1').checked;
+		obj['sgroup2']['enabled'] = document.getElementById('cksg2').checked;
+		obj['sgroup3']['enabled'] = document.getElementById('cksg3').checked;
+		obj['sgroup4']['enabled'] = document.getElementById('cksg4').checked;
+		obj['sgroup5']['enabled'] = document.getElementById('cksg5').checked;
+		obj['sgroup6']['enabled'] = document.getElementById('cksg6').checked;
+		
+		obj['sgroup1']['icalib'] = parseFloat(document.getElementById('ical1').value);
+		obj['sgroup2']['icalib'] = parseFloat(document.getElementById('ical2').value);
+		obj['sgroup3']['icalib'] = parseFloat(document.getElementById('ical3').value);
+		obj['sgroup4']['icalib'] = parseFloat(document.getElementById('ical4').value);
+		obj['sgroup5']['icalib'] = parseFloat(document.getElementById('ical5').value);
+		obj['sgroup6']['icalib'] = parseFloat(document.getElementById('ical6').value);
+		
+		obj['sgroup1']['lbct1'] = document.getElementById('lbct1.1').value;
+		obj['sgroup1']['lbct2'] = document.getElementById('lbct1.2').value;
+		obj['sgroup1']['lbct3'] = document.getElementById('lbct1.3').value;
+		obj['sgroup2']['lbct1'] = document.getElementById('lbct2.1').value;
+		obj['sgroup2']['lbct2'] = document.getElementById('lbct2.2').value;
+		obj['sgroup2']['lbct3'] = document.getElementById('lbct2.3').value;
+		obj['sgroup3']['lbct1'] = document.getElementById('lbct3.1').value;
+		obj['sgroup3']['lbct2'] = document.getElementById('lbct3.2').value;
+		obj['sgroup3']['lbct3'] = document.getElementById('lbct3.3').value;
+		obj['sgroup4']['lbct1'] = document.getElementById('lbct4.1').value;
+		obj['sgroup4']['lbct2'] = document.getElementById('lbct4.2').value;
+		obj['sgroup4']['lbct3'] = document.getElementById('lbct4.3').value;
+		obj['sgroup5']['lbct1'] = document.getElementById('lbct5.1').value;
+		obj['sgroup5']['lbct2'] = document.getElementById('lbct5.2').value;
+		obj['sgroup5']['lbct3'] = document.getElementById('lbct5.3').value;
+		obj['sgroup6']['lbct1'] = document.getElementById('lbct6.1').value;
+		obj['sgroup6']['lbct2'] = document.getElementById('lbct6.2').value;
+		obj['sgroup6']['lbct3'] = document.getElementById('lbct6.3').value;
+
+        var json = JSON.stringify(obj);
+		var formData = new FormData();
+		formData.append('new_data_config', json);
+        
+		var request = new XMLHttpRequest();
+        request.addEventListener('load', (function() {
+			ShowUDCStatus(200 === request.status, request.responseText);
+        }));
+		
+		request.open('post', '/config');
+		request.send(formData);
+    }
+
+	function ShowUDCStatus(bOk, msg) {
+		var iName;
+		if (bOk) { iName = "UDCSuccess"; } else { iName = "UDCError"; };
+		document.getElementById('lbUDCInfo').innerHTML = msg;
+		document.getElementById(iName).style.display = 'inline-block';
+		document.getElementById('lbUDCInfo').style.display = 'inline-block';
+		setTimeout(function(){
+			document.getElementById(iName).style.display = 'none';
+			document.getElementById('lbUDCInfo').style.display = 'none';
+         }, 5000);
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,1793 @@
+[
+    {
+        "id": "2897d003.78d0a",
+        "type": "tab",
+        "label": "Relays section",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "bbf3a3a3.d3ded",
+        "type": "debug",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "payload",
+        "x": 1250,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "8e94dc3c.53372",
+        "type": "ui_switch",
+        "z": "2897d003.78d0a",
+        "name": "Relay 1 - Garden Lights",
+        "label": "Garden Lights",
+        "tooltip": "",
+        "group": "2a8bf519.1f58ea",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "BaseStation/Relays/1",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 410,
+        "y": 160,
+        "wires": [
+            [
+                "0296d29a865c050b"
+            ]
+        ]
+    },
+    {
+        "id": "1696d1e5.dc7c6e",
+        "type": "ui_switch",
+        "z": "2897d003.78d0a",
+        "name": "Relay 5 - Garden Springlers",
+        "label": "Garden Springlers",
+        "tooltip": "",
+        "group": "2a8bf519.1f58ea",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "BaseStation/Relays/5",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 420,
+        "y": 220,
+        "wires": [
+            [
+                "0296d29a865c050b"
+            ]
+        ]
+    },
+    {
+        "id": "fc670a12.2837a8",
+        "type": "ui_switch",
+        "z": "2897d003.78d0a",
+        "d": true,
+        "name": "Relay 2 - Christmas Lights",
+        "label": "Christmas Lights",
+        "tooltip": "",
+        "group": "2a8bf519.1f58ea",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "BaseStation/Relays/2",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 420,
+        "y": 280,
+        "wires": [
+            [
+                "0296d29a865c050b"
+            ]
+        ]
+    },
+    {
+        "id": "3cb5540d.7b92fc",
+        "type": "comment",
+        "z": "2897d003.78d0a",
+        "name": "MCP2300 Data",
+        "info": "[{\"id\":\"be41994.5e56368\",\"type\":\"mcp23008\",\"z\":\"7bdd12a2.8a06ac\",\"name\":\"MCP23008 UniPi (0x20)\",\"topic\":\"relays/unipi-board\",\"address\":\"0x20\",\"bus\":\"1\",\"reverse\":true,\"x\":919,\"y\":346,\"wires\":[[]]}]",
+        "x": 1000,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "6e4023f.efdf1dc",
+        "type": "mcp23008",
+        "z": "2897d003.78d0a",
+        "name": "MCP23008 (0x22)",
+        "topic": "BaseStation/Relays",
+        "address": "0x22",
+        "bus": "1",
+        "reverse": true,
+        "x": 1010,
+        "y": 100,
+        "wires": [
+            [
+                "bbf3a3a3.d3ded"
+            ]
+        ]
+    },
+    {
+        "id": "20304835.a1d608",
+        "type": "schedex",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "passthroughunhandled": false,
+        "suspended": false,
+        "lat": "45.60",
+        "lon": "25.46",
+        "ontime": "",
+        "ontopic": "",
+        "onpayload": "",
+        "onoffset": 0,
+        "onrandomoffset": 0,
+        "offtime": "0:00",
+        "offtopic": "",
+        "offpayload": "OFF",
+        "offoffset": 0,
+        "offrandomoffset": 0,
+        "mon": true,
+        "tue": true,
+        "wed": true,
+        "thu": true,
+        "fri": true,
+        "sat": true,
+        "sun": true,
+        "x": 90,
+        "y": 160,
+        "wires": [
+            [
+                "8e94dc3c.53372"
+            ]
+        ]
+    },
+    {
+        "id": "4d58a8d7.cc8ac8",
+        "type": "schedex",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "passthroughunhandled": false,
+        "suspended": false,
+        "lat": "45.60",
+        "lon": "25.46",
+        "ontime": "dusk",
+        "ontopic": "",
+        "onpayload": "ON",
+        "onoffset": 0,
+        "onrandomoffset": 0,
+        "offtime": "nightEnd",
+        "offtopic": "",
+        "offpayload": "OFF",
+        "offoffset": 0,
+        "offrandomoffset": 0,
+        "mon": true,
+        "tue": true,
+        "wed": true,
+        "thu": true,
+        "fri": true,
+        "sat": true,
+        "sun": true,
+        "x": 120,
+        "y": 220,
+        "wires": [
+            [
+                "8e94dc3c.53372"
+            ]
+        ]
+    },
+    {
+        "id": "9bf5e32c.bf2c6",
+        "type": "ui_switch",
+        "z": "2897d003.78d0a",
+        "name": "Relay 0 - Hot Water Tank",
+        "label": "Încălzire electrică Boiler",
+        "tooltip": "",
+        "group": "a8220c0c3ba2a1b4",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "BaseStation/Relays/0",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 410,
+        "y": 100,
+        "wires": [
+            [
+                "ea528cdf98581df4",
+                "0296d29a865c050b"
+            ]
+        ]
+    },
+    {
+        "id": "2056b3c6.b4f11c",
+        "type": "ui_switch",
+        "z": "2897d003.78d0a",
+        "d": true,
+        "name": "Relay 4 -",
+        "label": "Relay 4",
+        "tooltip": "",
+        "group": "2a8bf519.1f58ea",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "BaseStation/Relays/4",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 680,
+        "y": 260,
+        "wires": [
+            [
+                "0296d29a865c050b"
+            ]
+        ]
+    },
+    {
+        "id": "16e39e94.04da21",
+        "type": "ui_switch",
+        "z": "2897d003.78d0a",
+        "d": true,
+        "name": "Relay 3 - ",
+        "label": "Relay 3",
+        "tooltip": "",
+        "group": "2a8bf519.1f58ea",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "BaseStation/Relays/3",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 680,
+        "y": 220,
+        "wires": [
+            [
+                "0296d29a865c050b"
+            ]
+        ]
+    },
+    {
+        "id": "e191045a.b2cce8",
+        "type": "ui_switch",
+        "z": "2897d003.78d0a",
+        "d": true,
+        "name": "Relay 6 -",
+        "label": "Relay 6",
+        "tooltip": "",
+        "group": "2a8bf519.1f58ea",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "BaseStation/Relays/6",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 680,
+        "y": 300,
+        "wires": [
+            [
+                "0296d29a865c050b"
+            ]
+        ]
+    },
+    {
+        "id": "7ab9b80687fba367",
+        "type": "ui_switch",
+        "z": "2897d003.78d0a",
+        "name": "Set2 / Relay7 - Boiler Pump",
+        "label": "Pompă recirculare Boiler",
+        "tooltip": "",
+        "group": "a8220c0c3ba2a1b4",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "HeatControl/Set2/7",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 420,
+        "y": 560,
+        "wires": [
+            [
+                "9c07b02cfa0a571c"
+            ]
+        ]
+    },
+    {
+        "id": "d326f73d3f01033f",
+        "type": "ui_switch",
+        "z": "2897d003.78d0a",
+        "name": "Set2 / Relay6 - Kitchen floor pump",
+        "label": "Pompa pardoselă Bucătărie",
+        "tooltip": "",
+        "group": "7481df2b3b27f847",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "HeatControl/Set2/6",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 440,
+        "y": 500,
+        "wires": [
+            [
+                "9c07b02cfa0a571c"
+            ]
+        ]
+    },
+    {
+        "id": "f096e556561ec92a",
+        "type": "mqtt out",
+        "z": "2897d003.78d0a",
+        "name": "PiZeroW2/Relays/Set2",
+        "topic": "PiZeroW2/Relays/Set2",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "6bf576b.0604988",
+        "x": 1100,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "9c07b02cfa0a571c",
+        "type": "function",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "func": "let iMsg = {payload: \"\", topic:\"\"};\nlet dbMsg = {payload: {}};\nlet varName = null, varValue = null;\n\nswitch (msg.payload)\n{\n    case \"ON\":\n        varValue = true;\n        break;\n    case \"OFF\":\n        varValue = false;\n        break;\n}\n\nswitch (msg.topic)\n{\n    case \"HeatControl/Set2/7\":\n        varName = \"BolierPump_IsON\";\n        dbMsg.payload.rBoilerPump = varValue ? 1 : 0;\n        break;\n        \n    case \"HeatControl/Set2/6\":\n        varName = \"KitchenPump_IsON\";\n        dbMsg.payload.rKitchenPump = varValue ? 1 : 0;\n        break;\n        \n    case \"HeatControl/Set2/4\":\n        varName = \"OverridePump_IsON\";\n        dbMsg.payload.rOverridePump = varValue ? 1 : 0;\n        break;\n}\n\nif (varName !== null)\n{\n    flow.set(varName, varValue);\n    node.send([null, dbMsg]);\n}\n\niMsg.payload = msg.payload;\niMsg.topic = msg.topic;\nmsg.payload = iMsg;\n\nreturn msg;\n\n\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 440,
+        "wires": [
+            [
+                "f096e556561ec92a"
+            ],
+            [
+                "971412e363f7fa77"
+            ]
+        ]
+    },
+    {
+        "id": "e4b667190ebee452",
+        "type": "link in",
+        "z": "2897d003.78d0a",
+        "name": "Link In: Control Boiler Relay Pump",
+        "links": [
+            "15d9be46ab806ae5",
+            "4227ee434436a8d3"
+        ],
+        "x": 215,
+        "y": 560,
+        "wires": [
+            [
+                "7ab9b80687fba367"
+            ]
+        ]
+    },
+    {
+        "id": "e78249ce9e1f1c83",
+        "type": "influxdb in",
+        "z": "2897d003.78d0a",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "query": "SELECT \n    last(tBoiler) as tBoiler, \n    mean(tBoiler) as tBoilerAvg,\n    last(tCentrala) as tCentrala, \n    mean(tCentrala) as tCentralaAvg,\n    last(tCTTur) as tCTTur, \n    last(tPuff1) as tPuff1, \n    last(tPuff2) as tPuff2, \n    last(tPuff3) as tPuff3\nFROM \"Temperature\" \nWHERE time >= now() - 5m\n-- GROUP BY time;\n",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "organisation",
+        "x": 370,
+        "y": 860,
+        "wires": [
+            [
+                "e5c3c35034bee7ad"
+            ]
+        ]
+    },
+    {
+        "id": "8725ed81234efc3e",
+        "type": "inject",
+        "z": "2897d003.78d0a",
+        "name": "5 min tick",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 860,
+        "wires": [
+            [
+                "e78249ce9e1f1c83"
+            ]
+        ]
+    },
+    {
+        "id": "2d4f4284c1b06e41",
+        "type": "comment",
+        "z": "2897d003.78d0a",
+        "name": "Run Boiler Pump Relay to Heat Water Tank",
+        "info": "",
+        "x": 240,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "e5c3c35034bee7ad",
+        "type": "function",
+        "z": "2897d003.78d0a",
+        "name": "Control boiler pump relay",
+        "func": "let swMsg = {\n    payload: \"\",\n    topic: \"HeatControl/Relays/0\"\n};\n\nconst tBoiler_High = 70;\nconst tBoiler_Low = 60;\n\nconst tPuff3_Low = 70;\nconst tPuff2_Low = 65;\nconst tPuff1_Low = 60;\n\nconst tPuff3_High = 85;\nconst tPuff1_High = 75;\n\nlet tBolierPump_IsON = flow.get(\"BolierPump_IsON\");\nlet lastCTLowTempValue = flow.get(\"lastCTLowTempValue\");\nlet lastCTLowTempData = flow.get(\"lastCTLowTempData\");\n\n\nif(lastCTLowTempValue === undefined) return;\nif(lastCTLowTempValue === undefined) return;\nif(tsPuff1 === null) return;\nif(tsPuff2 === null) return;\nif(tsPuff3 === null) return;\n\n\nnode.warn('tBolierPump_IsON' + tBolierPump_IsON);\nnode.warn('lastCTLowTempValue' + lastCTLowTempValue);\nnode.warn('lastCTLowTempData' + lastCTLowTempData);\nnode.warn('tCentrala' + tCentrala);\nnode.warn('tCTTur' + tCTTur);\nnode.warn('tPuff1' + tPuff1);\nnode.warn('tPuff2' + tPuff2);\nnode.warn('tPuff3' + tPuff3);\nnode.warn('tBoiler' + tBoiler);\nnode.warn('tCentrala_IsRaising' + tCentrala_IsRaising);\n\n\n\nif (tCentrala < lastCTLowTempValue)\n{\n    flow.set(\"lastCTLowTempValue\", tCentrala);\n    flow.set(\"lastCTLowTempData\", Date.now());\n    node.warn('Lower temp detected: ' + tCentrala + '°C on ' + Date.now());\n}\n\n// boiler temp is lowert than and higher than\n// CT temp is higher than spec value\n// CT temp is raising\n\nif (tBolierPump_IsON) {\n    if (\n        // Temperatura in boiler a atins limita maxima\n        (tBoiler > tBoiler_High) ||\n        // Temperatura in puffer/centrala nu mai este suficienta\n        ((!tCentrala_IsRaising) && (tPuff3 < tPuff3_Low) && (tPuff1 < tPuff1_Low)) ||\n        // Temperatura in puffer \n        (tCTTur < tBoiler + 10)\n    ) {\n        swMsg.payload = \"OFF\";\n        node.send([swMsg]);\n    }\n\n    // Turn OFF boiler pump if is running for more than 2 hours without any results\n\n    // Turn OFF boiler pump if temp is system is to low to heat the boiler\n} else { // temepeartura in boiler nu este peste limita maxima \n    if (tBoiler < tBoiler_High && (\n            // Daca temperatura in centrala si puffer sunt f. ridicate\n            ((tPuff3 > tPuff3_High) && (tPuff1 > tPuff1_High)) ||\n            // Daca temperatura din boiler este mica si exista suficeinta energie in puffer\n            ((tPuff3 > tBoiler + 15) && tCentrala_IsRaising && (tPuff3 > tPuff3_Low))\n\n        )) {\n        swMsg.payload = \"ON\";\n        node.send([swMsg]);\n    }\n}\n\nreturn;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 860,
+        "wires": [
+            [
+                "15d9be46ab806ae5"
+            ]
+        ]
+    },
+    {
+        "id": "15d9be46ab806ae5",
+        "type": "link out",
+        "z": "2897d003.78d0a",
+        "name": "Link Out: Control Boiler Relay Pump",
+        "mode": "link",
+        "links": [
+            "e4b667190ebee452"
+        ],
+        "x": 855,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "349db21a650eb457",
+        "type": "function",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "func": "let swMsg = {\n    payload: \"\",\n    topic: \"HeatControl/Relays/0\"\n};\n\n\nlet lastCTLowTempValue = flow.get(\"lastCTLowTempValue\");\nlet lastCTLowTempData = flow.get(\"lastCTLowTempData\");\n\nnode.warn('Now: ' + Date.now());\nnode.warn('lastCTLowTempData: ' + lastCTLowTempData);\nvar diff = Date.now() - lastCTLowTempData;\n\nnode.warn(\"Diff from last update is: \" + diff/(1000*60) + 'min');\n\n\nswMsg.payload = \"OFF\";\n        dbMsg.payload.rBoiler = 0;\n        tBolierPump_IsON = false;\n        flow.set(\"tBolierPump_IsON\", tBolierPump_IsON);\n        node.send([swMsg]);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 1820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1990e8abfd403d70",
+        "type": "inject",
+        "z": "2897d003.78d0a",
+        "name": "On Request",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 1820,
+        "wires": [
+            [
+                "349db21a650eb457"
+            ]
+        ]
+    },
+    {
+        "id": "dfb0f9afc9874e00",
+        "type": "influxdb in",
+        "z": "2897d003.78d0a",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "query": "SELECT \n    last(tBoiler) as tBoiler, \n    mean(tBoiler) as tBoilerAvg,\n    last(tCentrala) as tCentrala, \n    mean(tCentrala) as tCentralaAvg,\n    last(tCTTur) as tCTTur, \n    last(tPuff1) as tPuff1, \n    last(tPuff2) as tPuff2, \n    last(tPuff3) as tPuff3\nFROM \"Temperature\" \nWHERE time >= now() - 5m\n-- GROUP BY time;\n",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "organisation",
+        "x": 370,
+        "y": 1780,
+        "wires": [
+            [
+                "1028546c79679aaf"
+            ]
+        ]
+    },
+    {
+        "id": "6b90673cdabbe63b",
+        "type": "inject",
+        "z": "2897d003.78d0a",
+        "name": "On Request",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 1780,
+        "wires": [
+            [
+                "dfb0f9afc9874e00"
+            ]
+        ]
+    },
+    {
+        "id": "1028546c79679aaf",
+        "type": "function",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "func": "\nif (\"topic\" in msg)\n{\n    node.warn(\"Hello\");\n\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 1780,
+        "wires": [
+            [
+                "61dd3ad6591829f8"
+            ]
+        ]
+    },
+    {
+        "id": "61dd3ad6591829f8",
+        "type": "debug",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 1780,
+        "wires": []
+    },
+    {
+        "id": "ea528cdf98581df4",
+        "type": "link out",
+        "z": "2897d003.78d0a",
+        "name": "Link Out: Boiler Heater Switch [out]",
+        "mode": "link",
+        "links": [
+            "c3bb051701c8a38a"
+        ],
+        "x": 595,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "e4ecee634a92e0e6",
+        "type": "link in",
+        "z": "2897d003.78d0a",
+        "name": "Link In: Boiler Heater Switch [in]",
+        "links": [
+            "db29e270d656aee9",
+            "719f19e64f79acc3"
+        ],
+        "x": 235,
+        "y": 100,
+        "wires": [
+            [
+                "9bf5e32c.bf2c6"
+            ]
+        ]
+    },
+    {
+        "id": "db702c7638776f5e",
+        "type": "ui_switch",
+        "z": "2897d003.78d0a",
+        "name": "Set2 / Relay4 - Main Pump Override",
+        "label": "Supra temperatură Centrala T. Ignoră termostat",
+        "tooltip": "",
+        "group": "7481df2b3b27f847",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "HeatControl/Set2/4",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 450,
+        "y": 440,
+        "wires": [
+            [
+                "9c07b02cfa0a571c",
+                "66023adec10d988d"
+            ]
+        ]
+    },
+    {
+        "id": "97d228a24b6cee4a",
+        "type": "influxdb in",
+        "z": "2897d003.78d0a",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "query": "SELECT *\nFROM \"Relays\" \nWHERE time >= now() - 5m\n",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "organisation",
+        "x": 370,
+        "y": 1740,
+        "wires": [
+            [
+                "4b5031a2cc144fe7"
+            ]
+        ]
+    },
+    {
+        "id": "28b4e2c86db15d40",
+        "type": "inject",
+        "z": "2897d003.78d0a",
+        "name": "On Request",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 1740,
+        "wires": [
+            [
+                "97d228a24b6cee4a"
+            ]
+        ]
+    },
+    {
+        "id": "4b5031a2cc144fe7",
+        "type": "debug",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 1740,
+        "wires": []
+    },
+    {
+        "id": "cc09a78b104bbedf",
+        "type": "comment",
+        "z": "2897d003.78d0a",
+        "name": "Some testing stuff",
+        "info": "",
+        "x": 170,
+        "y": 1700,
+        "wires": []
+    },
+    {
+        "id": "e5479898ac15c3ab",
+        "type": "influxdb out",
+        "z": "2897d003.78d0a",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "measurement": "Relays",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1040,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "91f2c49e481c96cc",
+        "type": "inject",
+        "z": "2897d003.78d0a",
+        "name": "1 min tick",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 1520,
+        "wires": [
+            [
+                "3eee0f77b2e4a054"
+            ]
+        ]
+    },
+    {
+        "id": "3eee0f77b2e4a054",
+        "type": "function",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "func": "let dbMsg = {\n    payload: {\n        rBoilerHeater: 0,\n        rBoilerPump: 0,\n        rKitchenPump: 0,\n        rOverridePump: 0\n    }\n};\n\nlet bBolierHeat = flow.get(\"BolierHeat_IsON\");\nlet bBolierPump = flow.get(\"BolierPump_IsON\");\nlet bKitchenPump = flow.get(\"KitchenPump_IsON\");\nlet bOverridePump = flow.get(\"OverridePump_IsON\");\n\ndbMsg.payload.rBoilerHeater = bBolierHeat ? 1 : 0;\ndbMsg.payload.rBoilerPump   = bBolierPump ? 1 : 0;\ndbMsg.payload.rKitchenPump  = bKitchenPump ? 1 : 0;\ndbMsg.payload.rOverridePump = bOverridePump ? 1 : 0;\n\nreturn dbMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 1520,
+        "wires": [
+            [
+                "d459974d7715080d",
+                "b0ffd98c2ab7fdf3"
+            ]
+        ]
+    },
+    {
+        "id": "d459974d7715080d",
+        "type": "influxdb out",
+        "z": "2897d003.78d0a",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "measurement": "Relays",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 560,
+        "y": 1520,
+        "wires": []
+    },
+    {
+        "id": "eed09d196483470f",
+        "type": "comment",
+        "z": "2897d003.78d0a",
+        "name": "Get all relays state from the global variables ",
+        "info": "",
+        "x": 250,
+        "y": 1480,
+        "wires": []
+    },
+    {
+        "id": "971412e363f7fa77",
+        "type": "influxdb out",
+        "z": "2897d003.78d0a",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "measurement": "Relays",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1120,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "b0ffd98c2ab7fdf3",
+        "type": "debug",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 1560,
+        "wires": []
+    },
+    {
+        "id": "82474d7138f7efb9",
+        "type": "influxdb in",
+        "z": "2897d003.78d0a",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "query": "SELECT\n    CASE \n        WHEN \"PwrPvL1\" > \"PwrMainL1\" THEN \"PwrPvL1\" - \"PwrMainL1\"\n        ELSE 0 \n    END\nFROM \"Energy\"\nWHERE time >= now() - 5m\n",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "organisation",
+        "x": 370,
+        "y": 1860,
+        "wires": [
+            [
+                "8da450022ad9dcdd"
+            ]
+        ]
+    },
+    {
+        "id": "6d8f18e7f254db35",
+        "type": "inject",
+        "z": "2897d003.78d0a",
+        "name": "On Request",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 1860,
+        "wires": [
+            [
+                "82474d7138f7efb9"
+            ]
+        ]
+    },
+    {
+        "id": "8da450022ad9dcdd",
+        "type": "debug",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 1860,
+        "wires": []
+    },
+    {
+        "id": "278fd53322393bf3",
+        "type": "ui_switch",
+        "z": "2897d003.78d0a",
+        "name": "Set2 / Relay5",
+        "label": "Relay 5",
+        "tooltip": "",
+        "group": "2a8bf519.1f58ea",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "HeatControl/Set2/5",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 780,
+        "y": 560,
+        "wires": [
+            [
+                "9c07b02cfa0a571c"
+            ]
+        ]
+    },
+    {
+        "id": "8ffa5311c31985a0",
+        "type": "ui_switch",
+        "z": "2897d003.78d0a",
+        "d": true,
+        "name": "Set2 / Relay3 - Low CT Temp Override ",
+        "label": "Temperatura scăzută Coș Fum Opreste pompa CT",
+        "tooltip": "",
+        "group": "7481df2b3b27f847",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "HeatControl/Set2/3",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 450,
+        "y": 380,
+        "wires": [
+            [
+                "9c07b02cfa0a571c"
+            ]
+        ]
+    },
+    {
+        "id": "da5f64a862c54771",
+        "type": "ui_switch",
+        "z": "2897d003.78d0a",
+        "name": "Set2 / Relay2",
+        "label": "Relay 2",
+        "tooltip": "",
+        "group": "2a8bf519.1f58ea",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "HeatControl/Set2/2",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 780,
+        "y": 520,
+        "wires": [
+            [
+                "9c07b02cfa0a571c"
+            ]
+        ]
+    },
+    {
+        "id": "e743c256d719f2f9",
+        "type": "comment",
+        "z": "2897d003.78d0a",
+        "name": "Run Boiler Pump Relay to heat Boiler and mix Puffer water ",
+        "info": "",
+        "x": 290,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "1cab8475a7a17108",
+        "type": "countdown",
+        "z": "2897d003.78d0a",
+        "name": "30 min timer",
+        "topic": "HeatControl/Set2/7",
+        "payloadTimerStart": "ON",
+        "payloadTimerStartType": "str",
+        "payloadTimerStop": "OFF",
+        "payloadTimerStopType": "str",
+        "timer": "1800",
+        "resetWhileRunning": false,
+        "outputOnReset": false,
+        "setTimeToNewWhileRunning": true,
+        "startCountdownOnControlMessage": false,
+        "x": 550,
+        "y": 980,
+        "wires": [
+            [
+                "4227ee434436a8d3"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "7c841398322465d5",
+        "type": "inject",
+        "z": "2897d003.78d0a",
+        "name": "5 min tick",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "ON",
+        "payloadType": "str",
+        "x": 170,
+        "y": 980,
+        "wires": [
+            [
+                "b4654340b87e278c"
+            ]
+        ]
+    },
+    {
+        "id": "b4654340b87e278c",
+        "type": "function",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "func": "let optPuffDiffTemp = flow.get(\"OPTPufferDiffTemp\");\nlet bBolierPump_IsON = flow.get(\"BolierPump_IsON\");\nlet tsPuff1 = global.get(\"tSens_Puff1\");\nlet tsPuff4 = global.get(\"tSens_Puff4\");\nlet tsBoiler = global.get(\"tSens_Boiler\");\n\nif(tsPuff1 === undefined) return;\nif(tsPuff4 === undefined) return;\nif(tsBoiler === undefined) return;\n\n/// DO NOT Turn ON if:\n///     - Already turned ON\n///     - optPuffDiffTemp is not reached\n///     - Boiler temp is higher than Top puffer Temp\nif (bBolierPump_IsON) return;\nif ((tsPuff4 - tsPuff1) < optPuffDiffTemp) return;\nif (tsPuff4 < tsBoiler) return;\n\n\n\n/// Torn ON if:\n///     - \n\n\n\n\n/// Turn OFF if:\n///     -\n///     -\n///     -\n///     -\n///     -\n\n\n/*\n\n    // Turn OFF boiler pump if temp is system is to low to heat the boiler\n} else { // temepeartura in boiler nu este peste limita maxima \n    if (tBoiler < tBoiler_High && (\n            // Daca temperatura in centrala si puffer sunt f. ridicate\n            ((tPuff3 > tPuff3_High) && (tPuff1 > tPuff1_High)) ||\n            // Daca temperatura din boiler este mica si exista suficeinta energie in puffer\n            ((tPuff3 > tBoiler + 15) && tCentrala_IsRaising && (tPuff3 > tPuff3_Low))\n\n\n\n\n*/\n\n\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 980,
+        "wires": [
+            [
+                "1cab8475a7a17108"
+            ]
+        ]
+    },
+    {
+        "id": "4227ee434436a8d3",
+        "type": "link out",
+        "z": "2897d003.78d0a",
+        "name": "Link Out: Control Boiler Relay Pump",
+        "mode": "link",
+        "links": [
+            "e4b667190ebee452"
+        ],
+        "x": 695,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "580ab420d17085bf",
+        "type": "comment",
+        "z": "2897d003.78d0a",
+        "name": "Run Main Pump Override on Higher Temp",
+        "info": "Porneste pompa Puffer - Boiler tim de 30 de minute\npentru a amesteca apa in puffer daca difereta de \ntemperatura din puffer (min / max) este mai mare\nde 40 grade.\n\nToDo:\n - poate diferenta de 40 este prea mare (30 / 35)?\n - revizuit temperatura puffer / boiler pentru a \n   evita situatia de a racii apa din boiler",
+        "x": 240,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "13c74527eb8eac66",
+        "type": "countdown",
+        "z": "2897d003.78d0a",
+        "name": "30 min timer",
+        "topic": "HeatControl/Set2/7",
+        "payloadTimerStart": "ON",
+        "payloadTimerStartType": "str",
+        "payloadTimerStop": "OFF",
+        "payloadTimerStopType": "str",
+        "timer": "1800",
+        "resetWhileRunning": false,
+        "outputOnReset": false,
+        "setTimeToNewWhileRunning": true,
+        "startCountdownOnControlMessage": false,
+        "x": 550,
+        "y": 1100,
+        "wires": [
+            [
+                "298c28faf81e6d4a"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "2d94389781c337f9",
+        "type": "inject",
+        "z": "2897d003.78d0a",
+        "name": "5 min tick",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "ON",
+        "payloadType": "str",
+        "x": 170,
+        "y": 1100,
+        "wires": [
+            [
+                "ed73cca0aa63184a"
+            ]
+        ]
+    },
+    {
+        "id": "ed73cca0aa63184a",
+        "type": "function",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "func": "let optHighTempOverride = flow.get(\"OPTHighTempOverride\");\nlet bOverridePump_IsON = flow.get(\"OverridePump_IsON\");\nlet tsPuff4 = global.get(\"tSens_Puff4\");\nlet tsCentrala = global.get(\"tSens_Centrala\");\n\nif(tsPuff4 === undefined) return;\nif(tsPuff4 === undefined) return;\n\nif (bOverridePump_IsON) return;\nif (tsPuff4 < optHighTempOverride) return;\nif (tsCentrala < optHighTempOverride) return;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 1100,
+        "wires": [
+            [
+                "13c74527eb8eac66"
+            ]
+        ]
+    },
+    {
+        "id": "298c28faf81e6d4a",
+        "type": "link out",
+        "z": "2897d003.78d0a",
+        "name": "Link Out: Control Override Pump",
+        "mode": "link",
+        "links": [
+            "4c45a394dce23aaf"
+        ],
+        "x": 695,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "4c45a394dce23aaf",
+        "type": "link in",
+        "z": "2897d003.78d0a",
+        "name": "Link In: Control Override Pump",
+        "links": [
+            "298c28faf81e6d4a"
+        ],
+        "x": 215,
+        "y": 440,
+        "wires": [
+            [
+                "db702c7638776f5e"
+            ]
+        ]
+    },
+    {
+        "id": "0296d29a865c050b",
+        "type": "function",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "func": "let dbMsg = {payload: {}};\nlet varName = null, varValue = null;\n\nswitch (msg.payload)\n{\n    case \"ON\":\n        varValue = true;\n        break;\n    case \"OFF\":\n        varValue = false;\n        break;\n}\n\nswitch (msg.topic)\n{\n    case \"BaseStation/Relays/0\":\n        varName = \"BolierHeat_IsON\";\n        dbMsg.payload.rBoilerHeater = varValue ? 1 : 0;\n        break;\n}\n\nif (varName !== null)\n{\n    flow.set(varName, varValue);\n    node.send([null, dbMsg]);\n}\n\nreturn msg;\n\n\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 120,
+        "wires": [
+            [
+                "6e4023f.efdf1dc"
+            ],
+            [
+                "e5479898ac15c3ab"
+            ]
+        ]
+    },
+    {
+        "id": "d0b256c8794a3fd8",
+        "type": "inject",
+        "z": "2897d003.78d0a",
+        "name": "Started",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 1300,
+        "wires": [
+            [
+                "2214a826d58df1d4"
+            ]
+        ]
+    },
+    {
+        "id": "2214a826d58df1d4",
+        "type": "function",
+        "z": "2897d003.78d0a",
+        "name": "Initialize",
+        "func": "/// OPTPufferDiffTemp\nmsg.payload = 30;\nnode.send([msg]); \n\n/// OPTHighTempOverride\nmsg.payload = 95;\nnode.send([null, msg]); \n\n/// OPTKitFloorTempMin\nmsg.payload = 40;\nnode.send([null, null, msg]); \n\nreturn;",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 1340,
+        "wires": [
+            [
+                "c372ded5d6c2a739"
+            ],
+            [
+                "42480eb18455f883"
+            ],
+            [
+                "e0fcf81c18921482"
+            ]
+        ]
+    },
+    {
+        "id": "f8263ddc20b0b11a",
+        "type": "comment",
+        "z": "2897d003.78d0a",
+        "name": "User interface initialization flow - Hot Water Boiler Heating (WBH)",
+        "info": "",
+        "x": 310,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "a707c8aa24f6f257",
+        "type": "function",
+        "z": "2897d003.78d0a",
+        "name": "Update flow vars",
+        "func": "flow.set(msg.topic, msg.payload);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 1340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c372ded5d6c2a739",
+        "type": "ui_numeric",
+        "z": "2897d003.78d0a",
+        "name": "Puffer Temp Diff for Mix ",
+        "label": "Puffer Temp Diff for Mix ",
+        "tooltip": "",
+        "group": "7481df2b3b27f847",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "OPTPufferDiffTemp",
+        "topicType": "str",
+        "format": "{{value}} °C",
+        "min": "10",
+        "max": "40",
+        "step": "2",
+        "className": "",
+        "x": 570,
+        "y": 1280,
+        "wires": [
+            [
+                "a707c8aa24f6f257"
+            ]
+        ]
+    },
+    {
+        "id": "42480eb18455f883",
+        "type": "ui_numeric",
+        "z": "2897d003.78d0a",
+        "name": "Max Temp for System Override",
+        "label": "Prag Supra Temp. CT",
+        "tooltip": "",
+        "group": "7481df2b3b27f847",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "OPTHighTempOverride",
+        "topicType": "str",
+        "format": "{{value}} °C",
+        "min": "90",
+        "max": "100",
+        "step": "1",
+        "className": "",
+        "x": 590,
+        "y": 1340,
+        "wires": [
+            [
+                "a707c8aa24f6f257"
+            ]
+        ]
+    },
+    {
+        "id": "5199434d82ba507f",
+        "type": "function",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "func": "let swMsg = {\n    payload: \"\",\n    topic: \"HeatControl/Set2/6\"\n};\n\nvar curTime = new Date();\nvar startPumpTime = new Date();\nvar stopPumpTime = new Date();\n\nstartPumpTime.setHours(6,30,0); // 6.30 am\nstopPumpTime.setHours(22,0,0); // 6.30 pm\n\nlet tPuffTemp = global.get(\"tSens_Puff2\");\nlet optPuffTempMin = flow.get(\"OPTKitFloorTempMin\");\nlet bKitchenPump_IsON = flow.get(\"KitchenPump_IsON\");\nlet bInActiveHours = (curTime >= startPumpTime && curTime < stopPumpTime);\n\nif (bKitchenPump_IsON) {\n    // Stop it if not in active hours or temp is lower than treshold\n    if (!bInActiveHours || (tPuffTemp<optPuffTempMin))\n    {\n        swMsg.payload = \"OFF\";\n        node.send([swMsg]);\n    }\n\n} else {\n    // Start it in active hours and temp is higher than treshold\n    if (bInActiveHours && (tPuffTemp>optPuffTempMin))\n    {\n        swMsg.payload = \"ON\";\n        node.send([swMsg]);\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 740,
+        "wires": [
+            [
+                "94dd54a3ca8ed899"
+            ]
+        ]
+    },
+    {
+        "id": "d10d48fe19dfd777",
+        "type": "inject",
+        "z": "2897d003.78d0a",
+        "name": "5 min tick",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 740,
+        "wires": [
+            [
+                "5199434d82ba507f"
+            ]
+        ]
+    },
+    {
+        "id": "94dd54a3ca8ed899",
+        "type": "link out",
+        "z": "2897d003.78d0a",
+        "name": "Link Out: Control Kitchen Floor Relay Pump",
+        "mode": "link",
+        "links": [
+            "f0544463a1fc5b34"
+        ],
+        "x": 495,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "f0544463a1fc5b34",
+        "type": "link in",
+        "z": "2897d003.78d0a",
+        "name": "Link In: Control Kitchen Floor Relay Pump",
+        "links": [
+            "94dd54a3ca8ed899"
+        ],
+        "x": 215,
+        "y": 500,
+        "wires": [
+            [
+                "d326f73d3f01033f"
+            ]
+        ]
+    },
+    {
+        "id": "20ef2b0e5a2f7419",
+        "type": "comment",
+        "z": "2897d003.78d0a",
+        "name": "Run Kitchen Floor Pump Relay",
+        "info": "",
+        "x": 210,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "e0fcf81c18921482",
+        "type": "ui_numeric",
+        "z": "2897d003.78d0a",
+        "name": "Min Temp for Kitchen Floor",
+        "label": "Prag Temp. Bucatarie",
+        "tooltip": "",
+        "group": "7481df2b3b27f847",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "OPTKitFloorTempMin",
+        "topicType": "str",
+        "format": "{{value}} °C",
+        "min": "35",
+        "max": "55",
+        "step": "1",
+        "className": "",
+        "x": 580,
+        "y": 1400,
+        "wires": [
+            [
+                "a707c8aa24f6f257"
+            ]
+        ]
+    },
+    {
+        "id": "2329ba0a9a04a3ec",
+        "type": "influxdb in",
+        "z": "2897d003.78d0a",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "query": "DROP SERIES FROM /.*/\n",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "organisation",
+        "x": 370,
+        "y": 1900,
+        "wires": [
+            [
+                "adbcd1b6b05152ee"
+            ]
+        ]
+    },
+    {
+        "id": "723a62fe0b356cc8",
+        "type": "inject",
+        "z": "2897d003.78d0a",
+        "name": "On Request",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 1900,
+        "wires": [
+            [
+                "2329ba0a9a04a3ec"
+            ]
+        ]
+    },
+    {
+        "id": "adbcd1b6b05152ee",
+        "type": "debug",
+        "z": "2897d003.78d0a",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 1900,
+        "wires": []
+    },
+    {
+        "id": "81bcef47f1f692e8",
+        "type": "switch",
+        "z": "2897d003.78d0a",
+        "name": "Start Pump Override timer",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "ON",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 310,
+        "y": 1160,
+        "wires": [
+            [
+                "13c74527eb8eac66"
+            ]
+        ]
+    },
+    {
+        "id": "66023adec10d988d",
+        "type": "link out",
+        "z": "2897d003.78d0a",
+        "name": "Link Out: Pump Override timer [out]",
+        "mode": "link",
+        "links": [
+            "2292f0da04a5f60c"
+        ],
+        "x": 675,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "2292f0da04a5f60c",
+        "type": "link in",
+        "z": "2897d003.78d0a",
+        "name": "Link In: Pump Override timer [in]",
+        "links": [
+            "66023adec10d988d"
+        ],
+        "x": 145,
+        "y": 1160,
+        "wires": [
+            [
+                "81bcef47f1f692e8"
+            ]
+        ]
+    },
+    {
+        "id": "7dd65d4e550bef05",
+        "type": "ui_spacer",
+        "z": "2897d003.78d0a",
+        "name": "spacer",
+        "group": "a8220c0c3ba2a1b4",
+        "order": 6,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "2a8bf519.1f58ea",
+        "type": "ui_group",
+        "name": "Home Control",
+        "tab": "743065cf.8b002c",
+        "order": 1,
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "a8220c0c3ba2a1b4",
+        "type": "ui_group",
+        "name": "Încălzire Boiler apă caldă",
+        "tab": "75cd3a25.41ce84",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "7481df2b3b27f847",
+        "type": "ui_group",
+        "name": "Opţiuni Avansate / Altele",
+        "tab": "75cd3a25.41ce84",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "6bf576b.0604988",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.2.25",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "373fa459.54e07c",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "HomeControl",
+        "name": "HomeControl",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "",
+        "rejectUnauthorized": false
+    },
+    {
+        "id": "743065cf.8b002c",
+        "type": "ui_tab",
+        "name": "_Temp",
+        "icon": "home",
+        "order": 5,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "75cd3a25.41ce84",
+        "type": "ui_tab",
+        "name": "Environment",
+        "icon": "view_week",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]

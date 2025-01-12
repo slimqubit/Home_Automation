@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+	body {
+		font-family: 'Segoe UI', Arial, sans-serif;
+		font-size: 16px;
+		color: #3b4351;
+	}
+	.navbar {
+		font-family: Arial, Helvetica, sans-serif;
+		width: 100%;
+		background-color: #555;
+		overflow: auto;
+		text-align:center;
+		list-style:none;
+	}
+	.navbar li{
+		display:inline;
+	}
+	.navbar a {
+		text-align: center;
+		padding: 12px;
+		color: white;
+		text-decoration: none;
+		font-size: 20px;
+		display:inline-block;
+	}
+	.navbar a:hover {
+		background-color: #000;
+	}
+	.navbar a.active {
+		background-color: #04AA6D;
+	}
+	.btn,
+	.file-input::file-selector-button {
+		border: 0.05rem solid #4f4f4f;
+		color: black;
+		padding: 6px 24px;
+		font-size: 1rem;
+		cursor: pointer;
+		border-radius: 0.2rem;
+		background-color: #efefef;
+		height: 1.92rem;
+	}
+	.btn:hover,
+	.file-input::file-selector-button:hover {
+		background-color: #e5e5e5;
+	}
+	.file-input::file-selector-button {
+		margin-right: 1rem;
+	}
+	.form-input {
+		background: #fff;
+		background-image: none;
+		border: 0.05rem solid #bcc3ce;
+		border-radius: 0.2rem;
+		font-size: 16px;
+		display: block;
+		width: 28.6rem;
+		line-height: 1.2rem;
+		max-width: 100%;
+		outline: none;
+		position: relative;
+	}
+	progress {
+		width: 36em;
+	}
+	.vinfo {
+		font-size:12px;
+		margin: 6px 10px;
+		display:inline-block;
+	}
+	.landing {
+		width: 100%;
+		text-align: center;
+		overflow: auto;
+		text-align:center;
+		list-style:none;
+		/* border: 1px dashed #222; */
+	}
+	.container {
+		width: 36rem;
+		text-align: left;
+		display:inline-block;
+		/* border: 1px dashed #55f; */
+	}
+	.left {
+		overflow: hidden;
+		min-height: 20px;
+		margin-top: 0.3rem;
+		margin-bottom: 0.3rem;
+		/* border: 1px dashed #f0f; */
+	}
+	.right {
+		float: right;
+		width: 6.4rem;
+		min-height: 20px;
+		margin-left: 10px;
+		margin-bottom: 0.3rem;
+		/* border: 1px dashed #00f; */
+	}
+	@media screen and (max-width: 400px) {
+		.navbar a {
+			float: none;
+			display: block;
+		}
+	}
+</style>
+</head>
+<body>
+<div class="navbar">
+  <a class="active" href="status"><i class="fa fa-fw fa-info"></i> Status/Information</a> 
+  <a href="data"><i class="fa fa-fw fa-bar-chart"></i> Live Data</a> 
+  <a href="config"><i class="fa fa-fw fa-edit"></i> Device Configuration</a> 
+  <a href="log"><i class="fa fa-fw fa-list"></i> Log</a> 
+  <a href="update"><i class="fa fa-fw fa-retweet"></i> Update</a>
+</div>
+<div class='landing'><div class='container' style='width:816px; padding:0px 16px'>
+	<h2>Device information</h2>
+   	<div class='left' style='display: block; background: #fdfdfd; margin-top: 2rem; border-top: 1px solid #ddd;'><div style='text-align:center;'>
+		<label id='lbDI1' class='vinfo'></label>
+		<label id='lbDI2' class='vinfo'></label>
+		<label id='lbDI3' class='vinfo'></label>
+	</div></div>
+</div></div>
+<script>
+	var lbDI1 = document.getElementById('lbDI1');
+	var lbDI2 = document.getElementById('lbDI2');
+	var lbDI3 = document.getElementById('lbDI3');
+	var data = {
+			id: null,
+			hardware: null,
+	    	hostname: null,
+			appver: null
+		};
+
+	getDeviceInfo();
+	
+	function getDeviceInfo() {
+		fetch('/device/info')
+			.then(res => res.json())
+			.then((data) => {
+				lbDI1.innerHTML = data.hardware;
+				lbDI2.innerHTML = data.hostname;
+				lbDI3.innerHTML = data.appver;
+		}).catch();	
+	}
+</script>
+</body>
+</html>

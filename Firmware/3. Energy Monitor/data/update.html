@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/q.js/1.4.1/q.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/spark-md5/2.0.2/spark-md5.min.js'></script>
+<style>
+	body {
+		font-family: 'Segoe UI', Arial, sans-serif;
+		font-size: 16px;
+		color: #3b4351;
+	}
+	.navbar {
+		font-family: Arial, Helvetica, sans-serif;
+		width: 100%;
+		background-color: #555;
+		overflow: auto;
+		text-align:center;
+		list-style:none;
+	}
+	.navbar li{
+		display:inline;
+	}
+	.navbar a {
+		text-align: center;
+		padding: 12px;
+		color: white;
+		text-decoration: none;
+		font-size: 20px;
+		display:inline-block;
+	}
+	.navbar a:hover {
+		background-color: #000;
+	}
+	.navbar a.active {
+		background-color: #04AA6D;
+	}
+	.btn,
+	.file-input::file-selector-button {
+		border: 0.05rem solid #4f4f4f;
+		color: black;
+		padding: 6px 24px;
+		font-size: 1rem;
+		cursor: pointer;
+		border-radius: 0.2rem;
+		background-color: #efefef;
+		height: 1.92rem;
+	}
+	.btn:hover,
+	.file-input::file-selector-button:hover {
+		background-color: #e5e5e5;
+	}
+	.file-input::file-selector-button {
+		margin-right: 1rem;
+	}
+	.form-input {
+		background: #fff;
+		background-image: none;
+		border: 0.05rem solid #bcc3ce;
+		border-radius: 0.2rem;
+		font-size: 16px;
+		display: block;
+		width: 28.6rem;
+		line-height: 1.2rem;
+		max-width: 100%;
+		outline: none;
+		position: relative;
+	}
+	progress {
+		width: 36em;
+	}
+	.vinfo {
+		font-size:12px;
+		margin: 6px 10px;
+		display:inline-block;
+	}
+	.landing {
+		width: 100%;
+		text-align: center;
+		overflow: auto;
+		text-align:center;
+		list-style:none;
+		/* border: 1px dashed #222; */
+	}
+	.container {
+		width: 36rem;
+		text-align: left;
+		display:inline-block;
+		/* border: 1px dashed #55f; */
+	}
+	.left {
+		overflow: hidden;
+		min-height: 20px;
+		margin-top: 0.3rem;
+		margin-bottom: 0.3rem;
+		/* border: 1px dashed #f0f; */
+	}
+	.right {
+		float: right;
+		width: 6.4rem;
+		min-height: 20px;
+		margin-left: 10px;
+		margin-bottom: 0.3rem;
+		/* border: 1px dashed #00f; */
+	}
+	@media screen and (max-width: 400px) {
+		.navbar a {
+			float: none;
+			display: block;
+		}
+	}
+</style>
+</head>
+<body>
+<div class='navbar'>
+   <a href='status'><i class='fa fa-fw fa-info'></i> Status/Information</a>
+   <a href='data'><i class='fa fa-fw fa-bar-chart'></i> Live Data</a>
+   <a href='config'><i class='fa fa-fw fa-edit'></i> Device Configuration</a>
+   <a href="log"><i class="fa fa-fw fa-list"></i> Log</a> 
+   <a class='active' href='update'><i class='fa fa-fw fa-retweet'></i> Update</a>
+</div>
+<div class='landing'><div class='container' style='width:576px; padding:0px 16px'>
+   <form method='POST' enctype='multipart/form-data' id='frmUpload'>
+      <h2>Device firmware update</h2>
+	  <div class='left' style='margin-bottom: 1rem;'>
+		<label>Choose the type of update: </label>
+		<label style='margin-left: 1rem;'><input type='radio' name='firmwaretype' for='firmwaretype' value='firmware' checked> Firmware</label>
+        <label style='margin-left: 1rem;'><input type='radio' name='firmwaretype' for='firmwaretype' value='filesystem'> Filesystem</label>
+	  </div>
+      <div class='right' style='margin-top: 1px;'><input type='submit' id='btnUpdate' value='Update' class='btn' style='float: right;'></div>
+      <div class='left'><input type='file' id='edFile' name='update' class='form-input file-input' accept='.bin'></div>
+      <div class='left' id='OTAProgress' style='margin-top: 2rem; text-align: right; display: none;'><label id='lbUpdate' style='font-size: 14px;'>{{ progress }}</label><br><progress id='pgUpdate' value='1' max='100'></progress></div>
+      <div class='left' id='OTASuccess' style='margin-top: 2rem; text-align: center; display: none;'>
+         <svg width='32px' height='32px' style='vertical-align: middle;' viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+            <g stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'>
+               <rect id='bound' x='0' y='0' width='24' height='24'></rect>
+               <circle id='Oval-5' fill='#42BA96' opacity='0.3' cx='12' cy='12' r='10'></circle>
+               <path d='M16.7689447,7.81768175 C17.1457787,7.41393107 17.7785676,7.39211077 18.1823183,7.76894473 C18.5860689,8.1457787 18.6078892,8.77856757 18.2310553,9.18231825 L11.2310553,16.6823183 C10.8654446,17.0740439 10.2560456,17.107974 9.84920863,16.7592566 L6.34920863,13.7592566 C5.92988278,13.3998345 5.88132125,12.7685345 6.2407434,12.3492086 C6.60016555,11.9298828 7.23146553,11.8813212 7.65079137,12.2407434 L10.4229928,14.616916 L16.7689447,7.81768175 Z' id='Path-92' fill='#42BA96'></path>
+            </g>
+         </svg>
+         <span style='vertical-align: middle;'> Upgrade succeeded! Device is rebooting ... </span>
+      </div>
+      <div class='left' id='OTAError' style='margin-top: 2rem; text-align: center; display: none;'>
+         <svg width='32px' height='32px' style='vertical-align: middle;' viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+            <g stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'>
+               <rect id='bound' x='0' y='0' width='24' height='24'></rect>
+               <circle id='Oval-5' fill='#DF4759' opacity='0.3' cx='12' cy='12' r='10'></circle>
+               <rect id='Rectangle-9' fill='#DF4759' x='11' y='7' width='2' height='8' rx='1'></rect>
+               <rect id='Rectangle-9-Copy' fill='#DF4759' x='11' y='16' width='2' height='2' rx='1'></rect>
+            </g>
+         </svg>
+		 <span style='vertical-align: middle;'  id='lbOTAError'> {{ OTAError }} </span>
+      </div>
+      <div class='right' style='display: none;'></div>
+      <div class='left' style='display: none;'></div>
+      <div class='left' style='display: none;'></div>
+   </form>
+   	<div class='left' style='display: block; background: #fdfdfd; margin-top: 2rem; border-top: 1px solid #ddd;'><div style='text-align:center;'>
+		<label id='lbDI1' class='vinfo'></label>
+		<label id='lbDI2' class='vinfo'></label>
+		<label id='lbDI3' class='vinfo'></label>
+	</div></div>
+</div></div>
+
+<script>
+    var loading = true;
+	var pgUpdate = document.getElementById('pgUpdate');
+	var lbUpdate = document.getElementById('lbUpdate');
+    var lbDI1 = document.getElementById('lbDI1');
+    var lbDI2 = document.getElementById('lbDI2');
+    var lbDI3 = document.getElementById('lbDI3');
+    var type = 'firmware';
+    var file = null;
+	var data = {
+            id: null,
+            hardware: null,
+	    	hostname: null,
+            appver: null
+        };
+
+	getDeviceInfo();
+	
+    const element = document.querySelector('form');
+    element.addEventListener('submit', event => {
+        event.preventDefault();
+        uploadOTA(event);
+    });
+
+    function fileMD5(file) {
+        var e = this;
+        return new Promise((function(resolve, reject) {
+            var loadNext, blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice,
+                chunkSize = 2097152,
+                chunks = Math.ceil(file.size / chunkSize),
+                spark = new e.SparkMD5.ArrayBuffer(),
+                fileReader = new FileReader(),
+                currentChunk = 0;
+
+            fileReader.onload = function(e) {
+                if (spark.append(e.target.result), currentChunk += 1, currentChunk < chunks)
+                    loadNext();
+                else {
+                    var md5 = spark.end();
+                    resolve(md5);
+                }
+            };
+
+            fileReader.onerror = function(e) {
+                reject(e);
+            };
+
+            loadNext = function() {
+                var start = currentChunk * chunkSize,
+                    end = start + chunkSize >= file.size ? file.size : start + chunkSize;
+                fileReader.readAsArrayBuffer(blobSlice.call(file, start, end));
+            };
+            loadNext();
+        }));
+    }
+
+    function uploadOTA(event) {
+        var formData = new FormData();
+
+        if (null !== event) {
+            var input = document.getElementById('edFile');
+            if (input.files.length) {
+                file = input.files[0];
+            }
+        }
+        if (file === null) {
+			alert('No file was selected!');
+			return;
+		}
+		OTAProgress(true);
+
+        var request = new XMLHttpRequest();
+        request.addEventListener('load', (function() {
+            if (200 === request.status) {
+                OTASuccess();
+            } else if (500 !== request.status) {
+                OTAError('[HTTP ERROR] '.concat(request.statusText));
+            } else {
+                OTAError(request.responseText);
+            }
+            this.uploading = false;
+            pgUpdate.value = 0;
+			lbUpdate.innerHTML = '';
+        }));
+
+        request.upload.addEventListener('progress', (function(t) {
+            var proc = Math.trunc(t.loaded / t.total * 100);
+			pgUpdate.value = proc;
+			lbUpdate.innerHTML = 'progress: ' + proc  + '%';
+        }));
+        request.withCredentials = true;
+		
+		this.type = document.querySelector("input[name=firmwaretype]:checked").value;
+        this.fileMD5(this.file)
+            .then((function(md5) {
+                formData.append('MD5', md5);
+                formData.append(this.type, this.file, this.type);
+                request.open('post', '/update');
+                request.send(formData);
+            }))
+            .catch((function() {
+                OTAError('Unknown error while upload, check the console for details.');
+                pgUpdate.value = 0;
+				lbUpdate.innerHTML = '';
+            }));
+    }
+
+    function retryOTA() {
+        clear();
+        uploadOTA(null);
+    }
+	
+	function OTAProgress(show) {
+		if (show) {
+			document.getElementById('OTAProgress').style.display = 'block';
+		} else {
+			document.getElementById('OTAProgress').style.display = 'none';
+		}
+	}
+
+	function OTASuccess() {
+		OTAProgress(false);
+		document.getElementById('OTASuccess').style.display = 'block';
+		setTimeout(function(){
+            window.location.href = '/status';
+         }, 7000);
+	}
+	
+	function OTAError(msg) {
+		OTAProgress(false);
+		document.getElementById('lbOTAError').innerHTML = msg;
+		document.getElementById('OTAError').style.display = 'block';
+		setTimeout(function(){
+			document.getElementById('OTAError').style.display = 'none';
+         }, 7000);
+	}
+
+    function clear() {
+        document.getElementById('OTAProgress').style.display = 'none';
+        document.getElementById('OTASuccess').style.display = 'none';
+		document.getElementById('OTAError').style.display = 'none';
+    }
+	
+    function parseURLParams(url) {
+        var queryStart = url.indexOf("?") + 1,
+            queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+            query = url.slice(queryStart, queryEnd - 1),
+            pairs = query.replace(/\+/g, " ").split("&"),
+            parms = {}, i, n, v, nv;
+
+        if (query === url || query === "") return;
+
+        for (i = 0; i < pairs.length; i++) {
+            nv = pairs[i].split("=", 2);
+            n = decodeURIComponent(nv[0]);
+            v = decodeURIComponent(nv[1]);
+
+            if (!parms.hasOwnProperty(n)) parms[n] = [];
+            parms[n].push(nv.length === 2 ? v : null);
+        }
+        return parms;
+    }
+	
+	function getDeviceInfo() {
+		fetch('/device/info')
+			.then(res => res.json())
+			.then((data) => {
+				lbDI1.innerHTML = data.hardware;
+				lbDI2.innerHTML = data.hostname;
+				lbDI3.innerHTML = data.appver;
+		}).catch();	
+	}
+</script>
+</body>
+</html>

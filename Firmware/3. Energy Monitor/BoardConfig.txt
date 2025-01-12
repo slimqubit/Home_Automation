@@ -1,0 +1,8 @@
+Board: 			ESP32S3 Dev Module
+CPU Frequency:		240MHz WiFi
+Flash Mode:		QIO 80MHz
+Flash Size:		4Mb (32Mb)
+Arduino Runs on Core 1
+Partition Scheme: 	Default 4Mb with SPIFF (1.2Mb App / 1.5Mb SPIFF)
+USB Mode: 		Hardware CDC
+Upload Mode: 		UART0 / Hardware CDC

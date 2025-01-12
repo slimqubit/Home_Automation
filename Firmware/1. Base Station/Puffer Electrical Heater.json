@@ -1,0 +1,1173 @@
+[
+    {
+        "id": "71c264a01ef7273c",
+        "type": "tab",
+        "label": "PEH - Puffer Electrical Heater",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e2bc553d01e3e92a",
+        "type": "ui_dropdown",
+        "z": "71c264a01ef7273c",
+        "name": "Operation Mode",
+        "label": "Mod de Operare",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "be76d04b6829132b",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Dezactivat",
+                "value": "disabled",
+                "type": "str"
+            },
+            {
+                "label": "Automat",
+                "value": "auto",
+                "type": "str"
+            },
+            {
+                "label": "Manual",
+                "value": "manual",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "PEHOpMode",
+        "topicType": "str",
+        "className": "",
+        "x": 540,
+        "y": 120,
+        "wires": [
+            [
+                "d690d76b702eca67"
+            ]
+        ]
+    },
+    {
+        "id": "9bb5ffd90a062e2e",
+        "type": "inject",
+        "z": "71c264a01ef7273c",
+        "name": "Started",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "30",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 180,
+        "wires": [
+            [
+                "6803b1fe98fa3f78"
+            ]
+        ]
+    },
+    {
+        "id": "6803b1fe98fa3f78",
+        "type": "function",
+        "z": "71c264a01ef7273c",
+        "name": "Initialize",
+        "func": "/// PEHOpMode\nmsg.payload = \"disabled\";\nnode.send([msg]); \n\n/// PEHMaxPwrImp\nmsg.payload = 200;\nnode.send([null, msg]); \n\n/// PEHMaxPuffTemp\nmsg.payload = 85;\nnode.send([null, null, msg]); \n\nreturn;",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 180,
+        "wires": [
+            [
+                "e2bc553d01e3e92a"
+            ],
+            [
+                "f79318fa3c6e7fc8"
+            ],
+            [
+                "57c9d306833862e5"
+            ]
+        ]
+    },
+    {
+        "id": "27bb5cf80bf67a40",
+        "type": "ui_switch",
+        "z": "71c264a01ef7273c",
+        "name": "R1L1 Contactor",
+        "label": "Rez1  L1",
+        "tooltip": "",
+        "group": "be76d04b6829132b",
+        "order": 4,
+        "width": "3",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "HeatControl/Set1/2",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 1100,
+        "y": 480,
+        "wires": [
+            [
+                "1532fae24ff67796"
+            ]
+        ]
+    },
+    {
+        "id": "21a3fa46fe4ae5c8",
+        "type": "function",
+        "z": "71c264a01ef7273c",
+        "name": "",
+        "func": "let iMsg = {payload: \"\", topic:\"\"};\nlet dbMsg = {payload: {}};\n\nlet rId = parseInt(msg.topic.substring(17));\nlet iOn = msg.payload == \"ON\"? 1 : 0;\nlet bOn = msg.payload == \"ON\"? true : false;\n\nswitch (rId)\n{\n    case 2:\n        fVar = \"R1L1Rel_IsON\";\n        dbMsg.payload.rConR1L1 = iOn;\n        break;\n    case 3:\n        fVar = \"R1L2Rel_IsON\";\n        dbMsg.payload.rConR1L2 = iOn;\n        break;\n    case 4:\n        fVar = \"R1L3Rel_IsON\";\n        dbMsg.payload.rConR1L3 = iOn;\n        break;\n    case 5:\n        fVar = \"R2L1Rel_IsON\";\n        dbMsg.payload.rConR2L1 = iOn;\n        break;\n    case 6:\n        fVar = \"R2L2Rel_IsON\";\n        dbMsg.payload.rConR2L2 = iOn;\n        break;\n    case 7:\n        fVar = \"R2L3Rel_IsON\";\n        dbMsg.payload.rConR2L3 = iOn;\n        break;\n}\n\nflow.set(fVar, bOn);\nnode.send([null, dbMsg]);\n\niMsg.payload = msg.payload;\niMsg.topic = msg.topic;\nmsg.payload = iMsg;\n\nreturn msg;\n\n\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 220,
+        "y": 700,
+        "wires": [
+            [
+                "c7133392a1a41cb0"
+            ],
+            [
+                "8fcedd894250f623"
+            ]
+        ]
+    },
+    {
+        "id": "c7133392a1a41cb0",
+        "type": "mqtt out",
+        "z": "71c264a01ef7273c",
+        "name": "PiZeroW2/Relays/Set1",
+        "topic": "PiZeroW2/Relays/Set1",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "6bf576b.0604988",
+        "x": 460,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "279b2b5cab7fde8c",
+        "type": "comment",
+        "z": "71c264a01ef7273c",
+        "name": "Control Elecrical Power Heater",
+        "info": "",
+        "x": 210,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "ad10e97c4c5fe393",
+        "type": "ui_switch",
+        "z": "71c264a01ef7273c",
+        "name": "R1L2 Contactor",
+        "label": "Rez1  L2",
+        "tooltip": "",
+        "group": "be76d04b6829132b",
+        "order": 6,
+        "width": "3",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "HeatControl/Set1/3",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 1100,
+        "y": 540,
+        "wires": [
+            [
+                "1532fae24ff67796"
+            ]
+        ]
+    },
+    {
+        "id": "1939ca3bf2ba6c85",
+        "type": "ui_switch",
+        "z": "71c264a01ef7273c",
+        "name": "R1L3 Contactor",
+        "label": "Rez1  L3",
+        "tooltip": "",
+        "group": "be76d04b6829132b",
+        "order": 8,
+        "width": "3",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "HeatControl/Set1/4",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 1100,
+        "y": 600,
+        "wires": [
+            [
+                "1532fae24ff67796"
+            ]
+        ]
+    },
+    {
+        "id": "bbfadd1925036ef8",
+        "type": "function",
+        "z": "71c264a01ef7273c",
+        "name": "Control Electrical Heater Contactors",
+        "func": "let iL1St1 = flow.get(\"L1Stage1\");\nlet iL2St1 = flow.get(\"L2Stage1\");\nlet iL3St1 = flow.get(\"L3Stage1\");\nlet iL1St2 = flow.get(\"L1Stage2\");\nlet iL2St2 = flow.get(\"L2Stage2\");\nlet iL3St2 = flow.get(\"L3Stage2\");\n\nfunction randomTwoNo(a, b) {\n    return Math.floor(Math.random() * (2)) ? a : b;\n}\n\nfunction ContactorTurnOn(phase, stage) {\n    let swMsg = {payload: \"\", topic: \"\"};\n    let varId = phase + \"Stage\" + stage;\n    let relId;\n    \n    switch(phase)\n    {\n        case \"L1\":\n            relId = (stage == 1) ? randomTwoNo(5, 2) : (iL1St1 == 5 ? 2 : 5);\n            break;\n        case \"L2\":\n            relId = (stage == 1) ? randomTwoNo(6, 3) : (iL2St1 == 6 ? 3 : 6);\n            break;\n        case \"L3\":\n            relId = (stage == 1) ? randomTwoNo(7, 4) : (iL3St1 == 7 ? 4 : 7);\n            break;\n    }\n    flow.set(varId, relId);\n\n    swMsg.payload = \"ON\";\n    swMsg.topic = \"HeatControl/Set1/\" + relId;\n    node.send(swMsg);\n    return\n}\n\nfunction ContactorTurnOff(phase, stage) {\n    let swMsg = {payload: \"\", topic: \"\"};\n    let varId = phase + \"Stage\" + stage;\n    let relId = flow.get(varId);\n    flow.set(varId, 0);\n\n    swMsg.payload = \"OFF\";\n    swMsg.topic = \"HeatControl/Set1/\" + relId;\n    node.send(swMsg);\n    return;\n}\n\nfunction ContactorsTurnOff() {\n    ContactorTurnOff(\"L1\", 1);\n    ContactorTurnOff(\"L2\", 1);\n    ContactorTurnOff(\"L3\", 1);\n    ContactorTurnOff(\"L1\", 2);\n    ContactorTurnOff(\"L2\", 2);\n    ContactorTurnOff(\"L3\", 2);\n    return;\n}\n\nif (msg.topic === \"PEHOpMode\") \n{\n    if (msg.payload === \"disabled\") ContactorsTurnOff();\n    return;\n}\n\n\n\nconst tsPuff3 = global.get(\"tSens_Puff3\");\nconst tsCentr = global.get(\"tSens_Centrala\");\nconst csPwrPvL1 = global.get(\"cSens_PwrPvL1\");\nconst csPwrPvL2 = global.get(\"cSens_PwrPvL2\");\nconst csPwrPvL3 = global.get(\"cSens_PwrPvL3\");\nconst csPwrMainL1 = global.get(\"cSens_PwrMainL1\");\nconst csPwrMainL2 = global.get(\"cSens_PwrMainL2\");\nconst csPwrMainL3 = global.get(\"cSens_PwrMainL3\");\n\nvar rel1Id, rel2Id, rel3Id;\nvar PEHOpMode = flow.get(\"PEHOpMode\");\nif (PEHOpMode != \"auto\") return;\n\n\nlet bR1L1Rel_IsON = flow.get(\"R1L1Rel_IsON\");\nlet bR1L2Rel_IsON = flow.get(\"R1L2Rel_IsON\");\nlet bR1L3Rel_IsON = flow.get(\"R1L3Rel_IsON\");\nlet bR2L1Rel_IsON = flow.get(\"R2L1Rel_IsON\");\nlet bR2L2Rel_IsON = flow.get(\"R2L2Rel_IsON\");\nlet bR2L3Rel_IsON = flow.get(\"R2L3Rel_IsON\");\n\n\n\n\n\nconst iResPwr = 2110;\nconst iOfset = 100;\nconst iMaxImpPwr = flow.get(\"PEHMaxPwrImp\");\nconst iMaxPuffTemp = flow.get(\"PEHMaxPuffTemp\");\n\nconst iPVL1Pwr = csPwrPvL1 - csPwrMainL1;\nconst iPVL2Pwr = csPwrPvL2 - csPwrMainL2;\nconst iPVL3Pwr = csPwrPvL3 - csPwrMainL3;\nconst bMaxTempReached = (tsPuff3 > iMaxPuffTemp);\nconst bWoodHeatingIsON = (tsCentr > iMaxPuffTemp);\n\n\niPVL1Pwr + iMaxImpPwr > iResPwr\ncsPwrMainL1 - csPwrPvL1 > iMaxImpPwr\n\n\n// turn relays OFF based on consumed power and allowed max power\n\n// if we reach maximum temperature then stop all contactors\nif (bMaxTempReached || bWoodHeatingIsON)\n{\n    ContactorsTurnOff();\n    node.warn(\"We reached maximum allowed temperature. Turning off contactors.\");\n    return;\n}\n\n\n\niOffPwr = iPVL1Pwr + iMaxImpPwr + iOfset;\nif (iOffPwr < 0) \n{ \n    node.warn(\"Turning Off contactor\");\n\n    if (iL1St2 != 0) \n        ContactorTurnOff(\"L1\", 2);\n    else if (iL1St1 != 0) \n        ContactorTurnOff(\"L1\", 1);\n}\n\niOffPwr = iPVL2Pwr + iMaxImpPwr + iOfset;\nif (iOffPwr <= 0) \n{ \n    if (iL2St2 != 0) \n        ContactorTurnOff(\"L2\", 2);\n    else if (iL2St1 != 0)\n        ContactorTurnOff(\"L2\", 1);\n}\n\niOffPwr = iPVL3Pwr + iMaxImpPwr + iOfset;\nif (iOffPwr < 0)\n{ \n    if (iL3St2 != 0) \n        ContactorTurnOff(\"L3\", 2);\n    else if (iL3St1 != 0) \n        ContactorTurnOff(\"L3\", 1);\n}\n\n\n// turn relays ON based on available PV Power and allowed max power\niOnPwr = iPVL1Pwr + iMaxImpPwr;\nif (iOnPwr > iResPwr)\n{\n    node.warn(\"Turning On contactor\");\n    if (iL1St1 == 0) \n        ContactorTurnOn(\"L1\", 1); \n    else \n        ContactorTurnOn(\"L1\", 2);\n}\n\niOnPwr = iPVL2Pwr + iMaxImpPwr;\nif (iOnPwr > iResPwr)\n{\n    if (iL2St1 == 0) \n        ContactorTurnOn(\"L2\", 1);\n    else \n        ContactorTurnOn(\"L2\", 2);\n}\n\n\niOnPwr = iPVL3Pwr + iMaxImpPwr;\nif (iOnPwr > iResPwr) \n{\n    if (iL3St1 == 0) \n        ContactorTurnOn(\"L3\", 1);\n    else \n        ContactorTurnOn(\"L3\", 2);\n}\n\n\n\nreturn;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 540,
+        "wires": [
+            [
+                "02489e20d40178ea",
+                "0287ac264eb399b3",
+                "7dff28ffed361ff7",
+                "cfc56996d74d9951",
+                "eb2a7c5e2c6e5fc7",
+                "e1347443290bde0a"
+            ]
+        ]
+    },
+    {
+        "id": "8fcedd894250f623",
+        "type": "influxdb out",
+        "z": "71c264a01ef7273c",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "measurement": "Relays",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 480,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "01178b83cecd5735",
+        "type": "delay",
+        "z": "71c264a01ef7273c",
+        "name": "Rnd.Delay",
+        "pauseType": "random",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "0",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 910,
+        "y": 600,
+        "wires": [
+            [
+                "1939ca3bf2ba6c85"
+            ]
+        ]
+    },
+    {
+        "id": "6e539a30cd6d4f45",
+        "type": "delay",
+        "z": "71c264a01ef7273c",
+        "name": "Rnd.Delay",
+        "pauseType": "random",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "0",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 910,
+        "y": 540,
+        "wires": [
+            [
+                "ad10e97c4c5fe393"
+            ]
+        ]
+    },
+    {
+        "id": "6776bb2ce912c3a1",
+        "type": "delay",
+        "z": "71c264a01ef7273c",
+        "name": "Rnd.Delay",
+        "pauseType": "random",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "0",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 910,
+        "y": 480,
+        "wires": [
+            [
+                "27bb5cf80bf67a40"
+            ]
+        ]
+    },
+    {
+        "id": "02489e20d40178ea",
+        "type": "switch",
+        "z": "71c264a01ef7273c",
+        "name": "Sw 1.1",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "HeatControl/Set1/2",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 750,
+        "y": 480,
+        "wires": [
+            [
+                "6776bb2ce912c3a1"
+            ]
+        ]
+    },
+    {
+        "id": "0287ac264eb399b3",
+        "type": "switch",
+        "z": "71c264a01ef7273c",
+        "name": "Sw 1.2",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "HeatControl/Set1/3",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 750,
+        "y": 540,
+        "wires": [
+            [
+                "6e539a30cd6d4f45"
+            ]
+        ]
+    },
+    {
+        "id": "7dff28ffed361ff7",
+        "type": "switch",
+        "z": "71c264a01ef7273c",
+        "name": "Sw 1.3",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "HeatControl/Set1/4",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 750,
+        "y": 600,
+        "wires": [
+            [
+                "01178b83cecd5735"
+            ]
+        ]
+    },
+    {
+        "id": "d7d582d852f6656c",
+        "type": "comment",
+        "z": "71c264a01ef7273c",
+        "name": "User interface initialization flow - Puffer Electrical Heating (PEH)",
+        "info": "",
+        "x": 310,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "d690d76b702eca67",
+        "type": "function",
+        "z": "71c264a01ef7273c",
+        "name": "Update flow vars",
+        "func": "flow.set(msg.topic, msg.payload);\n\nif (msg.topic == \"PEHOpMode\")\n{\n    node.send(msg);\n\n    if (msg.payload == \"disabled\")\n    {\n        let swMsg = {payload: \"\", topic: \"\"};\n        swMsg.payload = \"OFF\";\n        msg.topic = \"HeatControl/Set1/ALL\";\n        msg.payload = swMsg;\n        node.send([null, msg]);\n    }\n}\n\nreturn;",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 180,
+        "wires": [
+            [
+                "f46426fedf8ced7a"
+            ],
+            [
+                "cf3b31a42061b6fd"
+            ]
+        ]
+    },
+    {
+        "id": "7503381de5692fbd",
+        "type": "inject",
+        "z": "71c264a01ef7273c",
+        "name": "1 min tick",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 980,
+        "wires": [
+            [
+                "ad57c01666c76197"
+            ]
+        ]
+    },
+    {
+        "id": "ad57c01666c76197",
+        "type": "function",
+        "z": "71c264a01ef7273c",
+        "name": "",
+        "func": "let dbMsg = {\n    payload: {\n        rConL1: 0,\n        rConL2: 0,\n        rConL3: 0\n    }\n};\n\nlet bL1Rel_IsON = flow.get(\"L1Rel_IsON\");\nlet bL2Rel_IsON = flow.get(\"L2Rel_IsON\");\nlet bL3Rel_IsON = flow.get(\"L3Rel_IsON\");\n\ndbMsg.payload.rConL1 = bL1Rel_IsON ? 1 : 0;\ndbMsg.payload.rConL2 = bL2Rel_IsON ? 1 : 0;\ndbMsg.payload.rConL3 = bL3Rel_IsON ? 1 : 0;\n\nreturn dbMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 980,
+        "wires": [
+            [
+                "204df69c48ed6eb9"
+            ]
+        ]
+    },
+    {
+        "id": "204df69c48ed6eb9",
+        "type": "influxdb out",
+        "z": "71c264a01ef7273c",
+        "influxdb": "373fa459.54e07c",
+        "name": "",
+        "measurement": "Relays",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 560,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "9c2aef2a9e8c32df",
+        "type": "comment",
+        "z": "71c264a01ef7273c",
+        "name": "Get all relays state from the flow scope context variables ",
+        "info": "",
+        "x": 280,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "81edcd71f07a2bbf",
+        "type": "ui_template",
+        "z": "71c264a01ef7273c",
+        "group": "be76d04b6829132b",
+        "name": "Page Got Loaded",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<script>\n(function() {\n    (function(scope) {\n        scope.send({payload: 6, topic: window.location.host}); // this gets sent when the view is opened in the browser\n    })(scope);\n})();\n</script>",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 170,
+        "y": 1040,
+        "wires": [
+            [
+                "2dfe7f50df7b89f5"
+            ]
+        ]
+    },
+    {
+        "id": "2dfe7f50df7b89f5",
+        "type": "function",
+        "z": "71c264a01ef7273c",
+        "name": "BuildTemplate",
+        "func": "//NOTE, more then one chart on a page, rename in the second and following \n//templates the \"myframe\" variable so that every template has a unique name.\n\npanelid=5\n\nvar str = msg.topic;\nstr = str.replace(\"8000\", \"3000\");\nstr = str.replace(\"1880\", \"3000\");\n\nmsg.payload= \"http://\"+str+\"/d-solo/BEPCXTmgz/heating-system?orgId=1\"+\n\"&refresh=30s\"+\n\"&theme=dark\"+\n\"&from=\"+ msg.fromdate +\n\"&to=\"+ msg.enddate +\n\"&panelId=\"+panelid\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 1040,
+        "wires": [
+            [
+                "1ad290ae8ca829ff"
+            ]
+        ]
+    },
+    {
+        "id": "1ad290ae8ca829ff",
+        "type": "ui_template",
+        "z": "71c264a01ef7273c",
+        "group": "ea2c93ef1c1d2c43",
+        "name": "Production vs. Consumption",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "format": "\n<html>\n<iframe id=\"FramePid2\" width=\"310px\" height=\"300px\" style = \"overflow:hidden; margin:auto; border:0px solid green;\"></iframe>\n\n<script>\n//NOTE, more then one chart on a page, rename in the second and following \n//templates the \"myframe\" variable so that every template has a unique name.\n(function(scope) {\n    // watch msg object from Node-RED\n    scope.$watch('msg', function(msg) {\n        // new message received\n        var x = document.getElementById('FramePid2');\n        x.setAttribute('src', msg.payload); \n        });\n})(scope);\n</script>\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 620,
+        "y": 1040,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8b25d1da8a229c1b",
+        "type": "ui_switch",
+        "z": "71c264a01ef7273c",
+        "name": "R2L1 Contactor",
+        "label": "Rez2  L1",
+        "tooltip": "",
+        "group": "be76d04b6829132b",
+        "order": 5,
+        "width": "3",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "HeatControl/Set1/5",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 1100,
+        "y": 660,
+        "wires": [
+            [
+                "1532fae24ff67796"
+            ]
+        ]
+    },
+    {
+        "id": "971ff55d7a6f2239",
+        "type": "ui_switch",
+        "z": "71c264a01ef7273c",
+        "name": "R2L2 Contactor",
+        "label": "Rez2  L2",
+        "tooltip": "",
+        "group": "be76d04b6829132b",
+        "order": 7,
+        "width": "3",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "HeatControl/Set1/6",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 1100,
+        "y": 720,
+        "wires": [
+            [
+                "1532fae24ff67796"
+            ]
+        ]
+    },
+    {
+        "id": "88caaa4268d7380e",
+        "type": "ui_switch",
+        "z": "71c264a01ef7273c",
+        "name": "R2L3 Contactor",
+        "label": "Rez2  L3",
+        "tooltip": "",
+        "group": "be76d04b6829132b",
+        "order": 9,
+        "width": "3",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "HeatControl/Set1/7",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 1100,
+        "y": 780,
+        "wires": [
+            [
+                "1532fae24ff67796"
+            ]
+        ]
+    },
+    {
+        "id": "7bd03bdcb9c3550e",
+        "type": "delay",
+        "z": "71c264a01ef7273c",
+        "name": "Rnd.Delay",
+        "pauseType": "random",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "0",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 910,
+        "y": 780,
+        "wires": [
+            [
+                "88caaa4268d7380e"
+            ]
+        ]
+    },
+    {
+        "id": "b9623d66fce5c073",
+        "type": "delay",
+        "z": "71c264a01ef7273c",
+        "name": "Rnd.Delay",
+        "pauseType": "random",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "0",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 910,
+        "y": 720,
+        "wires": [
+            [
+                "971ff55d7a6f2239"
+            ]
+        ]
+    },
+    {
+        "id": "0176c86a597565ef",
+        "type": "delay",
+        "z": "71c264a01ef7273c",
+        "name": "Rnd.Delay",
+        "pauseType": "random",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "0",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 910,
+        "y": 660,
+        "wires": [
+            [
+                "8b25d1da8a229c1b"
+            ]
+        ]
+    },
+    {
+        "id": "cfc56996d74d9951",
+        "type": "switch",
+        "z": "71c264a01ef7273c",
+        "name": "Sw 2.1",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "HeatControl/Set1/5",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 750,
+        "y": 660,
+        "wires": [
+            [
+                "0176c86a597565ef"
+            ]
+        ]
+    },
+    {
+        "id": "eb2a7c5e2c6e5fc7",
+        "type": "switch",
+        "z": "71c264a01ef7273c",
+        "name": "Sw 2.2",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "HeatControl/Set1/6",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 750,
+        "y": 720,
+        "wires": [
+            [
+                "b9623d66fce5c073"
+            ]
+        ]
+    },
+    {
+        "id": "e1347443290bde0a",
+        "type": "switch",
+        "z": "71c264a01ef7273c",
+        "name": "Sw 2.3",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "HeatControl/Set1/7",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 750,
+        "y": 780,
+        "wires": [
+            [
+                "7bd03bdcb9c3550e"
+            ]
+        ]
+    },
+    {
+        "id": "1532fae24ff67796",
+        "type": "link out",
+        "z": "71c264a01ef7273c",
+        "name": "Link Out: Contactor Buttons",
+        "mode": "link",
+        "links": [
+            "a3d1609ad746b75b"
+        ],
+        "x": 1295,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "a3d1609ad746b75b",
+        "type": "link in",
+        "z": "71c264a01ef7273c",
+        "name": "Link In: Contactor Buttons",
+        "links": [
+            "1532fae24ff67796"
+        ],
+        "x": 95,
+        "y": 700,
+        "wires": [
+            [
+                "21a3fa46fe4ae5c8",
+                "a25cbc1c068c8d1d"
+            ]
+        ]
+    },
+    {
+        "id": "f79318fa3c6e7fc8",
+        "type": "ui_numeric",
+        "z": "71c264a01ef7273c",
+        "name": "Max Import Power",
+        "label": "Import maxim permis",
+        "tooltip": "",
+        "group": "be76d04b6829132b",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "PEHMaxPwrImp",
+        "topicType": "str",
+        "format": "{{value}} W",
+        "min": "100",
+        "max": "2400",
+        "step": "100",
+        "className": "",
+        "x": 550,
+        "y": 180,
+        "wires": [
+            [
+                "d690d76b702eca67"
+            ]
+        ]
+    },
+    {
+        "id": "a25cbc1c068c8d1d",
+        "type": "debug",
+        "z": "71c264a01ef7273c",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 210,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "57c9d306833862e5",
+        "type": "ui_numeric",
+        "z": "71c264a01ef7273c",
+        "name": "Max Puffer Temp",
+        "label": "Prag Temperatură",
+        "tooltip": "",
+        "group": "be76d04b6829132b",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "PEHMaxPuffTemp",
+        "topicType": "str",
+        "format": "{{value}} °C",
+        "min": "65",
+        "max": "90",
+        "step": "5",
+        "className": "",
+        "x": 550,
+        "y": 240,
+        "wires": [
+            [
+                "d690d76b702eca67"
+            ]
+        ]
+    },
+    {
+        "id": "9c3e9fcdc036b206",
+        "type": "inject",
+        "z": "71c264a01ef7273c",
+        "name": "1 min tick",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 540,
+        "wires": [
+            [
+                "bbfadd1925036ef8"
+            ]
+        ]
+    },
+    {
+        "id": "f46426fedf8ced7a",
+        "type": "link out",
+        "z": "71c264a01ef7273c",
+        "name": "Link Out: Puffer Elecetric Heat OpMode",
+        "mode": "link",
+        "links": [
+            "1837be0afd3cdb38"
+        ],
+        "x": 975,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "1837be0afd3cdb38",
+        "type": "link in",
+        "z": "71c264a01ef7273c",
+        "name": "Link In: Puffer Elecetric Heat OpMode",
+        "links": [
+            "f46426fedf8ced7a",
+            "9186d4a13034ddb8"
+        ],
+        "x": 215,
+        "y": 580,
+        "wires": [
+            [
+                "bbfadd1925036ef8"
+            ]
+        ]
+    },
+    {
+        "id": "254d5d6bd34fad29",
+        "type": "inject",
+        "z": "71c264a01ef7273c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 820,
+        "y": 60,
+        "wires": [
+            [
+                "86e59b13358996cc"
+            ]
+        ]
+    },
+    {
+        "id": "86e59b13358996cc",
+        "type": "function",
+        "z": "71c264a01ef7273c",
+        "name": "Get flow vars",
+        "func": "const tsPuff3 = global.get(\"tSens_Puff3\");\nconst tsCentr = global.get(\"tSens_Centrala\");\nconst csPwrPvL1 = global.get(\"cSens_PwrPvL1\");\nconst csPwrPvL2 = global.get(\"cSens_PwrPvL2\");\nconst csPwrPvL3 = global.get(\"cSens_PwrPvL3\");\nconst csPwrMainL1 = global.get(\"cSens_PwrMainL1\");\nconst csPwrMainL2 = global.get(\"cSens_PwrMainL2\");\nconst csPwrMainL3 = global.get(\"cSens_PwrMainL3\");\n\nnode.warn(csPwrMainL3);\n\n\n\nlet relId1 = flow.get(\"L1RelayId\"); \nlet relId2 = flow.get(\"L2RelayId\"); \nlet relId3 = flow.get(\"L3RelayId\"); \n\nlet bL1Rel_IsON = flow.get(\"L1Rel_IsON\");\nlet bL2Rel_IsON = flow.get(\"L2Rel_IsON\");\nlet bL3Rel_IsON = flow.get(\"L3Rel_IsON\");\n\nnode.warn(\"L1RelayId: \" + relId1 + \" is ON: \"+ bL1Rel_IsON);\nnode.warn(\"L2RelayId: \" + relId2 + \" is ON: \"+ bL2Rel_IsON);\nnode.warn(\"L3RelayId: \" + relId3 + \" is ON: \"+ bL3Rel_IsON);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 980,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cf3b31a42061b6fd",
+        "type": "link out",
+        "z": "71c264a01ef7273c",
+        "name": "Link Out: Set all nodes to OFF",
+        "mode": "link",
+        "links": [
+            "15d5defbfe90d3ae"
+        ],
+        "x": 975,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "15d5defbfe90d3ae",
+        "type": "link in",
+        "z": "71c264a01ef7273c",
+        "name": "Link In: Link Out: Set all nodes to OFF",
+        "links": [
+            "cf3b31a42061b6fd"
+        ],
+        "x": 265,
+        "y": 660,
+        "wires": [
+            [
+                "c7133392a1a41cb0"
+            ]
+        ]
+    },
+    {
+        "id": "be76d04b6829132b",
+        "type": "ui_group",
+        "name": "Încălzire electrică Puffer",
+        "tab": "75cd3a25.41ce84",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "6bf576b.0604988",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.2.25",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "373fa459.54e07c",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "HomeControl",
+        "name": "HomeControl",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "",
+        "rejectUnauthorized": false
+    },
+    {
+        "id": "ea2c93ef1c1d2c43",
+        "type": "ui_group",
+        "name": "Temperatura Puffer",
+        "tab": "75cd3a25.41ce84",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "75cd3a25.41ce84",
+        "type": "ui_tab",
+        "name": "Environment",
+        "icon": "view_week",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]

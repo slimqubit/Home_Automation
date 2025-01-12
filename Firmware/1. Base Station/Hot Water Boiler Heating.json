@@ -1,0 +1,427 @@
+[
+    {
+        "id": "0beb465e28a680b4",
+        "type": "tab",
+        "label": "WBH - Hot Water Boiler Heating",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2647c19a1dea1ed9",
+        "type": "ui_text",
+        "z": "0beb465e28a680b4",
+        "group": "a8220c0c3ba2a1b4",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "Temp Boiler",
+        "label": "{{msg.tag}}",
+        "format": "{{msg.payload | number:2}} °C",
+        "layout": "row-spread",
+        "className": "",
+        "x": 630,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "a75d632934584461",
+        "type": "function",
+        "z": "0beb465e28a680b4",
+        "name": "Format Data",
+        "func": "if (msg.payload.hasOwnProperty(\"tBoiler\"))\n{\n    node.send([{tag:\"Temperatură Boiler\", payload:msg.payload.tBoiler}]);\n}\n\nreturn;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 260,
+        "wires": [
+            [
+                "2647c19a1dea1ed9"
+            ]
+        ],
+        "outputLabels": [
+            "Temp1"
+        ]
+    },
+    {
+        "id": "4bae3158bbf0be09",
+        "type": "link in",
+        "z": "0beb465e28a680b4",
+        "name": "Link In: Temp Sensors",
+        "links": [
+            "88ab38b868fabaa5"
+        ],
+        "x": 295,
+        "y": 260,
+        "wires": [
+            [
+                "a75d632934584461",
+                "542bd2894e52e829"
+            ]
+        ]
+    },
+    {
+        "id": "542bd2894e52e829",
+        "type": "debug",
+        "z": "0beb465e28a680b4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 430,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "dc899fa3c30ed292",
+        "type": "ui_dropdown",
+        "z": "0beb465e28a680b4",
+        "name": "Operation Mode",
+        "label": "Mod de Operare",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "a8220c0c3ba2a1b4",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Automat",
+                "value": "auto",
+                "type": "str"
+            },
+            {
+                "label": "Manual",
+                "value": "manual",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "WBHOpMode",
+        "topicType": "str",
+        "className": "",
+        "x": 540,
+        "y": 140,
+        "wires": [
+            [
+                "e6739f0df02dbd25"
+            ]
+        ]
+    },
+    {
+        "id": "ca85d9f6c3ac58db",
+        "type": "inject",
+        "z": "0beb465e28a680b4",
+        "name": "Started",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 160,
+        "wires": [
+            [
+                "6788053aadd21fa9"
+            ]
+        ]
+    },
+    {
+        "id": "6788053aadd21fa9",
+        "type": "function",
+        "z": "0beb465e28a680b4",
+        "name": "Initialize",
+        "func": "/// WBHOpMode\nmsg.payload = \"auto\";\nnode.send([msg]); \n\n/// WBHMaxBoilerTemp\nmsg.payload = 65;\nnode.send([null, msg]); \n\nreturn;",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 160,
+        "wires": [
+            [
+                "dc899fa3c30ed292"
+            ],
+            [
+                "eb61d56078480672"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "181255916d40283e",
+        "type": "comment",
+        "z": "0beb465e28a680b4",
+        "name": "User interface initialization flow - Hot Water Boiler Heating (WBH)",
+        "info": "",
+        "x": 310,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "e6739f0df02dbd25",
+        "type": "function",
+        "z": "0beb465e28a680b4",
+        "name": "Update flow vars",
+        "func": "flow.set(msg.topic, msg.payload);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "eb61d56078480672",
+        "type": "ui_numeric",
+        "z": "0beb465e28a680b4",
+        "name": "Max Boiler Temp",
+        "label": "Prag Temperatură",
+        "tooltip": "",
+        "group": "a8220c0c3ba2a1b4",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "WHBMaxBoilerTemp",
+        "topicType": "str",
+        "format": "{{value}} °C",
+        "min": "60",
+        "max": "70",
+        "step": "1",
+        "className": "",
+        "x": 550,
+        "y": 200,
+        "wires": [
+            [
+                "e6739f0df02dbd25"
+            ]
+        ]
+    },
+    {
+        "id": "c3bb051701c8a38a",
+        "type": "link in",
+        "z": "0beb465e28a680b4",
+        "name": "Link In: Boiler Heater Switch [out]",
+        "links": [
+            "ea528cdf98581df4"
+        ],
+        "x": 195,
+        "y": 620,
+        "wires": [
+            [
+                "0f6f52eeaf3c3052"
+            ]
+        ]
+    },
+    {
+        "id": "32468f23772ac49e",
+        "type": "countdown",
+        "z": "0beb465e28a680b4",
+        "name": "2 Hours Timer",
+        "topic": "BaseStation/Relays/0",
+        "payloadTimerStart": "ON",
+        "payloadTimerStartType": "str",
+        "payloadTimerStop": "OFF",
+        "payloadTimerStopType": "str",
+        "timer": "7200",
+        "resetWhileRunning": false,
+        "outputOnReset": false,
+        "setTimeToNewWhileRunning": true,
+        "startCountdownOnControlMessage": false,
+        "x": 740,
+        "y": 480,
+        "wires": [
+            [
+                "719f19e64f79acc3"
+            ],
+            [
+                "8b5a094b1a03783e"
+            ]
+        ]
+    },
+    {
+        "id": "0f6f52eeaf3c3052",
+        "type": "switch",
+        "z": "0beb465e28a680b4",
+        "name": "Start Boiler Relay timer",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "ON",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 490,
+        "y": 480,
+        "wires": [
+            [
+                "32468f23772ac49e"
+            ]
+        ]
+    },
+    {
+        "id": "8b5a094b1a03783e",
+        "type": "function",
+        "z": "0beb465e28a680b4",
+        "name": "5 min delay - Stop Boiler Relay",
+        "func": "let cnt = msg.payload;\nlet stopTimerMsg = { payload: 0 };\nlet stopRelayMsg = { payload: \"OFF\" };\n\nconst tMax = flow.get(\"WHBMaxBoilerTemp\");\nconst tBoiler = global.get(\"tSens_Boiler\");\n\nif ((cnt != 0 ) && (cnt % 300 == 0))\n{\n    if (tBoiler > tMax)\n        node.send([stopTimerMsg, stopRelayMsg]);\n}\n\nreturn;",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 560,
+        "wires": [
+            [
+                "32468f23772ac49e"
+            ],
+            [
+                "719f19e64f79acc3"
+            ]
+        ]
+    },
+    {
+        "id": "719f19e64f79acc3",
+        "type": "link out",
+        "z": "0beb465e28a680b4",
+        "name": "Link Out: Boiler Heater Switch [in]",
+        "mode": "link",
+        "links": [
+            "e4ecee634a92e0e6"
+        ],
+        "x": 935,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "2d8bac77e2b97aca",
+        "type": "comment",
+        "z": "0beb465e28a680b4",
+        "name": "Control Boiler Heater Relay Switch",
+        "info": "Start at 11:00 and 14:00 of the daty time.\nRun each session for 2 hours.\nStops if bolire reach treshold temperature.",
+        "x": 220,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "8c935d3a2c95574d",
+        "type": "schedex",
+        "z": "0beb465e28a680b4",
+        "name": "",
+        "passthroughunhandled": false,
+        "suspended": false,
+        "lat": "",
+        "lon": "",
+        "ontime": "11:00",
+        "ontopic": "",
+        "onpayload": "ON",
+        "onoffset": 0,
+        "onrandomoffset": false,
+        "offtime": "11:05",
+        "offtopic": "OFF",
+        "offpayload": "",
+        "offoffset": 0,
+        "offrandomoffset": 0,
+        "mon": true,
+        "tue": true,
+        "wed": true,
+        "thu": true,
+        "fri": true,
+        "sat": true,
+        "sun": true,
+        "x": 150,
+        "y": 480,
+        "wires": [
+            [
+                "0f6f52eeaf3c3052"
+            ]
+        ]
+    },
+    {
+        "id": "013f1e54e9f75c8a",
+        "type": "schedex",
+        "z": "0beb465e28a680b4",
+        "name": "",
+        "passthroughunhandled": false,
+        "suspended": false,
+        "lat": "",
+        "lon": "",
+        "ontime": "14:00",
+        "ontopic": "",
+        "onpayload": "ON",
+        "onoffset": 0,
+        "onrandomoffset": false,
+        "offtime": "14:05",
+        "offtopic": "OFF",
+        "offpayload": "",
+        "offoffset": 0,
+        "offrandomoffset": 0,
+        "mon": true,
+        "tue": true,
+        "wed": true,
+        "thu": true,
+        "fri": true,
+        "sat": true,
+        "sun": true,
+        "x": 150,
+        "y": 540,
+        "wires": [
+            [
+                "0f6f52eeaf3c3052"
+            ]
+        ]
+    },
+    {
+        "id": "a8220c0c3ba2a1b4",
+        "type": "ui_group",
+        "name": "Încălzire Boiler apă caldă",
+        "tab": "75cd3a25.41ce84",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "75cd3a25.41ce84",
+        "type": "ui_tab",
+        "name": "Environment",
+        "icon": "view_week",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
